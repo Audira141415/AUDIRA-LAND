@@ -1,0 +1,21 @@
+{
+ "w": 12,
+ "h": 12,
+ "walk": "w=r",
+ "spawn": [[5, 10], [6, 10], [5, 9], [6, 9]],
+ "legend": "H dinding belakang, h dinding depan rendah, w lantai, = pintu, r karpet panggung, K sofa, M meja, P speaker, T tanaman",
+ "rows": [
+  "HHHHHHHHHHHH",
+  "HPwKKKwwwwPh",
+  "Hwwwwwwrrrwh",
+  "Hwwwwwwrrrwh",
+  "Hwwwwwwwwwwh",
+  "HwwwwMMwwwwh",
+  "HwwwwMMwwwwh",
+  "Hwwwwwwwwwwh",
+  "HKwwwwwwwwwh",
+  "HKwwwwwwwwwh",
+  "HTwwwwwwwwTh",
+  "hhhhh==hhhhh"
+ ]
+}

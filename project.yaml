@@ -1,0 +1,22 @@
+# AUDIRA LAND · konfigurasi proyek untuk skill desain CCGS (lihat .claude/docs/CCGS-ADAPTASI.md)
+schema_version: 1
+engine:
+  name: none            # tanpa engine: web Canvas 2D + vanilla JS, server Node (node:sqlite, WebSocket sendiri)
+  version: n/a
+platform:
+  targets: [Web, Mobile]
+  input_methods: [Touch, Keyboard/Mouse]
+  primary_input: Touch
+  gamepad_support: None
+  touch_support: Full
+performance:
+  target_framerate: 60
+  low_end: "HP RAM 2 GB, mode ringan otomatis (DPR maks 1.5, agen lebih sedikit)"
+modes:
+  rigor: minimal
+  review_mode: solo
+  automation: collaborative
+  workflow: minimal
+docs:
+  density: terse
+  language: id

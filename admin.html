@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin AUDIRA LAND</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <h1>Admin AUDIRA LAND</h1>
+    <a href="/">Buka peta</a>
+  </header>
+
+  <form class="panel login" id="login">
+    <h2>Masuk</h2>
+    <p class="hint">Token ada di <code>server/.env</code> (baris <code>ADMIN_TOKEN</code>). Disimpan hanya untuk tab ini.</p>
+    <input id="token" type="password" placeholder="Token admin" autocomplete="off" required>
+    <button class="btn" type="submit">Masuk</button>
+    <p class="msg err" id="loginErr" hidden></p>
+  </form>
+
+  <div id="app" hidden>
+    <section class="stats" id="stats"></section>
+
+    <section class="panel">
+      <div class="row">
+        <h2>Menunggu persetujuan <span class="count" id="pendCount"></span></h2>
+        <div class="acts">
+          <label class="check"><input type="checkbox" id="instant"> Langsung jadi warga (tanpa kapal)</label>
+          <button class="btn ghost" id="selAll" type="button">Pilih semua</button>
+          <button class="btn" id="approve" type="button">Setujui</button>
+          <button class="btn danger" id="reject" type="button">Tolak</button>
+        </div>
+      </div>
+      <p class="hint">Siapa pun bisa mengetik username orang lain. Setujui hanya yang sudah kamu cek, misalnya yang follow akun AUDIRA atau mengirim DM.</p>
+      <ul class="list" id="pending"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Permintaan keluar <span class="count" id="leaveCount"></span></h2>
+      <ul class="list" id="leaving"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Radio AUDIRA FM 99,1</h2>
+      <p class="hint">Putaran radio = lagu generatif (dibuat di perangkat pendengar, tanpa hak cipta pihak lain) + lagu unggahan. Unggah hanya MP3 yang kamu punya haknya untuk diputar publik (karya sendiri, CC0/bebas royalti, atau berlisensi). Mengubah pengaturan atau daftar lagu memulai putaran baru untuk semua pendengar.</p>
+      <form class="grid-form" id="radioForm">
+        <label>Lagu generatif per putaran <input id="rGen" type="number" min="0" max="30" required></label>
+        <label>Jeda penyiar (menit) <input id="rEvery" type="number" min="1" max="60" required></label>
+        <label class="check"><input type="checkbox" id="rAnn"> Penyiar aktif</label>
+        <div class="acts"><button class="btn" type="submit">Simpan</button></div>
+      </form>
+      <form class="grid-form" id="uploadForm">
+        <label class="wide">File MP3 (maks 20 MB) <input id="uFile" type="file" accept="audio/mpeg,.mp3" required></label>
+        <label class="wide">Judul <input id="uTitle" maxlength="60" required></label>
+        <label class="wide">Artis <input id="uArtist" maxlength="60"></label>
+        <label class="wide">Lisensi / sumber <input id="uLicense" maxlength="120" required placeholder="Karya sendiri · CC0 dari … · lisensi beli di …"></label>
+        <div class="acts full"><button class="btn" type="submit" id="uBtn">Unggah lagu</button><span class="hint" id="uInfo"></span></div>
+      </form>
+      <ul class="list" id="tracks"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Slot Sponsor</h2>
+      <p class="hint">Merek tampil di kota sebagai papan reklame, hologram di atas gedung, atau toko bermerek. Tayangan = kartu mitra dibuka; klik = tombol Kunjungi (dihitung sekali per jam per pengunjung).</p>
+      <div class="sp-layout">
+        <form class="grid-form" id="spForm" autocomplete="off">
+          <input type="hidden" id="spId">
+          <label class="full">Slot <select id="spSlot" required></select></label>
+          <label class="wide">Nama merek <input id="spName" maxlength="24" required></label>
+          <label class="wide">Tagline <input id="spTagline" maxlength="40"></label>
+          <label>Warna utama <input id="spC1" type="color" value="#14324a"></label>
+          <label>Warna teks <input id="spC2" type="color" value="#ffd166"></label>
+          <label>Mulai <input id="spStart" type="date" required></label>
+          <label>Selesai <input id="spEnd" type="date" required></label>
+          <label class="full">Tautan (opsional, https://) <input id="spLink" type="url" maxlength="300" placeholder="https://"></label>
+          <label class="full">Catatan internal (kontak, harga) <input id="spNote" maxlength="300"></label>
+          <div class="acts full">
+            <button class="btn" type="submit" id="spSave">Pasang sponsor</button>
+            <button class="btn ghost" type="button" id="spCancel" hidden>Batal edit</button>
+            <button class="btn ghost" type="button" id="spPreviewLink">Salin tautan pratinjau</button>
+          </div>
+        </form>
+        <figure class="sp-preview">
+          <canvas id="spCanvas" width="320" height="240" aria-label="Pratinjau sponsor"></canvas>
+          <figcaption id="spCaption">Pilih slot</figcaption>
+        </figure>
+      </div>
+      <ul class="list" id="sponsors"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Kabar Kota</h2>
+      <p class="hint">Tampil di tombol Koran pada peta. Kabar yang disematkan selalu di atas.</p>
+      <form class="grid-form" id="postForm" autocomplete="off">
+        <input type="hidden" id="postId">
+        <label>Jenis
+          <select id="postKind"><option value="berita">Berita</option><option value="pengumuman">Pengumuman</option></select>
+        </label>
+        <label class="wide">Judul <input id="postTitle" maxlength="80" required></label>
+        <label class="full">Isi <textarea id="postBody" rows="4" maxlength="1500"></textarea></label>
+        <label class="wide">Tautan (opsional, https://) <input id="postLink" type="url" maxlength="300" placeholder="https://www.instagram.com/p/…"></label>
+        <label class="check"><input type="checkbox" id="postPinned"> Sematkan</label>
+        <div class="acts full">
+          <button class="btn" type="submit" id="postSave">Terbitkan</button>
+          <button class="btn ghost" type="button" id="postCancel" hidden>Batal edit</button>
+        </div>
+      </form>
+      <ul class="list" id="posts"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Kalender Kota</h2>
+      <form class="grid-form" id="eventForm" autocomplete="off">
+        <input type="hidden" id="eventId">
+        <label class="wide">Nama acara <input id="eventTitle" maxlength="80" required></label>
+        <label>Tanggal <input id="eventDate" type="date" required></label>
+        <label>Jam (opsional) <input id="eventTime" type="time"></label>
+        <label class="wide">Tempat <input id="eventPlace" maxlength="60" placeholder="Taman AUDIRA, Balai Kota…"></label>
+        <label class="full">Catatan <input id="eventNote" maxlength="300"></label>
+        <div class="acts full">
+          <button class="btn" type="submit" id="eventSave">Tambah acara</button>
+          <button class="btn ghost" type="button" id="eventCancel" hidden>Batal edit</button>
+        </div>
+      </form>
+      <ul class="list" id="events"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Impor massal</h2>
+      <p class="hint">Satu username per baris (boleh pakai @ atau koma). Warga impor langsung disetujui dan dijadwalkan naik kapal, kecuali "Langsung jadi warga" dicentang.</p>
+      <textarea id="importText" rows="6" placeholder="@username_satu&#10;username.dua"></textarea>
+      <div class="acts">
+        <label class="check"><input type="checkbox" id="importInstant"> Langsung jadi warga (tanpa kapal)</label>
+        <button class="btn" id="importBtn" type="button">Impor</button>
+      </div>
+      <p class="msg" id="importMsg" hidden></p>
+    </section>
+
+    <section class="panel">
+      <h2>Cari &amp; hapus warga</h2>
+      <p class="hint">Kode KTW dipakai warga untuk masuk Taman dan ikut ngobrol. Kirim lewat DM Instagram ke pemilik akun.</p>
+      <input id="findQ" type="search" placeholder="Ketik username…">
+      <div class="codebox" id="codeBox" hidden aria-live="polite"></div>
+      <ul class="list" id="found"></ul>
+    </section>
+  </div>
+</main>
+<script src="js/util.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/world.js"></script>
+<script src="js/render.js"></script>
+<script src="js/sponsor.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

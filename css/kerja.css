@@ -1,0 +1,63 @@
+/* Halaman kerja (mini-game). Token warna dari style.css */
+html:has(body.kerja), body.kerja { height: auto; min-height: 100%; overflow: auto; background: #efe6d2; }
+body.kerja { background: #efe6d2; }
+.kj-wrap { max-width: 720px; margin: 0 auto; padding: calc(12px + var(--safe-t)) 16px calc(24px + var(--safe-b)); display: grid; gap: 14px; }
+.kj-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.kj-top .back { display: flex; align-items: center; padding: 11px 14px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; }
+.kj-who { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px; background: var(--paper); border-radius: 999px; padding: 6px 6px 6px 14px; box-shadow: var(--shadow); min-height: 40px; }
+.kj-who span { word-break: break-all; }
+.kj-who .link { background: none; border: 0; color: var(--coral-ink); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; padding: 0 8px 0 0; }
+.btn.sm { padding: 8px 12px; font-size: 13px; border-radius: 999px; }
+
+.kj-home h1 { margin: 2px 0 6px; font-size: 26px; font-weight: 800; line-height: 1.2; }
+.kj-home .kicker { margin: 0; color: var(--coral-ink); }
+.kj-lead { margin: 0 0 10px; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+.kj-chip { display: inline-block; background: var(--ink); color: var(--paper); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.kj-chip b { color: var(--sun); }
+.kj-chip[hidden] { display: none; }
+.kj-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.kj-card {
+  text-align: left; border: 0; background: var(--paper); border-radius: 20px; padding: 12px 14px 14px; box-shadow: var(--shadow);
+  display: grid; gap: 4px; color: var(--ink); transition: transform .12s;
+}
+.kj-card:active { transform: scale(.98); }
+.kj-card canvas { width: 100%; height: auto; aspect-ratio: 3 / 2; border-radius: 14px; background: #e6dcc4; }
+.kj-role { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 800; color: var(--ink-2); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.kj-role em { font-style: normal; text-transform: none; letter-spacing: 0; background: var(--teal); color: #fff; padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+.kj-card b { font-size: 18px; font-weight: 800; }
+.kj-card small { color: var(--ink-2); font-size: 13px; line-height: 1.4; }
+.kj-card .kj-best { font-weight: 700; color: var(--ink); }
+.kj-kota { margin-top: 18px; background: var(--paper); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow); }
+.kj-kota h2 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+.kj-kota ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kj-kota li { background: var(--paper-2); border-radius: 14px; padding: 10px; font-size: 13px; }
+.kj-kota li b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.kj-kota li small { display: block; color: var(--ink-2); margin-top: 2px; }
+
+.kj-play { display: grid; gap: 10px; justify-items: center; }
+.kj-play[hidden], .kj-home[hidden], .kj-end[hidden] { display: none; }
+.kj-hud { width: min(100%, 420px); display: flex; justify-content: space-between; align-items: center; background: var(--ink); color: var(--paper); border-radius: 999px; padding: 8px 16px; font-weight: 700; font-size: 14px; }
+.kj-time { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.kj-score b { color: var(--sun); font-size: 18px; font-variant-numeric: tabular-nums; }
+#game { width: min(100%, 420px, calc((100vh - 230px) * 360 / 520)); aspect-ratio: 360 / 520; height: auto; border-radius: 20px; box-shadow: var(--shadow); touch-action: none; user-select: none; -webkit-user-select: none; }
+.kj-hint { margin: 0; text-align: center; color: var(--ink-2); font-size: 13px; max-width: 420px; }
+.kj-carts { width: min(100%, 420px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kj-carts[hidden] { display: none; }
+.kj-carts button { border: 0; background: var(--paper); border-radius: 14px; padding: 10px 6px; font-weight: 800; font-size: 13px; box-shadow: var(--shadow); display: grid; gap: 6px; justify-items: center; touch-action: manipulation; }
+.kj-carts span { width: 36px; height: 22px; border-radius: 6px; }
+
+.kj-end { display: grid; place-items: center; min-height: 60vh; }
+.kj-end > div { background: var(--paper); border-radius: 24px; padding: 24px; box-shadow: var(--shadow); text-align: center; display: grid; gap: 8px; width: min(100%, 380px); }
+.kj-end .kicker { margin: 0; color: var(--coral-ink); }
+.kj-big { margin: 0; font-size: 18px; font-weight: 700; color: var(--ink-2); }
+.kj-big b { font-size: 48px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kj-koin { margin: 0; font-size: 16px; font-weight: 700; }
+.kj-koin b { background: var(--ink); color: var(--sun); padding: 2px 10px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.kj-note { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.kj-end .acts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+@media (max-width: 480px) {
+  .kj-kota ul { grid-template-columns: 1fr; }
+  .kj-home h1 { font-size: 22px; }
+  .kj-card { grid-template-columns: 104px 1fr; column-gap: 12px; align-items: start; }
+  .kj-card canvas { grid-row: span 5; width: 104px; }
+}

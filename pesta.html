@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pesta Rumah · AUDIRA LAND</title>
+<meta name="description" content="Pesta rumah warga AUDIRA LAND: datang, joget, dan ngobrol bareng.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/taman.css">
+</head>
+<body class="taman pesta-page">
+<canvas id="park" aria-label="Ruang pesta"></canvas>
+
+<header class="hud-top">
+  <div class="left">
+    <a class="pill back" href="/">← Kota</a>
+    <div class="pill title">
+      <strong>Pesta <span id="ptHost"></span></strong>
+      <small><span id="ptTheme"></span> · <span id="ptLeft"></span> · <span id="online">0</span> tamu <span id="conn" hidden></span></small>
+    </div>
+  </div>
+  <div class="right">
+    <button type="button" class="pill pt-close" id="ptClose" hidden>Tutup pesta</button>
+    <div class="pill who" id="who">Tamu</div>
+  </div>
+</header>
+
+<aside class="chatlog" id="chatlog">
+  <button type="button" id="logToggle" class="log-toggle" aria-expanded="false" aria-controls="log">Obrolan</button>
+  <ol id="log" aria-live="polite"></ol>
+</aside>
+
+<div class="dock">
+  <div class="emotes" role="group" aria-label="Emote">
+    <button type="button" data-e="wave" aria-label="Lambaikan tangan">👋</button>
+    <button type="button" data-e="heart" aria-label="Hati">❤️</button>
+    <button type="button" data-e="laugh" aria-label="Tertawa">😂</button>
+    <button type="button" data-e="dance" aria-label="Joget">💃</button>
+  </div>
+  <form class="say" id="sayForm" hidden autocomplete="off">
+    <input id="say" maxlength="120" placeholder="Ketik pesan…" aria-label="Pesan" enterkeyhint="send">
+    <button type="submit">Kirim</button>
+  </form>
+  <button type="button" class="cta" id="loginCta">Masuk warga untuk ngobrol</button>
+</div>
+
+<dialog class="sheet" id="loginSheet" aria-labelledby="loginTitle">
+  <form id="loginForm" novalidate>
+    <button class="close" id="loginClose" type="button" aria-label="Tutup">×</button>
+    <h2 id="loginTitle">Masuk sebagai warga</h2>
+    <p class="lead">Pakai username Instagram dan kode KTW 8 huruf yang dikirim admin AUDIRA lewat DM.</p>
+    <label class="field" for="lu"><span>@</span><input id="lu" required maxlength="31" placeholder="username_instagram" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
+    <label class="field" for="lk"><span>KTW</span><input id="lk" required maxlength="8" placeholder="8 huruf" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false"></label>
+    <button class="btn" type="submit">Masuk</button>
+    <p class="msg" id="loginMsg" hidden aria-live="polite"></p>
+  </form>
+</dialog>
+
+<section class="ended" id="ended" hidden>
+  <div>
+    <p class="kicker">Pesta rumah</p>
+    <h2>Pestanya sudah usai</h2>
+    <p id="endedMsg"></p>
+    <a class="btn" href="/">Kembali ke kota</a>
+  </div>
+</section>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script src="js/pesta-config.js"></script>
+<script src="js/util.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/aksesori.js"></script>
+<script src="js/render.js"></script>
+<script src="js/pesta.js"></script>
+<script src="js/taman.js"></script>
+<script src="js/pesta-ui.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/radio-mount-taman.js"></script>
+</body>
+</html>

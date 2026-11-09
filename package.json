@@ -1,0 +1,12 @@
+{
+  "name": "audira-land",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/server.mjs",
+    "seed": "node server/seed.mjs",
+    "seed:antre": "node server/seed.mjs --antre 20",
+    "seed:hapus": "node server/seed.mjs --hapus"
+  },
+  "engines": { "node": ">=22.13" }
+}

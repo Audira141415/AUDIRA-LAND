@@ -1,0 +1,39 @@
+/* Dompet warga (peta). Token warna dari style.css */
+.dompet-btn { position: relative; color: var(--ink); }
+.dompet-btn .dot { position: absolute; top: 7px; right: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 2px var(--paper); }
+.dompet-btn .dot[hidden] { display: none; }
+.dompet-sheet { width: min(520px, calc(100% - 32px)); max-height: min(86vh, 820px); }
+.dp-in { position: relative; padding: 22px; display: grid; gap: 12px; }
+.dp-in h2 { margin: 0 40px 0 0; font-size: 21px; font-weight: 800; word-break: break-all; }
+.dp-in .kicker { margin: 0; }
+.dp-in .tabs[hidden] { display: none; }
+.dp-body { display: grid; gap: 10px; }
+.dp-login, .dp-kirim { display: grid; gap: 10px; }
+.dp-login .lead { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.dp-card { background: var(--ink); color: var(--paper); border-radius: 18px; padding: 16px 18px; display: grid; gap: 2px; }
+.dp-label { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sun); font-weight: 800; }
+.dp-saldo { margin: 0; font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.dp-saldo small { font-size: 15px; color: var(--sun); }
+.dp-card .dp-sub { color: #c9d6e2; }
+.dp-sub { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+.dp-absen:disabled { background: var(--paper-2); color: var(--ink-2); cursor: default; opacity: 1; }
+.dp-in .sub { margin: 6px 0 0; }
+.dp-hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.dp-hist li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; }
+.dp-hist li:nth-child(odd) { background: rgba(243, 234, 216, .6); }
+.dp-hist li.empty { color: var(--ink-2); font-size: 14px; }
+.dp-hist b { display: block; font-size: 14px; word-break: break-all; }
+.dp-hist small { color: var(--ink-2); font-size: 12px; }
+.dp-hist .pos, .dp-hist .neg { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dp-hist .pos { color: #1b7a56; }
+.dp-hist .neg { color: #b03a22; }
+.dp-note { margin: 4px 0 0; font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.dp-item { background: #fff; border-radius: 14px; padding: 10px; display: grid; gap: 4px; justify-items: center; text-align: center; box-shadow: 0 0 0 1px var(--line) inset; }
+.dp-item.on { box-shadow: 0 0 0 2px var(--ink) inset; } /* "dipakai" = status milikmu, bukan verifikasi → bukan teal */
+.dp-item canvas { width: 72px; height: 72px; }
+.dp-item b { font-size: 13px; }
+.dp-item small { font-size: 11px; color: var(--coral-ink); font-weight: 700; }
+.dp-item .btn { width: 100%; margin-top: 2px; }
+.dp-item .btn:disabled { opacity: .45; cursor: not-allowed; }
+.dp-kirim .field span { min-width: 54px; font-size: 13px; }

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kerja · AUDIRA LAND</title>
+<meta name="description" content="Kerja di AUDIRA LAND: nelayan, petani, dan kurir pasar. Hasil kerjamu jadi koin dan dipakai seluruh kota.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/kerja.css">
+</head>
+<body class="kerja">
+<main class="kj-wrap">
+  <header class="kj-top">
+    <a class="pill back" href="/">← Kota</a>
+    <div class="kj-who" id="who"></div>
+  </header>
+
+  <section class="kj-home" id="home">
+    <p class="kicker">Kerja</p>
+    <h1>Mau kerja apa hari ini?</h1>
+    <p class="kj-lead" id="lead">Satu ronde 30 detik. Hasilnya jadi koin dan ikut dicatat sebagai hasil kerja seluruh kota.</p>
+    <div class="kj-chip" id="chip" hidden></div>
+    <div class="kj-cards" id="cards"></div>
+    <section class="kj-kota">
+      <h2>Hasil kota hari ini</h2>
+      <ul id="kota"></ul>
+    </section>
+  </section>
+
+  <section class="kj-play" id="play" hidden>
+    <div class="kj-hud">
+      <span class="kj-game" id="hudGame"></span>
+      <span class="kj-time" id="hudTime">30</span>
+      <span class="kj-score">Skor <b id="hudScore">0</b></span>
+    </div>
+    <canvas id="game" width="360" height="520" aria-label="Area permainan"></canvas>
+    <p class="kj-hint" id="hint"></p>
+    <div class="kj-carts" id="carts" hidden></div>
+  </section>
+
+  <section class="kj-end" id="end" hidden>
+    <div>
+      <p class="kicker" id="endKicker">Ronde selesai</p>
+      <p class="kj-big"><b id="endScore">0</b> <span id="endUnit"></span></p>
+      <p class="kj-koin" id="endKoin"></p>
+      <p class="kj-note" id="endNote"></p>
+      <div class="acts">
+        <button type="button" class="btn" id="again">Main lagi</button>
+        <button type="button" class="btn ghost" id="toHome">Pilih kerja lain</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog class="sheet" id="loginSheet" aria-labelledby="loginTitle">
+  <form id="loginForm" novalidate>
+    <button class="close" id="loginClose" type="button" aria-label="Tutup">×</button>
+    <h2 id="loginTitle">Masuk sebagai warga</h2>
+    <p class="lead">Pakai username Instagram dan kode KTW 8 huruf dari admin AUDIRA supaya kerjamu dibayar koin.</p>
+    <label class="field" for="lu"><span>@</span><input id="lu" required maxlength="31" placeholder="username_instagram" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
+    <label class="field" for="lk"><span>KTW</span><input id="lk" required maxlength="8" placeholder="8 huruf" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false"></label>
+    <button class="btn" type="submit">Masuk</button>
+    <p class="msg" id="loginMsg" hidden aria-live="polite"></p>
+  </form>
+</dialog>
+
+<script src="js/util.js"></script>
+<script src="js/kerja.js"></script>
+</body>
+</html>

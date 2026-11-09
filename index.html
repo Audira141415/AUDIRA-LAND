@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AUDIRA LAND</title>
+<meta name="description" content="AUDIRA LAND: kota pulau isometrik. Prototipe fase 1.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dompet.css">
+</head>
+<body>
+<canvas id="map" aria-label="Peta kota AUDIRA LAND"></canvas>
+
+<header class="hud-top">
+  <div class="brand pill">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32"><path d="M16 4 27 26H5Z" fill="#ffd166"/><path d="M16 12 21.5 23h-11Z" fill="#14324a"/><path d="M3 27c4-2 7-2 10 0s7 2 10 0 5-1.5 6-1" stroke="#7fcbd8" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+    </span>
+    <div><strong>AUDIRA LAND <span class="mode" id="mode" hidden>demo</span></strong><small><span id="pop">0</span> warga · <span id="clock">--.--</span></small></div>
+  </div>
+  <button class="ferry pill" id="ferry" type="button"><span class="dot" aria-hidden="true"></span><span id="ferryText">Kapal berikutnya …</span></button>
+</header>
+
+<p class="preview-bar" id="previewBar" hidden>Pratinjau mitra <b></b> · hanya terlihat di perangkat ini</p>
+
+<aside class="feed" id="feed" aria-live="polite">
+  <h2>Baru tiba</h2>
+  <ol id="feedList"></ol>
+</aside>
+
+<div class="tools">
+  <button id="zin" type="button" aria-label="Perbesar">+</button>
+  <button id="zout" type="button" aria-label="Perkecil">−</button>
+  <button id="koranBtn" type="button" aria-label="Kabar kota" title="Kabar kota" class="koran-btn">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 9h7M7 12.5h7M7 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="dot" id="koranDot" hidden></span>
+  </button>
+  <button id="speed" type="button" aria-label="Percepat waktu" aria-pressed="false" title="Percepat waktu (1 detik = 6 menit)">
+    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M3 6v12l8-6zM12 6v12l8-6z" fill="currentColor"/></svg>
+  </button>
+</div>
+
+<section class="card" id="card" hidden aria-live="polite"></section>
+
+<a class="kerja-link pill" href="/kerja.html">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3.5" y="8" width="17" height="11" rx="2.5" fill="#5f9e98"/><path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8" stroke="#14324a" stroke-width="2" fill="none"/><path d="M3.5 13h17" stroke="#14324a" stroke-width="1.6"/></svg>
+  Kerja
+</a>
+
+<button class="pesta-pill pill" id="pestaPill" type="button" hidden>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><ellipse cx="9" cy="8" rx="4.5" ry="5.5" fill="#ff7a59"/><ellipse cx="15.5" cy="9.5" rx="4" ry="5" fill="#ffd166"/><path d="M9 13.5 11 22M15.5 14.5 12 22" stroke="#4a6275" stroke-width="1.4" fill="none"/></svg>
+  Pesta <span class="online" id="pestaCount" hidden>0</span>
+</button>
+
+<dialog class="sheet pesta-sheet" id="pestaSheet" aria-labelledby="pestaTitle">
+  <div class="koran-in">
+    <button class="close" id="pestaClose" type="button" aria-label="Tutup">×</button>
+    <p class="kicker">Pesta rumah</p>
+    <h2 id="pestaTitle">Pesta yang sedang berlangsung</h2>
+    <ul class="pesta-list" id="pestaList"></ul>
+    <h3 class="sub">Pestaku</h3>
+    <div id="pestaMine"></div>
+    <p class="msg" id="pestaMsg" hidden aria-live="polite"></p>
+  </div>
+</dialog>
+
+<a class="taman-link pill" id="tamanLink" href="/taman.html">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="9" r="6" fill="#4caf7a"/><path d="M12 13v8" stroke="#7a5534" stroke-width="2.6" stroke-linecap="round"/></svg>
+  Taman <span class="online" id="tamanOnline" hidden></span>
+</a>
+
+<button class="join pill" id="join" type="button">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+  Jadi warga
+</button>
+
+<dialog class="sheet" id="joinSheet" aria-labelledby="joinTitle">
+  <form id="joinForm" novalidate>
+    <button class="close" id="joinClose" type="button" aria-label="Tutup">×</button>
+    <h2 id="joinTitle">Jadi warga AUDIRA LAND</h2>
+    <p class="lead" id="joinLead"></p>
+    <label class="field" for="ig"><span>@</span><input id="ig" name="ig" required maxlength="31" placeholder="username_instagram" autocomplete="off" autocapitalize="off" spellcheck="false" pattern="@?[A-Za-z0-9._]{1,30}"></label>
+    <label class="consent" id="consentRow"><input type="checkbox" id="consent"> Saya setuju username saya tampil publik di peta AUDIRA LAND.</label>
+    <button class="btn" id="joinSubmit" type="submit">Daftar</button>
+    <p class="msg" id="joinMsg" hidden aria-live="polite"></p>
+    <button class="link" id="toggleLeave" type="button">Minta keluar dari kota</button>
+  </form>
+</dialog>
+
+<dialog class="sheet koran" id="koranSheet" aria-labelledby="koranTitle">
+  <div class="koran-in">
+    <button class="close" id="koranClose" type="button" aria-label="Tutup">×</button>
+    <p class="kicker">Koran AUDIRA</p>
+    <h2 id="koranTitle">Kabar Kota</h2>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tabKabar" aria-selected="true" aria-controls="paneKabar">Kabar</button>
+      <button type="button" role="tab" id="tabAcara" aria-selected="false" aria-controls="paneAcara">Kalender</button>
+    </div>
+    <div id="paneKabar" role="tabpanel" aria-labelledby="tabKabar"></div>
+    <div id="paneAcara" role="tabpanel" aria-labelledby="tabAcara" hidden></div>
+  </div>
+</dialog>
+
+<form class="search" id="search" autocomplete="off" role="search">
+  <ul id="sugg" class="sugg" hidden></ul>
+  <svg class="ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2.2" fill="none"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+  <input id="q" type="search" placeholder="Cari nama warga…" aria-label="Cari nama warga" enterkeyhint="search">
+  <button type="submit">Cari</button>
+</form>
+
+<script src="js/util.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/world.js"></script>
+<script src="js/render.js"></script>
+<script src="js/sponsor.js"></script>
+<script src="js/landmark.js"></script>
+<script src="js/pemerintahan.js"></script>
+<script src="js/flyover.js"></script>
+<script src="js/agents.js"></script>
+<script src="js/net.js"></script>
+<script src="js/aksesori.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/koran.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/pesta-kota.js"></script>
+<script src="js/kampung.js"></script>
+<script src="js/dompet.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
