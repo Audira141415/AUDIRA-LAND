@@ -21,7 +21,7 @@ const startOfDayWib = (t = Date.now()) => Math.floor((t + WIB) / HARI) * HARI - 
 // minggu mulai Senin 00.00 WIB (1 Jan 1970 = Kamis, jadi hari ke-d sudah (d + 3) % 7 hari sejak Senin)
 export const startOfWeekWib = (t = Date.now()) => { const d = Math.floor((t + WIB) / HARI); return (d - (d + 3) % 7) * HARI - WIB; };
 
-export function createKerja(db, { world, ekonomi, sim, kabar }) {
+export function createKerja(db, { world, ekonomi, sim, kabar, kabarku }) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS kerja_rounds (
       id         TEXT PRIMARY KEY,
@@ -158,7 +158,7 @@ export function createKerja(db, { world, ekonomi, sim, kabar }) {
         const hasil = terlalu ? null : sim.replay(r.game, r.seed, ev || []);
         if (!hasil || hasil.score > g.max) { q.selesai.run(now, 0, 0, r.id); throw bad('Ronde tidak sah, dibatalkan'); }
         const score = hasil.score, week = startOfWeekWib(now);
-        const sebelum = posisi(papan(r.game, week), u);
+        const papanLama = papan(r.game, week), sebelum = posisi(papanLama, u);
         const m = mult(r.game, jobKind(u));
         const sudah = q.hariIni.get(u, startOfDayWib(now)).koin;
         const raw = Math.floor(score * g.rate * m);
@@ -166,6 +166,13 @@ export function createKerja(db, { world, ekonomi, sim, kabar }) {
         q.selesai.run(now, score, koin, r.id);
         if (koin > 0) ekonomi.kredit(u, koin, 'kerja', `${g.name}: ${score} ${g.unit}${m > 1 ? ' (bonus profesi)' : ''}`, r.game);
         const peringkat = score > 0 ? posisi(papan(r.game, week), u) : null;
+        // kabari warga 10 besar yang baru saja tersalip (maks sekali per 6 jam per pelaku per pekerjaan)
+        if (kabarku && peringkat) {
+          for (const o of papanLama) {
+            if (o.u === u || o.rank > 10 || o.rank >= (sebelum ? sebelum.rank : Infinity) || o.score >= score) continue;
+            kabarku.tambah(o.u, 'disalip', `@${u} menyalipmu di papan ${g.name} minggu ini (${score} ${g.unit}). Kamu sekarang #${o.rank + 1}. Rebut lagi!`, `${r.game}|${u}`, 6 * 3600e3);
+          }
+        }
         return { score, koin, terpotong: koin < raw, bonus: m > 1, sisaHariIni: Math.max(0, KOIN_HARIAN - sudah - koin), peringkat, rekorBaru: score > 0 && (!sebelum || score > sebelum.score) };
       });
     },

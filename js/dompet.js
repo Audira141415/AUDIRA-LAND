@@ -42,6 +42,7 @@
         <button type="button" role="tab" data-tab="dompet" aria-selected="true">Saldo</button>
         <button type="button" role="tab" data-tab="butik" aria-selected="false">Butik</button>
         <button type="button" role="tab" data-tab="kirim" aria-selected="false">Kirim</button>
+        <button type="button" role="tab" data-tab="lencana" aria-selected="false">Lencana</button>
       </div>
       <div class="dp-body"></div>
       <p class="msg" hidden aria-live="polite"></p>
@@ -95,6 +96,7 @@
         if (!r.ok) throw new Error(j.error || 'Gagal masuk');
         token = j.token; user = j.username;
         try { localStorage.setItem(TK, token); localStorage.setItem(UK, user); } catch (er) { /* sesi hanya untuk halaman ini */ }
+        if (AL.koran) AL.koran.loadKu();
         say('');
         await refresh();
       } catch (er) { say(er.message, 'err'); }
@@ -127,6 +129,7 @@
     el.tabs.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
     if (tab === 'dompet') renderSaldo();
     else if (tab === 'butik') renderButik();
+    else if (tab === 'lencana') renderLencana();
     else renderKirim();
   }
   const live = () => data.balance + (Date.now() - data.t0) / 1000 * data.perDetik;
@@ -175,6 +178,35 @@
         } else if (b.dataset.pakai) await api('/api/dompet/pakai', { slot: items[b.dataset.pakai].slot, item: b.dataset.pakai });
         else await api('/api/dompet/pakai', { slot: b.dataset.lepas, item: null });
         await refresh();
+      } catch (er) { say(er.message, 'err'); }
+    };
+  }
+  async function renderLencana() {
+    el.body.onclick = null;
+    el.body.innerHTML = '<p class="dp-sub">Memuat lencana…</p>';
+    let d;
+    try { d = await api('/api/lencana'); } catch (e) { el.body.innerHTML = ''; say(e.message, 'err'); return; }
+    if (tab !== 'lencana') return;
+    const n = d.list.filter(b => b.punya).length;
+    el.body.innerHTML = `<p class="dp-sub">${n} dari ${d.list.length} lencana. Pilih satu untuk dipakai: tampil di depan namamu di Taman dan pesta, dan di kartu wargamu di peta.</p>
+      <ul class="lc-list">${d.list.map(b => `
+        <li class="${b.punya ? 'own' : ''}${d.pakai === b.id ? ' on' : ''}">
+          <span class="lc-ic" aria-hidden="true">${esc(b.icon)}</span>
+          <div><b>${esc(b.name)}</b><small>${esc(b.desc)}</small>
+            ${b.punya ? '' : `<span class="lc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${b.target}" aria-valuenow="${b.nilai}" aria-label="Kemajuan ${esc(b.name)}"><i data-w="${Math.round(b.nilai / b.target * 100)}"></i></span><small>${fmt(b.nilai)} / ${fmt(b.target)}</small>`}</div>
+          ${d.pakai === b.id ? '<button type="button" class="btn ghost sm" data-lc="">Lepas</button>'
+            : b.punya ? `<button type="button" class="btn sm" data-lc="${b.id}">Pakai</button>` : '<span class="lc-lock">Terkunci</span>'}
+        </li>`).join('')}</ul>`;
+    el.body.querySelectorAll('.lc-bar i').forEach(i => { i.style.width = i.dataset.w + '%'; }); // CSP: tanpa atribut style
+    el.body.onclick = async e => {
+      const b = e.target.closest('[data-lc]');
+      if (!b) return;
+      try {
+        const r = await api('/api/lencana/pakai', { id: b.dataset.lc || null });
+        const lc = r.pakai ? d.list.find(x => x.id === r.pakai) : null;
+        if (AL.net && AL.net.lencana) { if (lc) AL.net.lencana[user] = [lc.icon, lc.name]; else delete AL.net.lencana[user]; }
+        say(lc ? `Lencana ${lc.name} dipakai.` : 'Lencana dilepas.', 'ok');
+        renderLencana();
       } catch (er) { say(er.message, 'err'); }
     };
   }

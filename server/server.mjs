@@ -13,6 +13,8 @@ import { createEkonomi } from './ekonomi.mjs';
 import { loadWorld } from './world-node.mjs';
 import { createKerja } from './kerja.mjs';
 import { loadKerjaSim } from './kerja-sim-node.mjs';
+import { createLencana } from './lencana.mjs';
+import { createKabarku } from './kabarku.mjs';
 import { createKabar } from './kabar.mjs';
 import { createSponsor } from './sponsor.mjs';
 import { createRadio } from './radio.mjs';
@@ -68,9 +70,11 @@ const world = loadWorld(ROOT);
   }
 }
 const ekonomi = createEkonomi(db, { world });
-const kerja = createKerja(db, { world, ekonomi, sim: loadKerjaSim(ROOT), kabar });
-const taman = createTaman({ store, map: JSON.parse(readFileSync(join(ROOT, 'js', 'taman-map.json'), 'utf8')), itemsOf: ekonomi.itemsOf });
-const pesta = createPesta(db, { store, itemsOf: ekonomi.itemsOf, map: JSON.parse(readFileSync(join(ROOT, 'js', 'pesta-map.json'), 'utf8')) });
+const kabarku = createKabarku(db, { world });
+const kerja = createKerja(db, { world, ekonomi, sim: loadKerjaSim(ROOT), kabar, kabarku });
+const lencana = createLencana(db, { world });
+const taman = createTaman({ store, map: JSON.parse(readFileSync(join(ROOT, 'js', 'taman-map.json'), 'utf8')), itemsOf: ekonomi.itemsOf, badgeOf: lencana.iconOf });
+const pesta = createPesta(db, { store, itemsOf: ekonomi.itemsOf, badgeOf: lencana.iconOf, map: JSON.parse(readFileSync(join(ROOT, 'js', 'pesta-map.json'), 'utf8')) });
 
 // ---------- helper ----------
 const SECURITY_HEADERS = {
@@ -132,7 +136,7 @@ async function api(req, res, url) {
 
   if (p === '/api/city' && m === 'GET') {
     const after = Math.max(0, Math.floor(+url.searchParams.get('after') || 0));
-    return send(res, 200, { ...store.city(after), looks: ekonomi.looks(), juara: kerja.juaraLalu() }, { 'Cache-Control': 'public, max-age=10' });
+    return send(res, 200, { ...store.city(after), looks: ekonomi.looks(), juara: kerja.juaraLalu(), lencana: lencana.peta() }, { 'Cache-Control': 'public, max-age=10' });
   }
 
   // ----- dompet warga (header Authorization: Bearer <token sesi KTW>) -----
@@ -150,6 +154,24 @@ async function api(req, res, url) {
     const body = await readJson(req, 16384);
     if (a === '/mulai') return send(res, 200, kerja.mulai(sess.username, String(body.game || '')));
     if (a === '/selesai') return send(res, 200, kerja.selesai(sess.username, body.round, body.ev));
+    return send(res, 404, { error: 'Tidak ditemukan' });
+  }
+  // ----- kabar untukmu & lencana (header Authorization: Bearer <token sesi KTW>) -----
+  if (p === '/api/kabarku' || p.startsWith('/api/lencana')) {
+    const mt = (req.headers.authorization || '').match(/^Bearer (.+)$/);
+    const sess = mt ? store.session(mt[1]) : null;
+    if (!sess) return send(res, 401, { error: 'Masuk sebagai warga dulu (kode KTW).' });
+    const u = sess.username;
+    if (p === '/api/kabarku' && m === 'GET') return send(res, 200, kabarku.feed(u), { 'Cache-Control': 'no-store' });
+    if (p === '/api/lencana' && m === 'GET') return send(res, 200, lencana.daftar(u), { 'Cache-Control': 'no-store' });
+    if (p === '/api/lencana/pakai' && m === 'POST') {
+      if (limited(ip, 'lencana', 20, 60e3)) return send(res, 429, { error: 'Terlalu cepat. Tunggu sebentar.' });
+      const body = await readJson(req, 512);
+      const r = lencana.pakai(u, body.id ? String(body.id) : null);
+      const icon = lencana.iconOf(u);
+      taman.setBadge(u, icon); pesta.setBadge(u, icon);
+      return send(res, 200, r);
+    }
     return send(res, 404, { error: 'Tidak ditemukan' });
   }
   if (p.startsWith('/api/dompet')) {

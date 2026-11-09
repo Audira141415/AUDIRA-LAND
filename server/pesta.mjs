@@ -14,7 +14,7 @@ const MAKS_AKTIF = 20;
 const CAP_TAMU = 30;
 const bad = (msg, code = 400) => Object.assign(new Error(msg), { code });
 
-export function createPesta(db, { store, map, itemsOf }) {
+export function createPesta(db, { store, map, itemsOf, badgeOf }) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS parties (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +31,7 @@ export function createPesta(db, { store, map, itemsOf }) {
 
   function roomFor(host) {
     let r = rooms.get(host);
-    if (!r) { r = createTaman({ store, map, cap: CAP_TAMU, label: 'Pesta ini', itemsOf }); rooms.set(host, r); }
+    if (!r) { r = createTaman({ store, map, cap: CAP_TAMU, label: 'Pesta ini', itemsOf, badgeOf }); rooms.set(host, r); }
     return r;
   }
   function selesai(host, msg) {
@@ -86,6 +86,7 @@ export function createPesta(db, { store, map, itemsOf }) {
     kick(names) { for (const r of rooms.values()) r.kick(names); },
     mute(names, on) { for (const r of rooms.values()) r.mute(names, on); },
     setItems(name, items) { for (const r of rooms.values()) r.setItems(name, items); },
+    setBadge(name, b) { for (const r of rooms.values()) r.setBadge(name, b); },
     // admin hapus warga: pestanya ikut ditutup
     hapusHost(names) { for (const h of names) if (rooms.has(h) || aktifQ.all(Date.now()).some(p => p.host === h)) selesai(h, 'Pesta ditutup admin.'); },
   };

@@ -150,6 +150,38 @@ Admin › *Slot Sponsor*: pilih slot, nama (maks 24 huruf), tagline, dua warna, 
 
 Tombol koran di kolom kanan peta membuka **Kabar** (berita/pengumuman, bisa disematkan, tautan hanya https) dan **Kalender** (acara 60 hari ke depan, tanggal WIB). Titik merah muncul kalau ada kabar yang belum dibaca di perangkat itu. Admin mengelola keduanya di `/admin` › *Kabar Kota* dan *Kalender Kota*.
 
+### Kabar untukmu
+
+Tab **Untukmu** di Koran (warga KTW yang sudah masuk): kejadian pribadi 14 hari terakhir, terbaru di atas, maks 30.
+
+| Kabar | Sumber |
+|---|---|
+| ⬆️ Naik level, 🎖️ naik jabatan (tiap 5 level) | dihitung dari rumus jabatan (`AL.career`) dan tanggal tiba |
+| 🏃 Disalip di papan peringkat | disimpan saat warga lain menyalip posisimu di 10 besar mingguan (maks sekali per 6 jam per pelaku per pekerjaan) |
+| 💌 Kiriman koin, 🎁 hadiah admin, 🏆 hadiah juara | buku besar (`ledger`) |
+| 🧳 Penghuni baru di rumahmu | warga lain yang tiba di kavling rumah yang sama |
+| ⛴️ Hari pertama tiba | tanggal tiba |
+
+Titik merah di tombol koran dan di tab Untukmu menyala kalau ada kabar pribadi yang belum dibuka di perangkat itu. Kalau kabar kota sudah terbaca, koran langsung membuka tab Untukmu.
+
+## Lencana
+
+Dompet › **Lencana**: 11 lencana yang didapat otomatis dari kegiatan. Yang belum didapat menampilkan kemajuannya. Warga memilih **satu** untuk dipakai: ikonnya tampil di depan nama di Taman dan pesta (langsung, realtime) dan di kartu warga di peta.
+
+| Lencana | Syarat |
+|---|---|
+| 🥇 Juara Emas · 🏅 Naik Podium | juara 1 / masuk 3 besar papan kerja mingguan |
+| 🧭 Warga Perintis | 100 warga pertama |
+| ⭐ Pejabat Tinggi | Lv 26 |
+| 🏛️ Sesepuh Pulau · 🏡 Warga Setia | tinggal 100 / 30 hari |
+| ⚒️ Pekerja Keras | 50 ronde kerja berskor |
+| 📅 Rajin Absen | 7 kali absen harian |
+| 🤝 Dermawan | kirim total 1.000 koin |
+| 🎉 Tuan Rumah | buka 3 pesta rumah |
+| 🛍️ Kolektor Butik | punya 5 aksesori |
+
+Syarat dicek server saat lencana dipakai (`server/lencana.mjs`).
+
 ## Taman Warga (realtime)
 
 Buka `/taman.html` (atau tombol **Taman** di peta, atau tombol **Masuk Taman** di kartu taman). Klik petak untuk berjalan, tombol emote untuk 👋 ❤️ 😂 💃.
@@ -165,7 +197,7 @@ Protokol WebSocket `/ws/taman` (JSON, hanya dari Origin situs ini sendiri):
 | Arah | Pesan |
 |---|---|
 | klien → server | `{t:'hello', token?}` (wajib pertama, dalam 8 dtk) · `{t:'move', x, y, fx, fy}` · `{t:'say', m}` · `{t:'emote', e}` |
-| server → klien | `welcome {you, users, chat, tokenOk}` · `join {u}` · `leave {id}` · `move {id, x, y, fx, fy}` · `say {id, name, m, ts}` · `emote {id, e}` · `err {m, fatal?}` |
+| server → klien | `welcome {you, users, chat, tokenOk}` · `badge {id, b}` · `join {u}` · `leave {id}` · `move {id, x, y, fx, fy}` · `say {id, name, m, ts}` · `emote {id, e}` · `err {m, fatal?}` |
 
 Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua klien (BFS pada `js/taman-map.json`), dimulai dari `fx, fy`.
 
@@ -173,7 +205,7 @@ Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua kli
 
 | Metode | Path | Isi |
 |---|---|---|
-| GET | `/api/city?b=<ember15dtk>&after=<seq>` | `residents [seq,u,tiba,kapal]` dengan seq > `after` (klien hanya minta warga baru), `queue` utuh, jadwal kapal, `looks`, `juara` |
+| GET | `/api/city?b=<ember15dtk>&after=<seq>` | `residents [seq,u,tiba,kapal]` dengan seq > `after` (klien hanya minta warga baru), `queue` utuh, jadwal kapal, `looks`, `juara`, `lencana` |
 | GET | `/api/warga?u=` | status satu username |
 | POST | `/api/daftar` | `{username, setuju:true}` |
 | POST | `/api/keluar` | `{username}` |
@@ -184,6 +216,9 @@ Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua kli
 | POST | `/api/kerja/mulai` · `/api/kerja/selesai` | `{game}` → `{round, seed, durasi}` · `{round, ev:[[langkah,x,y],…]}` → `{score, koin, terpotong, bonus, sisaHariIni, peringkat, rekorBaru}` |
 | GET | `/api/butik` | katalog aksesori |
 | GET | `/api/dompet` | saldo, gaji, riwayat, barang (header `Authorization: Bearer <token sesi>`) |
+| GET | `/api/kabarku` | kabar pribadi 14 hari terakhir `{items:[{t, kind, icon, text, link?, cari?}]}` (header `Authorization: Bearer <token sesi>`) |
+| GET | `/api/lencana` | semua lencana + kemajuan + yang dipakai (header sama) |
+| POST | `/api/lencana/pakai` | `{id}` atau `{id:null}` untuk melepas |
 | POST | `/api/dompet/{absen,beli,pakai,kirim}` | `{}` · `{item}` · `{slot,item\|null}` · `{to,amount,note}` |
 | GET | `/api/pesta` | pesta aktif, label tema |
 | POST | `/api/pesta/buka` | `{token, theme}` |

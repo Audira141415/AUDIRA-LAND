@@ -18,14 +18,14 @@ export function cleanText(raw) {
 }
 
 // satu room realtime (Taman, atau satu pesta rumah). cap = maks orang, label = nama tempat di pesan
-export function createTaman({ store, map, cap = CAP, label = 'Taman', itemsOf = () => '' }) {
+export function createTaman({ store, map, cap = CAP, label = 'Taman', itemsOf = () => '', badgeOf = () => '' }) {
   let closed = false;
   const users = new Map();   // id -> orang di taman
   const conns = new Set();
   const chat = [];           // 30 pesan terakhir
   let nextId = 1;
   const walk = (x, y) => y >= 0 && y < map.h && x >= 0 && x < map.w && map.walk.includes(map.rows[y][x]);
-  const pub = u => ({ id: u.id, name: u.name, v: u.v, seed: u.seed, x: u.x, y: u.y, items: u.items || '' });
+  const pub = u => ({ id: u.id, name: u.name, v: u.v, seed: u.seed, x: u.x, y: u.y, items: u.items || '', b: u.b || '' });
   const send = (conn, obj) => conn.open && conn.send(JSON.stringify(obj));
   function broadcast(obj, except) {
     const s = JSON.stringify(obj);
@@ -72,6 +72,7 @@ export function createTaman({ store, map, cap = CAP, label = 'Taman', itemsOf = 
           seed: sess ? 0 : Math.floor(Math.random() * 2 ** 32),
           x: sp[0], y: sp[1], lastSay: 0, lastEmote: 0,
           items: sess ? itemsOf(sess.username) : '',
+          b: sess ? badgeOf(sess.username) : '',
         };
         users.set(me.id, me);
         send(conn, { t: 'welcome', you: pub(me), users: [...users.values()].map(pub), chat, tokenOk: !!sess || !m.token });
@@ -124,6 +125,10 @@ export function createTaman({ store, map, cap = CAP, label = 'Taman', itemsOf = 
     // aksesori warga berubah (beli/pakai di dompet) → semua di room melihat tampilan baru
     setItems(name, items) {
       for (const u of users.values()) if (u.v && u.name === name) { u.items = items; broadcast({ t: 'look', id: u.id, items }); }
+    },
+    // lencana warga berubah → semua di room melihat ikon baru
+    setBadge(name, b) {
+      for (const u of users.values()) if (u.v && u.name === name) { u.b = b; broadcast({ t: 'badge', id: u.id, b }); }
     },
     close(msg) {
       closed = true;

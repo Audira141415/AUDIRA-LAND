@@ -41,7 +41,7 @@
   // ---------- orang ----------
   function addUser(u) {
     const o = {
-      id: u.id, name: u.name, v: u.v,
+      id: u.id, name: u.name, v: u.v, b: u.b || '',
       look: Object.assign(AL.mkLook(u.v ? AL.hash32(u.name) : u.seed >>> 0), { items: AL.parseItems ? AL.parseItems(u.items) : [] }),
       x: u.x, y: u.y, path: null, seg: 0, t: 0, pending: null, bubble: null, emote: null, dx: 0, dy: 1,
     };
@@ -98,6 +98,7 @@
       renderWho();
     } else if (m.t === 'join') { addUser(m.u); }
     else if (m.t === 'leave') { users.delete(m.id); }
+    else if (m.t === 'badge') { const u = users.get(m.id); if (u) u.b = m.b || ''; }
     else if (m.t === 'look') { const u = users.get(m.id); if (u && AL.parseItems) u.look.items = AL.parseItems(m.items); }
     else if (m.t === 'move') {
       const u = users.get(m.id);
@@ -358,7 +359,7 @@
     const head = sy - 18 * k;
     ctx.font = '700 12px "Plus Jakarta Sans", system-ui, sans-serif';
     // art bible §3: warga = pill krem penuh + badge teal bercentang; tamu = pill garis tepi saja
-    const label = u.name, w = ctx.measureText(label).width + (u.v ? 30 : 16);
+    const label = (u.b ? u.b + ' ' : '') + u.name, w = ctx.measureText(label).width + (u.v ? 30 : 16);
     const x0 = sx - w / 2;
     roundRect(x0, head - 22, w, 19, 10);
     if (u.v) {

@@ -8,7 +8,10 @@
   // lencana juara kerja minggu lalu (dari /api/city)
   function juaraBadge(u) {
     const list = (AL.net && AL.net.juara && AL.net.juara[u]) || [];
-    return list.length ? `<p class="juara"><a href="/kerja.html#peringkat">${list.map(([g, r]) => `${MEDAL[r - 1]} Juara ${r} ${esc(KERJA_NAMA[g] || g)}`).join(' · ')}</a></p>` : '';
+    const lc = AL.net && AL.net.lencana && AL.net.lencana[u];
+    const parts = list.map(([g, r]) => `<a href="/kerja.html#peringkat">${MEDAL[r - 1]} Juara ${r} ${esc(KERJA_NAMA[g] || g)}</a>`);
+    if (lc) parts.unshift(`<span title="Lencana pilihan">${esc(lc[0])} ${esc(lc[1])}</span>`);
+    return parts.length ? `<p class="juara">${parts.join(' ')}</p>` : '';
   }
 
   function residentCard(res) {

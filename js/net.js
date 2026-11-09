@@ -2,7 +2,7 @@
    Server tidak terjangkau (atau ?demo) → mode demo: warga & kapal dibuat di perangkat. */
 (function (AL) {
   'use strict';
-  const net = { online: false, demo: false, skew: 0, every: 300000, queued: 0, maxSeq: 0, juara: {} };
+  const net = { online: false, demo: false, skew: 0, every: 300000, queued: 0, maxSeq: 0, juara: {}, lencana: {} };
   AL.net = net;
   AL.now = () => Date.now() + net.skew;
 
@@ -27,6 +27,7 @@
     const now = AL.now();
     const dockEnd = AL.FERRY_DOCKED * 1000, win = (AL.FERRY_TRAVEL + AL.FERRY_DOCKED) * 1000;
     net.juara = d.juara || {};
+    net.lencana = d.lencana || {};
     // nomor urut aman untuk ?after=: semua warga <= nomor ini sudah tiba & selesai turun kapal
     let top = net.maxSeq, cap = Infinity;
     for (const [seq, , at, f] of d.residents) { if (f && now < at + dockEnd) cap = Math.min(cap, seq - 1); else top = Math.max(top, seq); }
