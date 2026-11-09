@@ -12,6 +12,8 @@ npm run seed:antre  # 20 warga contoh antre kapal (opsional)
 npm run dev         # http://localhost:5173  ·  admin: http://localhost:5173/admin
 ```
 
+Di Windows cukup klik dua kali **`start.bat`** untuk menjalankan semua komponen di latar belakang (web, API, WebSocket Taman/Pantai/Pesta, cadangan DB harian), lalu peta terbuka di browser. **`stop.bat`** menghentikannya. Keduanya memanggil `server/kendali.ps1` (juga punya `status`). Log ada di `server/data/server.log` dan `server.err.log`. `stop.bat` hanya mematikan server milik folder ini; kalau port dipakai aplikasi lain, `start.bat` memberi tahu dan tidak menjalankan apa-apa.
+
 Saat pertama jalan, server membuat `ADMIN_TOKEN` di `server/.env`. Pengaturan lain ada di `server/.env.example`.
 Hapus semua data contoh: `npm run seed:hapus`. Buka `/?demo` untuk mode demo tanpa server.
 
