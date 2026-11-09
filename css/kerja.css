@@ -61,3 +61,31 @@ body.kerja { background: #efe6d2; }
   .kj-card { grid-template-columns: 104px 1fr; column-gap: 12px; align-items: start; }
   .kj-card canvas { grid-row: span 5; width: 104px; }
 }
+
+/* papan peringkat */
+.kj-board { margin-top: 18px; background: var(--paper); border-radius: 20px; padding: 14px 16px 16px; box-shadow: var(--shadow); display: grid; gap: 10px; scroll-margin-top: 12px; }
+.kj-board-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.kj-board h2 { margin: 0; font-size: 16px; font-weight: 800; }
+.kj-board-lead { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.kj-board-lead b { color: var(--ink); }
+.kj-seg { display: inline-flex; background: var(--paper-2); border-radius: 999px; padding: 3px; gap: 2px; }
+.kj-seg button { border: 0; background: none; border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13px; color: var(--ink-2); min-height: 36px; }
+.kj-seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.kj-seg-game { display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 14px; }
+.kj-seg-game button { border-radius: 11px; display: grid; gap: 1px; padding: 6px 4px; }
+.kj-seg-game small { font-size: 11px; font-weight: 600; opacity: .75; }
+.kj-rank { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.kj-rank li { display: grid; grid-template-columns: 34px 1fr auto auto; align-items: baseline; gap: 6px; padding: 8px 10px; border-radius: 12px; background: var(--paper-2); font-size: 14px; }
+.kj-rank li.me { background: var(--ink); color: var(--paper); }
+.kj-rank li.me small { color: var(--paper); }
+.kj-rank .kj-pos { font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; }
+.kj-rank .kj-name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kj-rank b { font-size: 16px; font-variant-numeric: tabular-nums; }
+.kj-rank small { color: var(--ink-2); font-size: 12px; }
+.kj-rank .kj-empty { display: block; text-align: center; color: var(--ink-2); background: none; }
+.kj-champ { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; padding-top: 8px; border-top: 1px dashed rgba(20, 50, 74, .2); }
+.kj-champ[hidden] { display: none; }
+.kj-champ b { width: 100%; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.kj-card .kj-myrank { font-weight: 800; color: var(--coral-ink); }
+.kj-endrank { margin: 0; font-size: 14px; }
+.kj-endrank:empty { display: none; }

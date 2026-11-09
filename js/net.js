@@ -2,7 +2,7 @@
    Server tidak terjangkau (atau ?demo) → mode demo: warga & kapal dibuat di perangkat. */
 (function (AL) {
   'use strict';
-  const net = { online: false, demo: false, skew: 0, every: 300000, queued: 0 };
+  const net = { online: false, demo: false, skew: 0, every: 300000, queued: 0, maxSeq: 0, juara: {} };
   AL.net = net;
   AL.now = () => Date.now() + net.skew;
 
@@ -15,7 +15,7 @@
   async function fetchCity() {
     // ember 15 detik: semua klien di ember yang sama dapat jawaban cache yang sama
     const b = Math.floor(Date.now() / 15000);
-    const r = await fetch('/api/city?b=' + b, { signal: AbortSignal.timeout(6000) });
+    const r = await fetch('/api/city?b=' + b + (net.maxSeq ? '&after=' + net.maxSeq : ''), { signal: AbortSignal.timeout(6000) });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     return r.json();
   }
@@ -26,6 +26,12 @@
     net.queued = d.queue.length;
     const now = AL.now();
     const dockEnd = AL.FERRY_DOCKED * 1000, win = (AL.FERRY_TRAVEL + AL.FERRY_DOCKED) * 1000;
+    net.juara = d.juara || {};
+    // nomor urut aman untuk ?after=: semua warga <= nomor ini sudah tiba & selesai turun kapal
+    let top = net.maxSeq, cap = Infinity;
+    for (const [seq, , at, f] of d.residents) { if (f && now < at + dockEnd) cap = Math.min(cap, seq - 1); else top = Math.max(top, seq); }
+    for (const [seq] of d.queue) cap = Math.min(cap, seq - 1);
+    net.maxSeq = Math.max(net.maxSeq, Math.min(top, cap));
     for (const [seq, u, at, f] of d.residents) {
       if (AL.bySeq.has(seq)) continue;
       if (f && now < at + win) addSlot(seq, u, at);           // kapalnya masih terlihat

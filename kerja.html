@@ -25,6 +25,19 @@
     <p class="kj-lead" id="lead">Satu ronde 30 detik. Hasilnya jadi koin dan ikut dicatat sebagai hasil kerja seluruh kota.</p>
     <div class="kj-chip" id="chip" hidden></div>
     <div class="kj-cards" id="cards"></div>
+    <section class="kj-board" id="peringkat" aria-labelledby="boardTitle">
+      <div class="kj-board-head">
+        <h2 id="boardTitle">Papan peringkat</h2>
+        <div class="kj-seg" role="tablist" aria-label="Periode">
+          <button type="button" role="tab" data-p="minggu" aria-selected="true">Minggu ini</button>
+          <button type="button" role="tab" data-p="hari" aria-selected="false">Hari ini</button>
+        </div>
+      </div>
+      <p class="kj-board-lead" id="boardLead"></p>
+      <div class="kj-seg kj-seg-game" role="tablist" aria-label="Pekerjaan" id="boardGames"></div>
+      <ol class="kj-rank" id="boardList"></ol>
+      <div class="kj-champ" id="boardChamp" hidden></div>
+    </section>
     <section class="kj-kota">
       <h2>Hasil kota hari ini</h2>
       <ul id="kota"></ul>
@@ -48,6 +61,7 @@
       <p class="kj-big"><b id="endScore">0</b> <span id="endUnit"></span></p>
       <p class="kj-koin" id="endKoin"></p>
       <p class="kj-note" id="endNote"></p>
+      <p class="kj-endrank" id="endRank" aria-live="polite"></p>
       <div class="acts">
         <button type="button" class="btn" id="again">Main lagi</button>
         <button type="button" class="btn ghost" id="toHome">Pilih kerja lain</button>
@@ -69,6 +83,7 @@
 </dialog>
 
 <script src="js/util.js"></script>
+<script src="js/kerja-sim.js"></script>
 <script src="js/kerja.js"></script>
 </body>
 </html>

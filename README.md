@@ -15,6 +15,8 @@ npm run dev         # http://localhost:5173  ·  admin: http://localhost:5173/ad
 Saat pertama jalan, server membuat `ADMIN_TOKEN` di `server/.env`. Pengaturan lain ada di `server/.env.example`.
 Hapus semua data contoh: `npm run seed:hapus`. Buka `/?demo` untuk mode demo tanpa server.
 
+Deploy ke VPS (systemd + Caddy HTTPS, cadangan harian): lihat [DEPLOY.md](DEPLOY.md).
+
 ## Peta: dua kawasan
 
 Pulau 112×64 petak, dibelah sungai dengan 3 jembatan kayu (`js/world.js`, semua deterministik dari `SEED`).
@@ -28,6 +30,8 @@ Pulau 112×64 petak, dibelah sungai dengan 3 jembatan kayu (`js/world.js`, semua
 Detail Kampung Nyiur: rumah panggung (tiang + tangga) atau rumah darat berteras dengan emperan rumbia; halaman berisi properti acak (jemuran kain, sumur timba, kandang ayam, kayu bakar, gentong, pagar bambu, kelapa); Pasar Rakyat berupa lapak bambu; perahu jukung bercadik di pantai; pos ronda dengan kentongan. Animasi (`js/kampung.js`): asap dapur, ayam berkeliaran di halaman, layangan di atas sawah (siang), pelita di pintu (malam).
 
 Rumah dan kerja warga tetap ditentukan nomor urut (`seq`), jadi warga bisa tinggal di kampung dan bekerja di kota (menyeberang jembatan) atau sebaliknya. **Mengubah peta mengubah rumah, kerja, dan gaji semua warga**; server membaca `js/world.js` saat mulai, jadi restart server setelah mengubahnya.
+
+**Kunci peta**: server menyimpan sidik jari peta (rumah, kerja, jabatan, gaji untuk warga ke-1 s.d. 20.000). Kalau `js/world.js` berubah setelah ada warga, server menolak jalan. Kembalikan perubahan, atau jalankan sekali dengan `IZINKAN_UBAH_PETA=1` bila memang disengaja.
 
 ## Kota tumbuh bersama warga
 
@@ -93,9 +97,18 @@ Pill **Kerja** di kiri bawah peta → `/kerja`. Tiga pekerjaan, ronde 30 detik (
 | Kurir Pasar · Sortir Paket | paket turun makin cepat, pilih gerobak sewarna | benar +1, salah −1 (maks 80) | 3,5 | pasar/toko |
 
 - Tanpa login = **Latihan** (tanpa koin). Warga KTW: ronde dibuka server (`seed` + waktu mulai), lalu skor dikirim di akhir.
-- Anti-curang dasar: selesai < 28,5 dtk ditolak, skor di atas batas wajar membatalkan ronde, satu ronde aktif per warga, ronde > 3 menit kedaluwarsa. Skor tidak diputar ulang di server, jadi ini pagar, bukan bukti.
+- **Skor diputar ulang di server.** Logika game ada di `js/kerja-sim.js` (langkah tetap 1/60 dtk) dan dipakai peramban maupun server. Klien hanya mengirim daftar ketukan `[langkah, x, y]`; server menjalankan ulang ronde dari seed yang sama dan memakai skor hasilnya. Skor kiriman klien diabaikan.
+- Ronde dibatalkan bila: ketukan > 15 per detik, > 360 ketukan, ketukan "dari masa depan" menurut jam server, selesai < 28,5 dtk, atau > 3 menit. Satu ronde aktif per warga.
+- Bot yang mengetuk dengan pola manusia tetap mungkin; papan peringkat hanya untuk warga yang disetujui admin dan punya kode KTW.
 - Batas: 400 koin dari kerja per hari (sisanya terpotong), 25 ronde per hari. Upah masuk buku besar dengan jenis `kerja` dan tampil di riwayat dompet.
 - "Hasil kota hari ini" menjumlah ikan, ikat padi, dan paket dari semua warga.
+
+### Papan peringkat & juara mingguan
+
+- Di `/kerja` (bagian **Papan peringkat**, tautan langsung `/kerja.html#peringkat`): 10 besar tiap pekerjaan, **Minggu ini** atau **Hari ini**. Satu baris per warga (skor terbaiknya); seri dimenangkan yang lebih dulu mencapainya. Warga yang dihapus tidak tampil.
+- Kartu pekerjaan menampilkan peringkat mingguanmu; layar akhir ronde memberi tahu rekor pribadi baru dan posisimu.
+- Minggu berjalan Senin 00.00 – Minggu 23.59 WIB. Setelah minggu ditutup, juara 1/2/3 tiap pekerjaan otomatis dapat **1.000 / 600 / 300 koin** (jenis `juara` di dompet), dan Koran memuat pengumuman juara.
+- Juara minggu lalu dapat lencana 🥇🥈🥉 di kartu warganya di peta, selama seminggu.
 
 ## Pesta Rumah
 
@@ -160,14 +173,15 @@ Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua kli
 
 | Metode | Path | Isi |
 |---|---|---|
-| GET | `/api/city?b=<ember15dtk>` | `residents [seq,u,tiba,kapal]`, `queue`, jadwal kapal |
+| GET | `/api/city?b=<ember15dtk>&after=<seq>` | `residents [seq,u,tiba,kapal]` dengan seq > `after` (klien hanya minta warga baru), `queue` utuh, jadwal kapal, `looks`, `juara` |
 | GET | `/api/warga?u=` | status satu username |
 | POST | `/api/daftar` | `{username, setuju:true}` |
 | POST | `/api/keluar` | `{username}` |
 | GET | `/api/kabar?b=<ember30dtk>` | 20 kabar terbaru (sematan dulu) + acara 60 hari ke depan |
 | GET | `/api/kerja/kota` | hasil kerja seluruh kota hari ini |
+| GET | `/api/kerja/peringkat?p=minggu\|hari` | 10 besar per pekerjaan, jumlah peserta, juara minggu lalu, hadiah, waktu tutup minggu |
 | GET | `/api/kerja` | koin kerja hari ini, rekor, bonus profesi (header `Authorization: Bearer <token sesi>`) |
-| POST | `/api/kerja/mulai` · `/api/kerja/selesai` | `{game}` → `{round, seed, durasi}` · `{round, score}` → `{koin, terpotong, bonus, sisaHariIni}` |
+| POST | `/api/kerja/mulai` · `/api/kerja/selesai` | `{game}` → `{round, seed, durasi}` · `{round, ev:[[langkah,x,y],…]}` → `{score, koin, terpotong, bonus, sisaHariIni, peringkat, rekorBaru}` |
 | GET | `/api/butik` | katalog aksesori |
 | GET | `/api/dompet` | saldo, gaji, riwayat, barang (header `Authorization: Bearer <token sesi>`) |
 | POST | `/api/dompet/{absen,beli,pakai,kirim}` | `{}` · `{item}` · `{slot,item\|null}` · `{to,amount,note}` |

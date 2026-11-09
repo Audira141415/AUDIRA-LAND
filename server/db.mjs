@@ -56,7 +56,7 @@ export function createStore(db, { ferryEveryMs, ferryCap, leadMs = 30000 }) {
     approve: db.prepare("UPDATE residents SET status = 'approved', seq = ?, arrive_at = ?, ferry = ? WHERE username = ?"),
     setStatus: db.prepare('UPDATE residents SET status = ?, leave_req = 0 WHERE username = ?'),
     leave: db.prepare("UPDATE residents SET leave_req = 1 WHERE username = ? AND status IN ('approved', 'pending')"),
-    city: db.prepare("SELECT seq, username, arrive_at, ferry FROM residents WHERE status = 'approved' ORDER BY seq"),
+    city: db.prepare("SELECT seq, username, arrive_at, ferry FROM residents WHERE status = 'approved' AND seq > ? ORDER BY seq"),
     pending: db.prepare("SELECT username, source, created_at FROM residents WHERE status = 'pending' ORDER BY created_at LIMIT ?"),
     leaving: db.prepare('SELECT username, status, seq FROM residents WHERE leave_req = 1 ORDER BY username'),
     counts: db.prepare('SELECT status, COUNT(*) AS c FROM residents GROUP BY status'),
@@ -170,15 +170,17 @@ export function createStore(db, { ferryEveryMs, ferryCap, leadMs = 30000 }) {
     }, 0)),
     keep: us => tx(() => us.reduce((n, u) => n + db.prepare('UPDATE residents SET leave_req = 0 WHERE username = ?').run(u).changes, 0)),
 
-    city() {
+    // after = nomor urut terbesar yang sudah dimiliki klien: kirim warga baru saja (antrean kapal selalu utuh)
+    city(after = 0) {
       const now = Date.now(), residents = [], queue = [];
-      for (const r of q.city.all()) {
+      for (const r of q.city.all(after > 0 ? after : 0)) {
         const row = [r.seq, r.username, r.arrive_at, r.ferry];
         (r.arrive_at <= now ? residents : queue).push(row);
       }
-      return { v: 1, now, every: ferryEveryMs, cap: ferryCap, residents, queue };
+      return { v: 2, now, every: ferryEveryMs, cap: ferryCap, after: after > 0 ? after : 0, residents, queue };
     },
 
+    maxSeq: () => q.maxSeq.get().m,
     pending: (limit = 200) => q.pending.all(limit),
     leaving: () => q.leaving.all(),
     counts() {

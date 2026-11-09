@@ -21,18 +21,23 @@
 6. Taman warga realtime (chat untuk pemegang kode KTW)
 7. Koran & kalender kota
 
+## Sudah dibangun di luar MVP awal (diputuskan 9 Nov 2026)
+- Mini-game kerja (Nelayan, Petani, Kurir) dengan skor diputar ulang di server
+- Kompetisi antar warga: papan peringkat harian & mingguan, juara 1–3 dapat koin, lencana di peta
+- Dompet, butik aksesori, kirim koin, Pesta Rumah, Radio, Slot Sponsor
+
 ## Out of scope — not building this
 - Scraping Instagram atau sinkron follower otomatis
-- Uang asli, jual-beli antar warga, bursa saham
-- Mini-game kerja, kompetisi/PvP
+- Uang asli, jual-beli barang antar warga, bursa saham
+- PvP langsung (duel realtime); kompetisi cukup lewat papan peringkat
 - Kota satelit, aplikasi native
 - Slot sponsor baru (yang sudah dibuat tetap, tidak ditambah dulu)
 
 ## Build order
-1. Deploy publik + uji alur daftar → kapal dengan 20 follower asli (paling belum terbukti)
+1. Deploy publik (lihat DEPLOY.md) + uji alur daftar → kapal dengan 20 follower asli (paling belum terbukti). Bekukan peta dulu.
 2. Alasan kembali: kartu bisa dibagikan ke IG + kabar pribadi (naik jabatan, tetangga baru)
 3. Acara terjadwal di taman supaya ramai di jam tertentu
-4. Skala 10.000+ warga (kirim perubahan saja di `/api/city`)
+4. Skala 10.000+ warga (`/api/city?after=` sudah kirim warga baru saja; berikutnya: ukur di HP murah)
 5. Art bible lalu poles visual
 
 ---

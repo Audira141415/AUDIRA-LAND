@@ -1,7 +1,7 @@
 // AUDIRA LAND · server lokal: file statis + API warga. Tanpa dependensi npm.
 // Jalankan: node server/server.mjs
 import { createServer } from 'node:http';
-import { readFileSync, existsSync, writeFileSync, statSync, createReadStream } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync, statSync, createReadStream, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { join, resolve, extname, sep, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
@@ -12,6 +12,7 @@ import { createPesta } from './pesta.mjs';
 import { createEkonomi } from './ekonomi.mjs';
 import { loadWorld } from './world-node.mjs';
 import { createKerja } from './kerja.mjs';
+import { loadKerjaSim } from './kerja-sim-node.mjs';
 import { createKabar } from './kabar.mjs';
 import { createSponsor } from './sponsor.mjs';
 import { createRadio } from './radio.mjs';
@@ -39,6 +40,9 @@ const HOST = cfg('HOST') || '127.0.0.1';
 const FERRY_EVERY_S = Math.max(30, +(cfg('FERRY_EVERY_S') || 300));
 const FERRY_CAP = Math.max(1, +(cfg('FERRY_CAP') || 12));
 const ADMIN_TOKEN = Buffer.from(cfg('ADMIN_TOKEN'));
+// di belakang reverse proxy (Caddy/Nginx): pakai IP asli dari X-Forwarded-For untuk batas permintaan
+const TRUST_PROXY = cfg('TRUST_PROXY') === '1';
+const BACKUP_KEEP = Math.max(1, +(cfg('BACKUP_KEEP') || 14));
 
 const db = openDb(join(HERE, 'data', 'audira.db'));
 const store = createStore(db, { ferryEveryMs: FERRY_EVERY_S * 1000, ferryCap: FERRY_CAP });
@@ -47,8 +51,24 @@ const sponsor = createSponsor(db);
 const MEDIA_DIR = join(HERE, 'data', 'media');
 const radio = createRadio(db, MEDIA_DIR);
 const world = loadWorld(ROOT);
+
+// ---------- kunci peta: rumah, kerja & gaji warga diturunkan dari js/world.js ----------
+// Kalau peta/rumus berubah setelah ada warga, rumah & saldo semua warga ikut bergeser. Server menolak jalan
+// kecuali IZINKAN_UBAH_PETA=1 (atau belum ada warga sama sekali).
+{
+  db.exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT NOT NULL)');
+  const fp = world.fingerprint(), lama = db.prepare("SELECT v FROM meta WHERE k = 'peta'").get()?.v;
+  const simpan = () => db.prepare("INSERT INTO meta (k, v) VALUES ('peta', ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v").run(fp);
+  if (!lama || lama === fp || store.maxSeq() === 0) simpan();
+  else if (cfg('IZINKAN_UBAH_PETA') === '1') { simpan(); console.warn('[audira] PERINGATAN: peta berubah setelah ada warga (IZINKAN_UBAH_PETA=1). Rumah, kerja & gaji warga ikut bergeser.'); }
+  else {
+    console.error('[audira] js/world.js berubah setelah ada warga. Ini akan memindah rumah, kerja, dan saldo semua warga.\n' +
+      '  - Kembalikan perubahan peta, atau\n  - jalankan sekali dengan IZINKAN_UBAH_PETA=1 kalau memang disengaja, atau\n  - npm run seed:hapus bila masih data contoh.');
+    process.exit(1);
+  }
+}
 const ekonomi = createEkonomi(db, { world });
-const kerja = createKerja(db, { world, ekonomi });
+const kerja = createKerja(db, { world, ekonomi, sim: loadKerjaSim(ROOT), kabar });
 const taman = createTaman({ store, map: JSON.parse(readFileSync(join(ROOT, 'js', 'taman-map.json'), 'utf8')), itemsOf: ekonomi.itemsOf });
 const pesta = createPesta(db, { store, itemsOf: ekonomi.itemsOf, map: JSON.parse(readFileSync(join(ROOT, 'js', 'pesta-map.json'), 'utf8')) });
 
@@ -81,6 +101,13 @@ function isAdmin(req) {
   const got = Buffer.from(m[1]);
   return got.length === ADMIN_TOKEN.length && timingSafeEqual(got, ADMIN_TOKEN);
 }
+function clientIp(req) {
+  if (TRUST_PROXY) {
+    const xf = String(req.headers['x-forwarded-for'] || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (xf.length) return xf[xf.length - 1];
+  }
+  return req.socket.remoteAddress || '?';
+}
 // batas permintaan per IP: maks n dalam jendela ms
 const hits = new Map();
 function limited(ip, key, n, ms) {
@@ -100,16 +127,18 @@ function usernamesFrom(body) {
 
 // ---------- API ----------
 async function api(req, res, url) {
-  const ip = req.socket.remoteAddress || '?';
+  const ip = clientIp(req);
   const p = url.pathname, m = req.method;
 
   if (p === '/api/city' && m === 'GET') {
-    return send(res, 200, { ...store.city(), looks: ekonomi.looks() }, { 'Cache-Control': 'public, max-age=10' });
+    const after = Math.max(0, Math.floor(+url.searchParams.get('after') || 0));
+    return send(res, 200, { ...store.city(after), looks: ekonomi.looks(), juara: kerja.juaraLalu() }, { 'Cache-Control': 'public, max-age=10' });
   }
 
   // ----- dompet warga (header Authorization: Bearer <token sesi KTW>) -----
   if (p === '/api/butik' && m === 'GET') return send(res, 200, { items: ekonomi.ITEMS }, { 'Cache-Control': 'public, max-age=300' });
   if (p === '/api/kerja/kota' && m === 'GET') return send(res, 200, { kota: kerja.kota() }, { 'Cache-Control': 'public, max-age=20' });
+  if (p === '/api/kerja/peringkat' && m === 'GET') return send(res, 200, kerja.peringkat(url.searchParams.get('p')), { 'Cache-Control': 'public, max-age=15' });
   if (p.startsWith('/api/kerja')) {
     const mt = (req.headers.authorization || '').match(/^Bearer (.+)$/);
     const sess = mt ? store.session(mt[1]) : null;
@@ -118,9 +147,9 @@ async function api(req, res, url) {
     if (a === '' && m === 'GET') return send(res, 200, kerja.status(sess.username), { 'Cache-Control': 'no-store' });
     if (m !== 'POST') return send(res, 405, { error: 'Metode tidak didukung' });
     if (limited(ip, 'kerja', 40, 600e3)) return send(res, 429, { error: 'Terlalu cepat. Tunggu sebentar.' });
-    const body = await readJson(req, 1024);
+    const body = await readJson(req, 16384);
     if (a === '/mulai') return send(res, 200, kerja.mulai(sess.username, String(body.game || '')));
-    if (a === '/selesai') return send(res, 200, kerja.selesai(sess.username, body.round, body.score));
+    if (a === '/selesai') return send(res, 200, kerja.selesai(sess.username, body.round, body.ev));
     return send(res, 404, { error: 'Tidak ditemukan' });
   }
   if (p.startsWith('/api/dompet')) {
@@ -317,6 +346,31 @@ server.on('upgrade', (req, socket) => {
   conn.send(JSON.stringify({ t: 'err', m: 'Pesta ini sudah selesai atau tidak ada.', fatal: 1 }));
   conn.close(4002);
 });
+// ---------- cadangan database harian (VACUUM INTO, aman saat server jalan) ----------
+const BACKUP_DIR = join(HERE, 'data', 'backup');
+function backup() {
+  mkdirSync(BACKUP_DIR, { recursive: true });
+  const day = new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10);
+  const file = join(BACKUP_DIR, `audira-${day}.db`);
+  if (existsSync(file)) return null;
+  db.exec(`VACUUM INTO '${file.replace(/'/g, "''")}'`);
+  const old = readdirSync(BACKUP_DIR).filter(f => /^audira-\d{4}-\d{2}-\d{2}\.db$/.test(f)).sort().slice(0, -BACKUP_KEEP);
+  for (const f of old) rmSync(join(BACKUP_DIR, f), { force: true });
+  console.log('[audira] cadangan database:', file);
+  return file;
+}
+try { backup(); } catch (e) { console.error('[audira] cadangan gagal', e.message); }
+setInterval(() => { try { backup(); } catch (e) { console.error('[audira] cadangan gagal', e.message); } }, 3600e3).unref();
+
+// berhenti rapi (systemd/Docker kirim SIGTERM): tutup koneksi lalu database
+function stop(sig) {
+  console.log(`[audira] ${sig}: berhenti…`);
+  server.close();
+  setTimeout(() => { try { db.close(); } catch { /* sudah tertutup */ } process.exit(0); }, 500).unref();
+}
+process.on('SIGTERM', () => stop('SIGTERM'));
+process.on('SIGINT', () => stop('SIGINT'));
+
 server.listen(PORT, HOST, () => {
   console.log(`[audira] AUDIRA LAND jalan di http://${HOST === '127.0.0.1' ? 'localhost' : HOST}:${PORT}  (admin: /admin)  kapal tiap ${FERRY_EVERY_S} dtk, maks ${FERRY_CAP} warga`);
 });

@@ -4,6 +4,12 @@
   const $ = id => document.getElementById(id);
   const esc = AL.esc;
   let cardRes = null, cardTimer = 0;
+  const KERJA_NAMA = { nelayan: 'Nelayan', petani: 'Petani', kurir: 'Kurir' }, MEDAL = ['🥇', '🥈', '🥉'];
+  // lencana juara kerja minggu lalu (dari /api/city)
+  function juaraBadge(u) {
+    const list = (AL.net && AL.net.juara && AL.net.juara[u]) || [];
+    return list.length ? `<p class="juara"><a href="/kerja.html#peringkat">${list.map(([g, r]) => `${MEDAL[r - 1]} Juara ${r} ${esc(KERJA_NAMA[g] || g)}`).join(' · ')}</a></p>` : '';
+  }
 
   function residentCard(res) {
     const now = Date.now();
@@ -19,6 +25,7 @@
           <p class="u">@${esc(res.u)}</p>
           <p class="title">${esc(c.title)} <span class="lv">Lv ${c.lvl}</span></p>
           <p class="since">Warga sejak ${AL.fmtDate(res.joined)} · ${AL.fmtDur(now - res.joined)}</p>
+          ${juaraBadge(res.u)}
         </div>
       </div>
       <dl>

@@ -8,7 +8,7 @@
   try { token = localStorage.getItem(TK) || ''; user = localStorage.getItem(UK) || ''; } catch (e) { /* abaikan */ }
   const fmt = n => Math.floor(n).toLocaleString('id-ID');
   const SLOT = { kepala: 'Kepala', mata: 'Mata', leher: 'Leher', aura: 'Aura' };
-  const KIND = { absen: 'Absen harian', beli: 'Belanja', kirim: 'Kirim ke', terima: 'Dari', hadiah: 'Hadiah', kerja: 'Kerja' };
+  const KIND = { absen: 'Absen harian', beli: 'Belanja', kirim: 'Kirim ke', terima: 'Dari', hadiah: 'Hadiah', kerja: 'Kerja', juara: 'Hadiah juara' };
 
   async function api(path, body) {
     const r = await fetch(path, {
