@@ -7,15 +7,16 @@
   AL.parseItems = s => (s ? String(s).split(',').filter(Boolean) : []);
 
   // ---- di kepala/badan pejalan kecil: (hx,hy) pusat kepala, s skala ----
-  function itemsSmall(c, hx, hy, s, L, t, neckY) {
+  function itemsSmall(c, hx, hy, s, L, t, neckY, back) {
     if (has(L, 'syal-batik')) {
       c.fillStyle = '#8a6440'; c.fillRect(hx - 3.3 * s, neckY - 0.6 * s, 6.6 * s, 1.9 * s);
       c.fillStyle = '#c8ad80'; c.fillRect(hx - 3.3 * s, neckY, 6.6 * s, 0.6 * s);
       c.fillStyle = '#8a6440'; c.fillRect(hx + 1.4 * s, neckY + 1 * s, 1.5 * s, 3 * s);
     }
     if (has(L, 'kalung-kerang')) for (let k = -2; k <= 2; k++) circle(c, hx + k * 1.1 * s, neckY + 0.6 * s + Math.abs(k) * -0.3 * s, 0.55 * s, k % 2 ? '#f3ece2' : '#d9a99d');
-    if (has(L, 'kacamata-hitam')) { c.fillStyle = '#16181f'; c.fillRect(hx - 2.6 * s, hy - 0.2 * s, 5.4 * s, 1.3 * s); }
-    if (has(L, 'kacamata-bulat')) {
+    // membelakangi kamera: kacamata tidak terlihat
+    if (!back && has(L, 'kacamata-hitam')) { c.fillStyle = '#16181f'; c.fillRect(hx - 2.6 * s, hy - 0.2 * s, 5.4 * s, 1.3 * s); }
+    if (!back && has(L, 'kacamata-bulat')) {
       c.strokeStyle = '#3a2b20'; c.lineWidth = Math.max(0.6, 0.45 * s);
       c.beginPath(); c.arc(hx - 1.1 * s, hy + 0.4 * s, 0.95 * s, 0, 7); c.stroke();
       c.beginPath(); c.arc(hx + 1.5 * s, hy + 0.4 * s, 0.95 * s, 0, 7); c.stroke();
@@ -188,14 +189,19 @@
       if (pet) {
         const s = k * 0.9, nt = (night || 0) * 0.5;
         const col = h => (nt > 0 ? AL.mix(h, AL.NIGHT, nt) : h);
-        PETS[pet](c, x - 7.5 * s, y + 0.6 * s, s, (t || 0) * 9, !!t, performance.now() / 1000, col, false);
+        // hewan mengikuti di belakang pemilik: berjalan ke kiri layar = dicerminkan, pindah ke sisi kanan
+        if ((L._hx || 0) < 0) {
+          c.save(); c.translate(x + 7.5 * s, y + 0.6 * s); c.scale(-1, 1);
+          PETS[pet](c, 0, 0, s, (t || 0) * 9, !!t, performance.now() / 1000, col, false);
+          c.restore();
+        } else PETS[pet](c, x - 7.5 * s, y + 0.6 * s, s, (t || 0) * 9, !!t, performance.now() / 1000, col, false);
       }
     }
     baseWalker(c, x, y, k, L, t, night);
     if (!items || k < 0.45) return;
     // posisi kepala sama dengan avatar.js (s = k*0.9, kepala di y-14.5s, leher di y-11.5s)
-    const s = k * 0.9, bob = Math.abs(Math.sin(t * 9)) * 0.8 * s;
-    itemsSmall(c, x, y - 14.5 * s - bob, s, L, t, y - 11.5 * s - bob);
+    const s = k * 0.9, bob = AL.walkerBob ? AL.walkerBob(t, s) : 0;
+    itemsSmall(c, x, y - 14.5 * s - bob, s, L, t, y - 11.5 * s - bob, !!L._bk);
   };
 
   // ---- potret kartu: kepala di (S/2, 0.42S), R = 0.2S ----

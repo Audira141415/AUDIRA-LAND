@@ -1,57 +1,55 @@
-/* Fitur kota di peta: Voting, Corong Kota (banner + dialog), Jelajah. Token warna dari style.css. */
+/* Fitur kota di peta: Voting, Corong Kota (banner + dialog), Jelajah. Token warna, sudut, bayangan, jarak dari style.css. */
 
 /* ---------- tombol alat ---------- */
-.voting-btn { position: relative; color: var(--ink); }
-.voting-btn .dot { position: absolute; top: 7px; right: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 2px var(--paper); }
-.voting-btn .dot[hidden] { display: none; }
+.voting-btn { position: relative; color: var(--ink); } /* titik penanda: .tools button > .dot di style.css */
 
 /* ---------- dialog kota (voting & corong) ---------- */
 .kota-sheet { width: min(520px, calc(100% - 32px)); max-height: min(86vh, 820px); }
-.kt-in { position: relative; padding: 22px; display: grid; gap: 12px; }
-.kt-in h2 { margin: 0 40px 0 0; font-size: 21px; font-weight: 800; }
-.kt-in .kicker { margin: 0; }
-.kt-lead { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
-.kt-body { display: grid; gap: 12px; min-width: 0; }
+/* .kt-in, h2, .kicker: kepala sheet bersama di style.css */
+.kt-lead { margin: 0; color: var(--ink-2); font-size: var(--fs-body); line-height: 1.5; }
+.kt-body { display: grid; gap: var(--s-3); min-width: 0; }
 .kt-body form { padding: 0; }
-.kt-sub { margin: 6px 0 0; font-size: 15px; font-weight: 800; }
-.kt-empty { margin: 0; padding: 14px; border-radius: 14px; background: var(--paper-2); color: var(--ink-2); font-size: 14px; line-height: 1.5; list-style: none; }
+.kt-sub { margin: 6px 0 0; font-size: var(--fs-lead); font-weight: 800; }
+.kt-empty { list-style: none; }
 .kt-note { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
 .kt-login { display: grid; gap: 10px; }
 .kt-area { display: grid; gap: 4px; }
-.kt-area textarea { width: 100%; box-sizing: border-box; resize: none; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 0 0 2px var(--line) inset;
-  padding: 10px 14px; font: inherit; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; outline: none; }
-.kt-area textarea:focus { box-shadow: 0 0 0 2px var(--teal) inset; }
-.kt-area small { justify-self: end; font-size: 12px; color: var(--ink-2); }
+.kt-area textarea { width: 100%; box-sizing: border-box; resize: none; border: 0; border-radius: var(--r-md); background: #fff; box-shadow: var(--ring-2);
+  padding: 10px 14px; font: inherit; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; outline: none; transition: box-shadow var(--t-fast) ease; }
+.kt-area textarea:focus { box-shadow: 0 0 0 2px var(--ink) inset; }
+.kt-area small { justify-self: end; font-size: var(--fs-sm); color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .kt-corong { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; width: 100%;
-  border: 0; border-radius: 14px; padding: 12px 14px; background: var(--ink); color: var(--paper); font: inherit; cursor: pointer; }
+  border: 0; border-radius: var(--r-md); padding: 12px 14px; min-height: var(--tap); background: var(--ink); color: var(--paper); font: inherit; cursor: pointer;
+  transition: filter var(--t-fast) ease; }
+.kt-corong:hover { filter: brightness(1.12); }
 .kt-corong[hidden] { display: none; }
 .kt-corong > span:first-child { font-size: 22px; }
-.kt-corong b { display: block; font-size: 15px; }
-.kt-corong small { display: block; font-size: 12px; opacity: .8; }
+.kt-corong b { display: block; font-size: var(--fs-lead); }
+.kt-corong small { display: block; font-size: var(--fs-sm); opacity: .85; }
 
 /* ---------- voting ---------- */
-.vt-poll { display: grid; gap: 8px; padding: 14px; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px var(--line) inset; }
+.vt-poll { display: grid; gap: 8px; padding: 14px; border-radius: var(--r-lg); background: #fff; box-shadow: var(--ring); }
 .vt-poll h3 { margin: 0; font-size: 16px; font-weight: 800; line-height: 1.35; }
-.vt-meta { margin: 0; font-size: 12px; color: var(--ink-2); font-weight: 600; }
+.vt-meta { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); font-weight: 600; font-variant-numeric: tabular-nums; }
 .vt-opts { display: grid; gap: 6px; }
-.vt-opt { position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%;
-  border: 0; border-radius: 12px; padding: 11px 12px; background: var(--paper-2); color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; text-align: left; }
+.vt-opt { position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; min-height: var(--tap);
+  border: 0; border-radius: var(--r-md); padding: 10px 12px; background: var(--paper-2); color: var(--ink); font: inherit; font-size: var(--fs-body); font-weight: 700; text-align: left; }
 button.vt-opt { cursor: pointer; }
-button.vt-opt:hover { box-shadow: 0 0 0 2px var(--line) inset; }
-.vt-opt.mine { box-shadow: 0 0 0 2px var(--coral) inset; }
-.vt-fill { position: absolute; inset: 0; transform-origin: left center; transform: scaleX(0); background: rgba(95, 158, 152, .28); transition: transform .5s ease; }
+button.vt-opt:hover { box-shadow: var(--ring-2); }
+.vt-opt.mine { box-shadow: var(--ring-me); }
+.vt-fill { position: absolute; inset: 0; transform-origin: left center; transform: scaleX(0); background: rgba(95, 158, 152, .28); transition: transform .5s var(--ease); }
 .vt-opt.mine .vt-fill { background: rgba(255, 122, 89, .22); }
 .vt-opt.top .vt-fill { background: rgba(255, 209, 102, .5); }
 .vt-o, .vt-n { position: relative; }
 .vt-o { min-width: 0; overflow-wrap: anywhere; }
-.vt-n { white-space: nowrap; font-weight: 800; }
+.vt-n { white-space: nowrap; font-weight: 800; font-variant-numeric: tabular-nums; }
 .vt-n small { font-weight: 600; color: var(--ink-2); margin-left: 2px; }
 .vt-mine { font-style: normal; color: var(--coral-ink); margin-right: 6px; }
-.vt-hint { margin: 0; font-size: 12px; color: var(--ink-2); }
+.vt-hint { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }
 .vt-old { display: grid; gap: 10px; }
-.vt-old summary { cursor: pointer; font-weight: 800; font-size: 14px; padding: 4px 0; }
+.vt-old summary { cursor: pointer; font-weight: 800; font-size: var(--fs-body); padding: 8px 0; border-radius: var(--r-sm); }
 .vt-old[open] summary { margin-bottom: 10px; }
 .vt-old .vt-poll + .vt-poll { margin-top: 10px; }
 .vt-poll.done { background: var(--paper-2); box-shadow: none; }
@@ -59,58 +57,56 @@ button.vt-opt:hover { box-shadow: 0 0 0 2px var(--line) inset; }
 @media (prefers-reduced-motion: reduce) { .vt-fill { transition: none; } }
 
 /* ---------- corong: dialog ---------- */
-.cr-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 14px; line-height: 1.5; }
-.cr-steps small { display: block; color: var(--ink-2); font-size: 12px; margin-top: 4px; }
+.cr-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: var(--fs-body); line-height: 1.5; }
+.cr-steps small { display: block; color: var(--ink-2); font-size: var(--fs-sm); margin-top: 4px; }
 .cr-steps .cr-saw { margin-top: 6px; display: inline-block; background: var(--coral); color: var(--ink); }
-.cr-harga { display: inline-block; padding: 2px 8px; font-size: 12px; font-weight: 800; box-shadow: 0 0 0 1px var(--line) inset; }
+.cr-harga { display: inline-block; padding: 2px 8px; font-size: var(--fs-sm); font-weight: 800; box-shadow: var(--ring); font-variant-numeric: tabular-nums; }
 .cr-form { display: grid; gap: 10px; }
 .cr-hist, .cr-mine { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.cr-hist li, .cr-mine li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: #fff; box-shadow: 0 0 0 1px var(--line) inset; font-size: 14px; }
+.cr-hist li, .cr-mine li { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--r-md); background: #fff; box-shadow: var(--ring); font-size: var(--fs-body); }
 .cr-hist li span, .cr-mine li > span:not(.cr-st) { overflow-wrap: anywhere; line-height: 1.4; }
-.cr-hist small, .cr-mine small { font-size: 11px; color: var(--ink-2); }
+.cr-hist small, .cr-mine small { font-size: var(--fs-kicker); color: var(--ink-2); }
 .cr-hist li.kt-empty { background: var(--paper-2); box-shadow: none; }
-.cr-st { justify-self: start; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--paper-2); color: var(--ink-2); }
-.cr-st.ok { background: #dff3ea; color: #145c43; }
+.cr-st { justify-self: start; font-size: var(--fs-kicker); font-weight: 800; padding: 2px 8px; border-radius: var(--r-pill); background: var(--paper-2); color: var(--ink-2); }
+.cr-st.ok { background: var(--ok-bg); color: var(--ok-ink); }
 .cr-st.on { background: var(--ink); color: var(--sun); }
 .cr-st.done { background: var(--paper-2); color: var(--ink); }
-.cr-st.no { background: #fde4dd; color: #8a2a14; }
+.cr-st.no { background: var(--err-bg); color: var(--err-ink); }
 
 /* ---------- corong: banner siaran ---------- */
 .corong-banner { position: fixed; z-index: 30; left: 50%; top: calc(70px + var(--safe-t)); width: min(560px, calc(100% - 32px));
-  transform: translate(-50%, -14px); opacity: 0; transition: transform .25s ease, opacity .25s ease;
+  transform: translate(-50%, -14px); opacity: 0; transition: transform var(--t-slow) var(--ease), opacity var(--t-med) ease;
   display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; overflow: hidden;
-  background: var(--paper); border-radius: 18px; box-shadow: var(--shadow), 0 0 0 2px var(--sun) inset; }
+  background: var(--paper); border-radius: var(--r-lg); box-shadow: var(--shadow), 0 0 0 2px var(--sun) inset; }
 .corong-banner[hidden] { display: none; }
 .corong-banner.in { transform: translate(-50%, 0); opacity: 1; }
-.corong-banner.admin { background: var(--ink); color: var(--paper); }
+.corong-banner.admin { background: var(--ink); color: var(--paper); --focus-c: var(--sun); }
 .cb-main { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; text-align: left;
   border: 0; background: none; color: inherit; font: inherit; padding: 10px 6px 12px 14px; cursor: pointer; }
 .cb-ic { font-size: 22px; }
 .cb-txt { display: grid; min-width: 0; }
-.cb-who { font-size: 11px; font-weight: 800; letter-spacing: .04em; color: var(--coral-ink); }
+.cb-who { font-size: var(--fs-kicker); font-weight: 800; letter-spacing: .04em; color: var(--coral-ink); }
 .corong-banner.admin .cb-who { color: var(--sun); }
-.cb-msg { font-size: 15px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.cb-x { width: 32px; height: 32px; margin-right: 10px; border-radius: 50%; border: 0; background: var(--paper-2); color: var(--ink); font-size: 18px; cursor: pointer; }
+.cb-msg { font-size: var(--fs-lead); font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cb-x { margin-right: 10px; font-size: 18px; } /* bentuk: .close bersama di style.css */
 .cb-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(20, 50, 74, .08); }
 .cb-bar i { display: block; height: 100%; background: var(--sun); transform-origin: left center; }
 @media (max-width: 640px) { .corong-banner { top: calc(64px + var(--safe-t)); } }
 @media (prefers-reduced-motion: reduce) { .corong-banner { transition: none; } }
 
-/* ---------- jelajah ---------- */
-.jelajah-pill { position: fixed; left: 16px; bottom: calc(292px + var(--safe-b));
-  display: flex; align-items: center; gap: 6px; padding: 10px 14px; font-weight: 800; font-size: 14px; color: var(--ink); border: 0; cursor: pointer; }
-.card:not([hidden]) ~ .jelajah-pill { display: none; }
-@media (max-width: 640px) { .jelajah-pill { bottom: calc(272px + var(--safe-b)); } }
+/* ---------- jelajah (posisi pill: tumpukan kiri di style.css) ---------- */
+.jelajah-pill { cursor: pointer; }
 .jelajah-sheet { width: min(480px, calc(100% - 32px)); }
 .jl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.jl-list a { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px;
-  background: #fff; box-shadow: 0 0 0 1px var(--line) inset; color: var(--ink); text-decoration: none; }
+.jl-list a { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--r-md);
+  background: #fff; box-shadow: var(--ring); color: var(--ink); text-decoration: none; }
 .jl-list a:hover { background: var(--paper-2); }
-.jl-ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--paper-2); }
-.jl-list b { display: block; font-size: 15px; }
-.jl-list small { display: block; font-size: 12px; color: var(--ink-2); line-height: 1.35; }
-.jl-list .jl-go { font-size: 18px; color: var(--ink-2); }
+.jl-list a:hover .jl-go { transform: translateX(2px); color: var(--ink); }
+.jl-ic { width: 40px; height: 40px; border-radius: var(--r-md); display: grid; place-items: center; font-size: 20px; background: var(--paper-2); }
+.jl-list b { display: block; font-size: var(--fs-lead); }
+.jl-list small { display: block; font-size: var(--fs-sm); color: var(--ink-2); line-height: 1.35; }
+.jl-list .jl-go { font-size: 20px; color: var(--ink-2); transition: transform var(--t-fast) var(--ease), color var(--t-fast) ease; }
 
 /* ---------- kartu warga: tautan tambahan ---------- */
 .card .acts.more { margin-top: 8px; flex-wrap: wrap; }
-.card .acts.more .btn { font-size: 13px; padding: 9px 10px; }
+.card .acts.more .btn { font-size: 13px; padding: 8px 10px; }

@@ -30,6 +30,24 @@
     this.poly([[x + w, y, z0], [x + w, y + d, z0], [x + w, y + d, t], [x + w, y, t]], AL.shade(color, 0.74));
     this.poly([[x, y, t], [x + w, y, t], [x + w, y + d, t], [x, y + d, t]], o.top || AL.shade(color, 1.07));
     if (o.win) this.windows(x, y, w, d, z0, h, o);
+    // oklusi di kaki dinding (benda yang berdiri di tanah) + garis sorot tepi atas: bentuk lebih tegas tanpa garis hitam
+    if (z0 === 0 && h > 0.12 && w > 0.1 && d > 0.1) {
+      const ah = Math.min(0.3, h * 0.45), c = this.c;
+      for (const f of [[[x, y + d], [x + w, y + d]], [[x + w, y], [x + w, y + d]]]) {
+        const a = this.P(f[0][0], f[0][1], 0), b = this.P(f[1][0], f[1][1], 0), a2 = this.P(f[0][0], f[0][1], ah);
+        const g = c.createLinearGradient(0, a[1], 0, a2[1]);
+        g.addColorStop(0, 'rgba(20,35,55,.22)'); g.addColorStop(1, 'rgba(20,35,55,0)');
+        const b2 = this.P(f[1][0], f[1][1], ah);
+        c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.lineTo(b2[0], b2[1]); c.lineTo(a2[0], a2[1]); c.closePath();
+        c.fillStyle = g; c.fill();
+      }
+    }
+    if (this.s >= 0.45 && h > 0.08) {
+      const c = this.c, p1 = this.P(x, y + d, t), p2 = this.P(x + w, y + d, t), p3 = this.P(x + w, y, t);
+      c.strokeStyle = this.n ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.38)';
+      c.lineWidth = Math.max(0.6, 0.9 * this.s); c.lineJoin = 'round';
+      c.beginPath(); c.moveTo(p1[0], p1[1]); c.lineTo(p2[0], p2[1]); c.lineTo(p3[0], p3[1]); c.stroke();
+    }
   };
   P.winQuad = function (pts, f, dayC, rng) {
     const lit = rng() < 0.55;
@@ -610,6 +628,12 @@
   AL.buildGround = function () {
     const { W, H, T, tiles, lotAt, lots } = AL;
     const paths = new Map();
+    // lapisan dari bawah ke atas: tepi pantai dibulatkan dengan gumpal elips di petak tepi, lalu petak penuh di atasnya
+    for (const c of ['#6cc0cf', '#7fcbd8', '#dcc48f', '#efdcaa', '#9fc386', '#a3c78a', '#9cc184']) paths.set(c, new Path2D());
+    const blob = (col, x, y, k) => {
+      const p = paths.get(col), c = AL.toWorld(x + 0.5, y + 0.5);
+      p.moveTo(c.x + TW / 2 * k, c.y); p.ellipse(c.x, c.y, TW / 2 * k, TH / 2 * k, 0, 0, Math.PI * 2);
+    };
     const add = (col, x, y) => {
       let p = paths.get(col);
       if (!p) { p = new Path2D(); paths.set(col, p); }
@@ -629,6 +653,57 @@
       else if (t === T.DOCK) col = '#b48a5a';
       else if (t === T.LOT) col = LOTG[lots[lotAt[y * W + x]].type] || '#b7dd90';
       if (col) add(col, x, y);
+      // tepi: gumpal sedikit lebih besar dari petak supaya garis pantai tidak bergerigi
+      const nb = k => AL.tileAt(x - 1, y) === k || AL.tileAt(x + 1, y) === k || AL.tileAt(x, y - 1) === k || AL.tileAt(x, y + 1) === k;
+      if (t === T.SHALLOW && nb(T.DEEP)) blob('#7fcbd8', x, y, 1.25);
+      else if (t === T.SAND && nb(T.SHALLOW)) { blob('#dcc48f', x, y, 1.42); blob('#efdcaa', x, y, 1.22); }
+      else if (t === T.GRASS && nb(T.SAND)) blob('#a3c78a', x, y, 1.2);
+    }
+    // air dangkal di sisi laut lepas: lingkaran lebih gelap di bawahnya = tepi palung
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      if (tiles[y * W + x] !== T.SHALLOW) continue;
+      if (AL.tileAt(x - 1, y) === T.DEEP || AL.tileAt(x + 1, y) === T.DEEP || AL.tileAt(x, y - 1) === T.DEEP || AL.tileAt(x, y + 1) === T.DEEP) blob('#6cc0cf', x, y, 1.6);
+    }
+    // detail tanah: rumpun rumput, kerikil di jalan tanah, butir pasir (digambar sekali sebagai Path2D)
+    // dibagi potongan 16×16 petak: hanya potongan yang terlihat yang digambar (penting saat zoom dekat)
+    const CH = 16, chunks = new Map(), TANAH = new Set(['gubuk', 'warung', 'pasar']);
+    const chunk = (x, y) => {
+      const k = (x >> 4) + ',' + (y >> 4);
+      let c = chunks.get(k);
+      if (!c) {
+        const cx = (x >> 4) * CH, cy = (y >> 4) * CH, l = AL.toWorld(cx, cy + CH), r = AL.toWorld(cx + CH, cy), tp = AL.toWorld(cx, cy), bt = AL.toWorld(cx + CH, cy + CH);
+        c = { x0: l.x - TW * 2, x1: r.x + TW * 2, y0: tp.y - TH * 3, y1: bt.y + TH * 2, tuft: new Path2D(), grit: new Path2D(), sandDot: new Path2D(), shore: new Path2D(), patch: new Path2D() };
+        chunks.set(k, c);
+      }
+      return c;
+    };
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const t = tiles[y * W + x];
+      const { tuft, grit, sandDot, patch } = chunk(x, y);
+      // halaman tanah kampung: tambalan rumput + rumpun, supaya tidak satu warna polos
+      if (t === T.LOT && TANAH.has(lots[lotAt[y * W + x]].type)) {
+        if (AL.ihash(x, y, 50) < 0.55) {
+          const c = AL.toWorld(x + 0.25 + AL.ihash(x, y, 51) * 0.5, y + 0.25 + AL.ihash(x, y, 52) * 0.5), r = 6 + AL.ihash(x, y, 53) * 8;
+          patch.moveTo(c.x + r, c.y); patch.ellipse(c.x, c.y, r, r * 0.5, 0, 0, Math.PI * 2);
+        }
+        if (AL.ihash(x, y, 54) < 0.6) { const c = AL.toWorld(x + AL.ihash(x, y, 55), y + AL.ihash(x, y, 56)); tuft.moveTo(c.x - 2, c.y); tuft.lineTo(c.x - 1, c.y - 3); tuft.moveTo(c.x, c.y); tuft.lineTo(c.x + 0.5, c.y - 4); tuft.moveTo(c.x + 2, c.y); tuft.lineTo(c.x + 2.5, c.y - 2.6); }
+      }
+      if (t === T.GRASS) {
+        for (let k = 0; k < 3; k++) {
+          if (AL.ihash(x * 3 + k, y, 41) > 0.55) continue;
+          const c = AL.toWorld(x + 0.15 + AL.ihash(x, y + k, 42) * 0.7, y + 0.15 + AL.ihash(x + k, y, 43) * 0.7);
+          tuft.moveTo(c.x - 2, c.y); tuft.lineTo(c.x - 1, c.y - 3); tuft.moveTo(c.x, c.y); tuft.lineTo(c.x + 0.5, c.y - 4); tuft.moveTo(c.x + 2, c.y); tuft.lineTo(c.x + 2.5, c.y - 2.6);
+        }
+      } else if (t === T.ROAD && AL.district && AL.district(x, y) === 'kampung' && !(AL.bridges && AL.bridges.has(y * W + x))) {
+        for (let k = 0; k < 4; k++) { const c = AL.toWorld(x + AL.ihash(x, y + k, 44), y + AL.ihash(x + k, y, 45)); grit.moveTo(c.x + 1, c.y); grit.arc(c.x, c.y, 1, 0, Math.PI * 2); }
+        // rumput liar di pinggir jalan tanah
+        if (AL.ihash(x, y, 57) < 0.4) {
+          const e = AL.ihash(x, y, 58) < 0.5 ? 0.12 : 0.88, c = AL.toWorld(x + e, y + AL.ihash(x, y, 59)), r = 5 + AL.ihash(x, y, 60) * 6;
+          patch.moveTo(c.x + r, c.y); patch.ellipse(c.x, c.y, r, r * 0.5, 0, 0, Math.PI * 2);
+        }
+      } else if (t === T.SAND) {
+        for (let k = 0; k < 3; k++) { const c = AL.toWorld(x + AL.ihash(x, y + k, 46), y + AL.ihash(x + k, y, 47)); sandDot.moveTo(c.x + 0.8, c.y); sandDot.arc(c.x, c.y, 0.8, 0, Math.PI * 2); }
+      }
     }
     // garis: marka jalan, pematang sawah, papan dermaga
     const marks = new Path2D(), field = new Path2D(), planks = new Path2D(), foam = new Path2D();
@@ -668,7 +743,17 @@
       const n = (isRoad(x + 1, y) ? 1 : 0) + (isRoad(x - 1, y) ? 1 : 0) + (isRoad(x, y + 1) ? 1 : 0) + (isRoad(x, y - 1) ? 1 : 0);
       if (n >= 3) lamps.push(AL.toWorld(x + 0.5, y + 0.5));
     }
-    AL.ground = { paths, marks, field, planks, foam, waves, lamps };
+    // garis pantai untuk buih yang bergerak: tepi gumpal pasir yang menghadap air
+    const glint = [];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const t = tiles[y * W + x], shore = chunk(x, y).shore;
+      if (t === T.SAND && (AL.tileAt(x - 1, y) === T.SHALLOW || AL.tileAt(x + 1, y) === T.SHALLOW || AL.tileAt(x, y - 1) === T.SHALLOW || AL.tileAt(x, y + 1) === T.SHALLOW)) {
+        const c = AL.toWorld(x + 0.5, y + 0.5), k = 1.5;
+        shore.moveTo(c.x + TW / 2 * k, c.y); shore.ellipse(c.x, c.y, TW / 2 * k, TH / 2 * k, 0, 0, Math.PI * 2);
+      }
+      if (t <= T.SHALLOW && AL.ihash(x, y, 48) < 0.05) glint.push([AL.toWorld(x + 0.5, y + 0.5), AL.ihash(x, y, 49) * 6.28]);
+    }
+    AL.ground = { paths, marks, field, planks, foam, waves, lamps, chunks: [...chunks.values()], glint };
   };
 
   AL.drawGround = function (ctx, cam, vw, vh, dpr, t) {
@@ -679,8 +764,33 @@
     ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
     ctx.stroke(g.waves);
     ctx.restore();
+    // potongan detail yang terlihat (koordinat dunia)
+    const wx0 = cam.x - vw / 2 / z, wx1 = cam.x + vw / 2 / z, wy0 = cam.y - vh / 2 / z, wy1 = cam.y + vh / 2 / z;
+    const vis = g.chunks.filter(c => c.x1 > wx0 && c.x0 < wx1 && c.y1 > wy0 && c.y0 < wy1);
+    // buih tepi pantai: cincin putih tipis di bawah pasir, berdenyut pelan seperti ombak yang naik-turun
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.28 + 0.14 * Math.sin(t * 1.3)) + ')';
+    ctx.lineWidth = 2.2 + Math.sin(t * 1.3) * 0.8;
+    for (const c of vis) ctx.stroke(c.shore);
     for (const [col, p] of g.paths) { ctx.fillStyle = col; ctx.fill(p); }
     ctx.lineCap = 'round';
+    if (z > 0.55) {
+      ctx.fillStyle = 'rgba(132,168,86,.62)'; for (const c of vis) ctx.fill(c.patch);
+      ctx.strokeStyle = 'rgba(66,118,48,.55)'; ctx.lineWidth = 1; for (const c of vis) ctx.stroke(c.tuft);
+      ctx.fillStyle = 'rgba(110,85,55,.4)'; for (const c of vis) ctx.fill(c.grit);
+      ctx.fillStyle = 'rgba(190,160,100,.35)'; for (const c of vis) ctx.fill(c.sandDot);
+    }
+    // kilau matahari di air (berkedip pelan, tidak di malam hari)
+    const night = AL.nightFactor ? AL.nightFactor() : 0;
+    if (night < 0.8 && z > 0.35) {
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.7 * (1 - night)) + ')';
+      for (const [p, ph] of g.glint) {
+        if (p.x < wx0 || p.x > wx1 || p.y < wy0 || p.y > wy1) continue;
+        const a = Math.sin(t * 1.7 + ph);
+        if (a < 0.55) continue;
+        const r = (a - 0.55) * 5;
+        ctx.beginPath(); ctx.ellipse(p.x, p.y, r * 1.8, r * 0.5, 0, 0, Math.PI * 2); ctx.fill();
+      }
+    }
     ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.4; ctx.stroke(g.foam);
     ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.1;
     ctx.setLineDash([5, 5]); ctx.stroke(g.marks); ctx.setLineDash([]);

@@ -1,10 +1,9 @@
 /* Balai Warga: Kartu Tanda Warga + Buku Warga. Token warna dari style.css */
-html:has(body.balai), body.balai { height: auto; min-height: 100%; overflow: auto; background: #efe6d2; }
-body.balai { background: #efe6d2; }
+html:has(body.balai), body.balai { height: auto; min-height: 100%; overflow: auto; background: var(--page-bg); }
+body.balai { background: var(--page-bg); }
 .bl-wrap { max-width: 640px; margin: 0 auto; padding: calc(12px + var(--safe-t)) 16px calc(28px + var(--safe-b)); display: grid; gap: 14px; }
 .bl-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.bl-top .back { display: flex; align-items: center; padding: 11px 14px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; }
-.bl-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; background: var(--paper); border-radius: 999px; padding: 4px 14px 4px 4px; box-shadow: var(--shadow); }
+.bl-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; background: var(--paper); border-radius: var(--r-pill); padding: 4px 14px 4px 4px; min-height: var(--tap); box-shadow: var(--shadow); }
 .bl-brand .mark { width: 34px; height: 34px; }
 .bl-brand .mark svg { width: 22px; height: 22px; }
 .bl-wrap > .msg[hidden], .bl-book[hidden], .bl-ktw[hidden], .bl-note[hidden], .bl-more[hidden], .bl-mine[hidden] { display: none; }
@@ -12,22 +11,22 @@ body.balai { background: #efe6d2; }
 
 /* ---------- Buku Warga ---------- */
 .bl-book { display: grid; gap: 10px; }
-.bl-book h1 { margin: 0; font-size: 26px; font-weight: 800; line-height: 1.2; }
-.bl-lead { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
-.bl-mine { justify-self: start; flex: none; text-decoration: none; padding: 11px 18px; border-radius: 999px; background: var(--coral); color: var(--ink); }
+.bl-book h1 { margin: 0; font-size: var(--fs-h1); font-weight: 800; line-height: 1.2; }
+.bl-lead { margin: 0; color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.5; }
+.bl-mine { justify-self: start; flex: none; text-decoration: none; padding: 0 18px; border-radius: var(--r-pill); background: var(--coral); color: var(--ink); }
 .bl-search { margin-top: 4px; }
 .bl-search input::-webkit-search-cancel-button { cursor: pointer; }
 .bl-tabs { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .bl-tabs::-webkit-scrollbar { display: none; }
-.bl-tabs button { white-space: nowrap; padding: 8px 14px; }
+.bl-tabs button { white-space: nowrap; padding: 0 14px; }
 .bl-note { margin: 0; color: var(--ink-2); font-size: 13px; line-height: 1.5; }
 .bl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .bl-row {
-  display: flex; align-items: center; gap: 10px; padding: 8px 12px 8px 8px; border-radius: 16px;
-  background: var(--paper); color: var(--ink); text-decoration: none; box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 2px 8px rgba(10, 30, 50, .08);
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px 8px 8px; border-radius: var(--r-lg);
+  background: var(--paper); color: var(--ink); text-decoration: none; box-shadow: var(--shadow-sm);
 }
 .bl-row:active { transform: scale(.99); }
-.bl-row:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+@media (hover: hover) { .bl-row:hover { background: #fff; } }
 .bl-row canvas { width: 44px; height: 44px; border-radius: 50%; flex: none; }
 .bl-rank { flex: none; min-width: 24px; text-align: center; font-weight: 800; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .bl-who { flex: 1; min-width: 0; display: grid; gap: 2px; }
@@ -37,13 +36,13 @@ body.balai { background: #efe6d2; }
 .bl-who:has(.bl-lc) b { display: inline; }
 .bl-lv { font-weight: 800; color: var(--ink); }
 .bl-side { flex: none; font-size: 12px; font-weight: 700; color: var(--ink-2); text-align: right; max-width: 40%; }
-.bl-more { justify-self: center; flex: none; padding: 11px 28px; border-radius: 999px; }
+.bl-more { justify-self: center; flex: none; padding: 0 28px; border-radius: var(--r-pill); }
 
 /* ---------- Kartu Tanda Warga ---------- */
 .bl-ktw { display: grid; gap: 14px; }
 .bl-backbook { font-size: 14px; }
 .ktw {
-  background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden;
+  background: var(--paper); border-radius: var(--r-xl); box-shadow: var(--shadow); overflow: hidden;
   border: 2px solid var(--ink);
   background-image: repeating-linear-gradient(135deg, rgba(20, 50, 74, .035) 0 2px, transparent 2px 14px);
 }
@@ -71,32 +70,32 @@ body.balai { background: #efe6d2; }
 .ktw-stamp { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); border: 2px solid var(--teal); border-radius: 999px; padding: 4px 12px; white-space: nowrap; }
 
 /* ---------- bagikan ---------- */
-.bl-share { display: grid; gap: 10px; background: var(--paper); border-radius: 20px; padding: 14px; box-shadow: var(--shadow); }
+.bl-share { display: grid; gap: 10px; background: var(--paper); border-radius: var(--r-xl); padding: 14px; box-shadow: var(--shadow); }
 .bl-fmt { justify-self: stretch; }
 .bl-fmt button { flex: 1; }
 .bl-share .acts { display: flex; gap: 8px; flex-wrap: wrap; }
-.bl-share .acts .btn { min-width: 140px; padding: 12px; border-radius: 14px; }
+.bl-share .acts .btn { min-width: 140px; }
 .bl-share .msg { overflow-wrap: anywhere; }
 .bl-share .msg[hidden] { display: none; }
 .bl-offscreen { position: fixed; left: -9999px; top: 0; opacity: 0; }
 
 /* ---------- lencana, juara, rekor ---------- */
 .bl-extra { display: grid; gap: 12px; }
-.bl-box { background: var(--paper); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow); display: grid; gap: 10px; }
-.bl-box h2 { margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-.bl-box h2 small { font-size: 12px; background: var(--paper-2); border-radius: 999px; padding: 2px 9px; color: var(--ink-2); }
+.bl-box { background: var(--paper); border-radius: var(--r-xl); padding: 14px 16px; box-shadow: var(--shadow); display: grid; gap: 10px; }
+.bl-box h2 { margin: 0; font-size: var(--fs-h3); font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.bl-box h2 small { font-size: var(--fs-sm); background: var(--paper-2); border-radius: var(--r-pill); font-variant-numeric: tabular-nums; padding: 2px 9px; color: var(--ink-2); }
 .bl-badges { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-.bl-badges li { display: flex; align-items: center; gap: 8px; background: var(--paper-2); border-radius: 14px; padding: 8px 10px; font-size: 13px; font-weight: 700; min-width: 0; flex-wrap: wrap; }
-.bl-badges li.on { box-shadow: 0 0 0 2px var(--ink) inset; }
+.bl-badges li { display: flex; align-items: center; gap: 8px; background: var(--paper-2); border-radius: var(--r-md); padding: 8px 10px; font-size: 13px; font-weight: 700; min-width: 0; flex-wrap: wrap; }
+.bl-badges li.on { box-shadow: var(--ring-on); }
 .bl-badges .ic { font-size: 22px; line-height: 1; }
-.bl-badges small { width: 100%; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--teal); }
+.bl-badges small { width: 100%; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
 .bl-medals { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.bl-medals li { background: var(--paper-2); border-radius: 14px; padding: 10px 6px; text-align: center; display: grid; gap: 2px; }
+.bl-medals li { background: var(--paper-2); border-radius: var(--r-md); padding: 10px 6px; text-align: center; display: grid; gap: 2px; }
 .bl-medals span { font-size: 24px; line-height: 1.1; }
 .bl-medals b { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .bl-medals small { font-size: 12px; color: var(--ink-2); font-weight: 600; }
 .bl-rekor { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.bl-rekor li { display: flex; align-items: center; gap: 10px; background: var(--paper-2); border-radius: 14px; padding: 10px 12px; font-size: 14px; font-weight: 700; }
+.bl-rekor li { display: flex; align-items: center; gap: 10px; background: var(--paper-2); border-radius: var(--r-md); padding: 10px 12px; font-size: 14px; font-weight: 700; }
 .bl-rekor li > span:first-child { font-size: 20px; }
 .bl-rekor li > span:nth-child(2) { flex: 1; min-width: 0; }
 .bl-rekor b { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }

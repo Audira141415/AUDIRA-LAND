@@ -108,6 +108,20 @@
     return 1 - (h - 4.5) / 2; // 4.5–6.5 fajar
   }
   AL.nightFactor = () => nightFactor(AL.gameDate());
+  // warna suasana per jam (lapisan soft-light di atas kota): fajar merah muda, sore keemasan, senja jingga-ungu
+  const smooth = (a, b, h) => { const k = Math.min(1, Math.max(0, (h - a) / (b - a))); return k * k * (3 - 2 * k); };
+  function grade(d) {
+    const h = d.getHours() + d.getMinutes() / 60;
+    const fajar = smooth(4.8, 5.6, h) * (1 - smooth(6.2, 7.4, h));
+    const emas = smooth(15.6, 17.0, h) * (1 - smooth(18.2, 19.0, h));
+    const senja = smooth(17.4, 18.2, h) * (1 - smooth(18.8, 19.6, h));
+    const out = [];
+    if (fajar > 0) out.push(['255,160,170', 0.42 * fajar]);
+    if (emas > 0) out.push(['255,168,80', 0.85 * emas], ['255,214,150', 0.35 * emas]);
+    if (senja > 0) out.push(['190,90,150', 0.32 * senja]);
+    return out;
+  }
+  AL.gradeNow = () => grade(AL.gameDate());
 
   // ---------- hit test kavling (piksel sprite) ----------
   AL.hitTest = function (sx, sy) {
@@ -159,7 +173,9 @@
   function draw() {
     const z = cam.zoom, t = simT, night = AL.nightFactor();
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = AL.mix('#5fb3c9', '#16243d', night * 0.75);
+    const tone = grade(AL.gameDate());
+    const hangat = tone.reduce((s, x) => s + x[1], 0);
+    ctx.fillStyle = AL.mix(AL.mix('#5fb3c9', '#7fb8c0', Math.min(1, hangat)), '#16243d', night * 0.75);
     ctx.fillRect(0, 0, vw, vh);
     AL.drawGround(ctx, cam, vw, vh, dpr, t);
     if (night > 0) { ctx.fillStyle = 'rgba(16,24,56,' + (night * 0.6) + ')'; ctx.fillRect(0, 0, vw, vh); }
@@ -170,10 +186,10 @@
       const rr = 26 * z;
       for (const L of AL.ground.lamps) {
         const sx = (L.x - cam.x) * z + vw / 2, sy = (L.y - cam.y) * z + vh / 2;
-        if (sx < -rr || sy < -rr || sx > vw + rr || sy > vh + rr) continue;
-        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, rr);
-        g.addColorStop(0, 'rgba(255,214,140,' + (0.35 * night) + ')'); g.addColorStop(1, 'rgba(255,214,140,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, rr, 0, Math.PI * 2); ctx.fill();
+        if (sx < -rr * 1.5 || sy < -rr * 1.5 || sx > vw + rr * 1.5 || sy > vh + rr * 1.5) continue;
+        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, rr * 1.5);
+        g.addColorStop(0, 'rgba(255,214,140,' + (0.42 * night) + ')'); g.addColorStop(0.35, 'rgba(255,196,120,' + (0.16 * night) + ')'); g.addColorStop(1, 'rgba(255,196,120,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, rr * 1.5, 0, Math.PI * 2); ctx.fill();
       }
       ctx.restore();
     }
@@ -225,6 +241,18 @@
     if (AL.drawLandmarks) AL.drawLandmarks(ctx, toScr, z, t, vw, vh, night);
     if (AL.drawFlyovers) AL.drawFlyovers(ctx, toScr, z, t, vw, vh, night);
     for (const f of AL.overlays) { try { f(ctx, toScr, z, t, vw, vh, night); } catch (e) { console.error(e); } }
+
+    // gradasi suasana (fajar/sore/senja) + vinyet lembut; HUD & penanda di bawah ini tetap warna asli
+    if (tone.length) {
+      ctx.save(); ctx.globalCompositeOperation = 'soft-light';
+      for (const [rgb, a] of tone) { ctx.fillStyle = 'rgba(' + rgb + ',' + a + ')'; ctx.fillRect(0, 0, vw, vh); }
+      ctx.restore();
+    }
+    {
+      const vg = ctx.createRadialGradient(vw / 2, vh / 2, Math.min(vw, vh) * 0.45, vw / 2, vh / 2, Math.hypot(vw, vh) * 0.62);
+      vg.addColorStop(0, 'rgba(10,20,40,0)'); vg.addColorStop(1, 'rgba(10,20,40,' + (0.1 + 0.22 * night) + ')');
+      ctx.fillStyle = vg; ctx.fillRect(0, 0, vw, vh);
+    }
 
     // sorot mercusuar
     const LH = AL.lighthouse;

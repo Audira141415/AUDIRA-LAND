@@ -84,21 +84,135 @@
     c.restore();
   };
 
+  // palet pejalan (warna + bayangan + campuran malam) di-cache per objek look; dihitung ulang
+  // hanya bila tingkat malam (dibulatkan 1/32) berubah. Menghindari parse hex & string baru tiap bingkai.
+  const palCache = new WeakMap();
+  function tone(h, f, q) {
+    let v = f === 1 ? h : AL.shade(h, f);
+    return q > 0 ? AL.mix(v, AL.NIGHT, q / 32) : v;
+  }
+  function palette(L, nt) {
+    const q = Math.round(nt * 32);
+    let e = palCache.get(L);
+    if (e && e.q === q) return e;
+    const skirt = L.g === 'p' && L.style === 1;
+    e = {
+      q,
+      shirt: tone(L.shirt, 1, q), shirtD: tone(L.shirt, 0.84, q), sleeve: tone(L.shirt, 0.9, q),
+      pants: tone(L.pants, 1, q), legs: skirt ? tone(L.skin, 0.92, q) : tone(L.pants, 0.94, q),
+      shoe: tone('#3a3236', 1, q), skin: tone(L.skin, 1, q), hand: tone(L.skin, 0.95, q),
+      hair: tone(L.hair, 1, q), hijab: L.hijab ? tone(L.hijab, 1, q) : null, hijabD: L.hijab ? tone(L.hijab, 0.9, q) : null,
+      ink: tone('#2a1f1a', 1, q >> 1), rim: 'rgba(255,214,140,' + (q / 32).toFixed(3) + ')',
+    };
+    palCache.set(L, e);
+    return e;
+  }
+
+  // naik-turun badan saat berjalan: paling tinggi saat kaki berpapasan, paling rendah saat kaki terbuka.
+  // dipakai juga oleh aksesori.js supaya topi/syal ikut bergerak bersama kepala.
+  AL.walkerBob = (t, s) => (t ? (1 - Math.abs(Math.sin(t * 9))) * 0.7 * s : 0);
+
   // warga kecil berjalan di peta. (x,y)= titik kaki di layar, k = skala (zoom)
+  // t = waktu langkah (0 = berdiri diam). Arah hadap opsional dari agen: L._hx (-1/0/1, kiri/kanan layar), L._bk (membelakangi kamera).
   AL.drawWalker = function (c, x, y, k, L, t, night) {
-    const nt = night * 0.5;
-    const col = h => (nt > 0 ? AL.mix(h, AL.NIGHT, nt) : h);
-    if (k < 0.45) { circle(c, x, y - 3, 2, col(L.shirt)); return; }
-    const s = k * 0.9, bob = Math.abs(Math.sin(t * 9)) * 0.8 * s, sw = Math.sin(t * 9) * 1.4 * s;
-    c.fillStyle = 'rgba(20,40,60,.22)';
-    c.beginPath(); c.ellipse(x, y, 4 * s, 1.6 * s, 0, 0, Math.PI * 2); c.fill();
-    c.fillStyle = col(L.pants);
-    c.fillRect(x - 2.2 * s + sw * 0.3, y - 5 * s, 1.8 * s, 5 * s);
-    c.fillRect(x + 0.4 * s - sw * 0.3, y - 5 * s, 1.8 * s, 5 * s);
-    c.fillStyle = col(L.shirt);
-    c.beginPath(); c.roundRect(x - 3 * s, y - 11.5 * s - bob, 6 * s, 7 * s, 2 * s); c.fill();
-    const hx = x, hy = y - 14.5 * s - bob;
-    if (L.hijab) { circle(c, hx, hy + 0.4 * s, 3.4 * s, col(L.hijab)); circle(c, hx + 0.6 * s, hy + 0.5 * s, 2.1 * s, col(L.skin)); }
-    else { circle(c, hx, hy, 2.9 * s, col(L.skin)); c.fillStyle = col(L.hair); c.beginPath(); c.arc(hx, hy - 0.4 * s, 3 * s, Math.PI, 0); c.fill(); }
+    night = night || 0;
+    const C = palette(L, night * 0.5), TAU = Math.PI * 2;
+    if (k < 0.45) {
+      // jauh: badan + kepala saja, tetap terbaca sebagai orang
+      const u = Math.max(1, k * 2.6);
+      c.fillStyle = C.shirt; c.fillRect(x - 0.9 * u, y - 3.2 * u, 1.8 * u, 2.6 * u);
+      circle(c, x, y - 4 * u, 0.85 * u, C.hijab || C.skin);
+      return;
+    }
+    const s = k * 0.9, moving = !!t, ph = t * 9;
+    const sw = moving ? Math.sin(ph) : 0, cw = moving ? Math.cos(ph) : 0;
+    const bob = AL.walkerBob(t, s);
+    const hxF = L._hx || 0, back = !!L._bk, vd = back ? -1 : 1;
+    const detail = k >= 0.8;
+
+    // bayangan kontak lembut (dua lapis saat dekat, tanpa blur)
+    c.fillStyle = 'rgba(20,40,60,.14)';
+    c.beginPath(); c.ellipse(x + 0.4 * s, y, 4.4 * s, 1.8 * s, 0, 0, TAU); c.fill();
+    if (detail) { c.fillStyle = 'rgba(20,40,60,.15)'; c.beginPath(); c.ellipse(x + 0.2 * s, y, 2.7 * s, 1.05 * s, 0, 0, TAU); c.fill(); }
+
+    // kaki: ayun maju-mundur searah jalan, kaki yang mengayun terangkat sedikit
+    const skirt = L.g === 'p' && L.style === 1;
+    const hipY = y - 5 * s - bob * 0.5;
+    const p0 = sw, lift0 = Math.max(0, cw) * 0.9 * s, lift1 = Math.max(0, -cw) * 0.9 * s;
+    const swX = hxF ? 1.5 * s * hxF : 0, swY = (hxF ? 0.45 : 0.6) * s * vd;
+    const f0x = x - 1.05 * s + p0 * swX, f0y = y - 0.85 * s - lift0 + p0 * swY;
+    const f1x = x + 1.05 * s - p0 * swX, f1y = y - 0.85 * s - lift1 - p0 * swY;
+    c.lineCap = 'round'; c.lineWidth = 1.75 * s; c.strokeStyle = C.legs;
+    c.beginPath(); c.moveTo(x - 1.05 * s, hipY); c.lineTo(f0x, f0y); c.moveTo(x + 1.05 * s, hipY); c.lineTo(f1x, f1y); c.stroke();
+    if (detail) {
+      const so = hxF * 0.35 * s;
+      c.fillStyle = C.shoe; c.beginPath();
+      c.ellipse(f0x + so, f0y + 0.55 * s, 1.15 * s, 0.6 * s, 0, 0, TAU); c.moveTo(f1x + so + 1.15 * s, f1y + 0.55 * s);
+      c.ellipse(f1x + so, f1y + 0.55 * s, 1.15 * s, 0.6 * s, 0, 0, TAU); c.fill();
+    }
+
+    // badan: baju + sisi kanan lebih gelap (cahaya dari kiri atas, sama seperti bangunan)
+    const top = y - 11.5 * s - bob;
+    const hx = x, hy = y - 14.5 * s - bob, fo = hxF * 0.45 * s;
+    const longHair = !L.hijab && L.g === 'p' && L.style !== 3;
+    if (longHair && !back) { // menghadap kamera: rambut panjang di belakang bahu
+      c.fillStyle = C.hair; c.beginPath(); c.ellipse(hx - fo * 0.6, hy + 1.3 * s, 3.25 * s, 3.9 * s, 0, 0, TAU); c.fill();
+    }
+    if (skirt) {
+      c.fillStyle = C.pants;
+      c.beginPath(); c.moveTo(x - 3 * s, top + 4.5 * s); c.lineTo(x + 3 * s, top + 4.5 * s); c.lineTo(x + 3.7 * s, y - 2.6 * s); c.lineTo(x - 3.7 * s, y - 2.6 * s); c.closePath(); c.fill();
+    }
+    c.fillStyle = C.shirt;
+    c.beginPath(); c.roundRect(x - 3 * s, top, 6 * s, 7 * s, 2 * s); c.fill();
+    if (detail) { c.fillStyle = C.shirtD; c.beginPath(); c.roundRect(x + 0.9 * s, top, 2.1 * s, 7 * s, [0, 2 * s, 2 * s, 0]); c.fill(); }
+
+    // lengan: ayun berlawanan dengan kaki di sisi yang sama
+    if (k >= 0.6) {
+      const shY = top + 1.4 * s, aX = hxF ? 1.7 * s * hxF : 0, aD = (hxF ? 0.5 : 0.25) * s, aY = hxF ? 0 : 0.5 * s * vd;
+      const l0x = x - 3.1 * s - sw * aX, l0y = shY + 3.9 * s - Math.abs(sw) * aD - sw * aY;
+      const l1x = x + 3.1 * s + sw * aX, l1y = shY + 3.9 * s - Math.abs(sw) * aD + sw * aY;
+      c.lineWidth = 1.35 * s; c.strokeStyle = C.sleeve;
+      c.beginPath(); c.moveTo(x - 2.75 * s, shY); c.lineTo(l0x, l0y); c.moveTo(x + 2.75 * s, shY); c.lineTo(l1x, l1y); c.stroke();
+      if (detail) {
+        c.fillStyle = C.hand; c.beginPath();
+        c.arc(l0x, l0y + 0.2 * s, 0.75 * s, 0, TAU); c.moveTo(l1x + 0.75 * s, l1y + 0.2 * s); c.arc(l1x, l1y + 0.2 * s, 0.75 * s, 0, TAU); c.fill();
+      }
+    }
+
+    // kepala: siluet dibedakan lewat rambut/hijab; membelakangi = rambut menutup wajah
+    if (L.hijab) {
+      c.fillStyle = C.hijabD;
+      c.beginPath(); c.moveTo(hx - 3.1 * s, hy + 1 * s); c.lineTo(hx + 3.1 * s, hy + 1 * s); c.lineTo(hx + 3.5 * s, top + 2.6 * s); c.lineTo(hx - 3.5 * s, top + 2.6 * s); c.closePath(); c.fill();
+      circle(c, hx, hy + 0.3 * s, 3.4 * s, C.hijab);
+      if (!back) circle(c, hx + 0.5 * s + fo, hy + 0.5 * s, 2.1 * s, C.skin);
+    } else {
+      if (back) {
+        c.fillStyle = C.hair; c.beginPath();
+        if (longHair) { c.ellipse(hx, hy + 1.3 * s, 3.25 * s, 3.9 * s, 0, 0, TAU); c.moveTo(hx + 3 * s, hy); } // rambut terurai di punggung
+        c.arc(hx, hy, 3 * s, 0, TAU); c.fill();
+      } else {
+        circle(c, hx + fo * 0.5, hy, 2.9 * s, C.skin);
+        c.fillStyle = C.hair; c.beginPath();
+        if (L.style === 1) c.ellipse(hx - fo - 0.3 * s, hy - 0.55 * s, 3.1 * s, 2.2 * s, -0.25, Math.PI, 0);
+        else if (L.style === 2 && L.g === 'l') c.ellipse(hx - fo, hy - 0.7 * s, 3.05 * s, 2.5 * s, 0, Math.PI, 0);
+        else c.arc(hx - fo, hy - 0.4 * s, 3.05 * s, Math.PI, 0);
+        c.fill();
+        if (k >= 1.6) { // mata kecil, hanya saat zoom dekat
+          const ex = hx + fo * 1.3, ey = hy + 0.6 * s;
+          c.fillStyle = C.ink; c.beginPath();
+          c.arc(ex - 1.05 * s, ey, 0.36 * s, 0, TAU); c.moveTo(ex + 1.41 * s, ey); c.arc(ex + 1.05 * s, ey, 0.36 * s, 0, TAU); c.fill();
+        }
+      }
+      if (L.g === 'l' && L.style === 3) circle(c, hx - fo * 0.4, hy - 3.1 * s, 1.15 * s, C.hair); // kuncir atas
+    }
+
+    // malam: garis tepi hangat tipis supaya siluet tetap terbaca di atas aspal gelap
+    if (night > 0.3 && detail) {
+      c.strokeStyle = C.rim;
+      c.lineWidth = Math.max(0.8, 0.45 * s);
+      c.beginPath(); c.arc(hx, hy + (L.hijab ? 0.3 * s : 0), (L.hijab ? 3.4 : 3) * s, -Math.PI * 0.95, -Math.PI * 0.1);
+      c.moveTo(x - 3 * s, top + 1.6 * s); c.lineTo(x - 3 * s, top + 5.6 * s); c.stroke();
+    }
+    c.lineCap = 'butt';
   };
 })(window.AL);

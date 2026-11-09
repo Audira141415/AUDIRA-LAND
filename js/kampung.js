@@ -37,10 +37,16 @@
     const body = this.white ? '#efe9de' : '#9a6a4a';
     const col = c => (night > 0 ? AL.mix(c, AL.NIGHT, night * 0.5) : c);
     const dir = Math.cos(t * 0.6 + this.ph) > 0 ? 1 : -1;
-    ctx.fillStyle = 'rgba(20,40,60,.18)'; ctx.beginPath(); ctx.ellipse(sx, sy, 3.4 * s, 1.2 * s, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(20,40,60,.16)'; ctx.beginPath(); ctx.ellipse(sx + 0.3 * s, sy, 3.6 * s, 1.3 * s, 0, 0, 7); ctx.fill();
+    // kaki melangkah bergantian (diam saat mematuk)
+    const st = peck ? 0 : Math.sin(t * 11 + this.ph) * 0.7 * s;
     ctx.strokeStyle = col('#c9a35a'); ctx.lineWidth = Math.max(0.6, 0.5 * s);
-    ctx.beginPath(); ctx.moveTo(sx - 0.8 * s, sy); ctx.lineTo(sx - 0.6 * s, sy - 1.6 * s); ctx.moveTo(sx + 0.8 * s, sy); ctx.lineTo(sx + 0.6 * s, sy - 1.6 * s); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx - 0.8 * s + st * dir, sy - Math.max(0, st) * 0.4); ctx.lineTo(sx - 0.6 * s, sy - 1.6 * s);
+    ctx.moveTo(sx + 0.8 * s - st * dir, sy - Math.max(0, -st) * 0.4); ctx.lineTo(sx + 0.6 * s, sy - 1.6 * s); ctx.stroke();
     ctx.fillStyle = col(body); ctx.beginPath(); ctx.ellipse(sx, sy - 3 * s, 3 * s, 2.1 * s, 0, 0, 7); ctx.fill();
+    // sayap: bidang sedikit lebih gelap di sisi badan
+    ctx.fillStyle = col(this.white ? '#d9d1c2' : '#7f5539'); ctx.beginPath(); ctx.ellipse(sx - dir * 0.4 * s, sy - 3.1 * s, 1.7 * s, 1.1 * s, -dir * 0.3, 0, 7); ctx.fill();
+    ctx.fillStyle = col(body);
     ctx.beginPath(); ctx.ellipse(sx - dir * 2.6 * s, sy - 4.2 * s, 1.1 * s, 1.6 * s, -dir * 0.6, 0, 7); ctx.fill(); // ekor
     const hx = sx + dir * 2.6 * s, hy = sy - (peck ? 2.4 : 5) * s;
     ctx.beginPath(); ctx.arc(hx, hy, 1.4 * s, 0, 7); ctx.fill();
