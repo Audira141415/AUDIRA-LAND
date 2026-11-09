@@ -1,0 +1,46 @@
+{
+ "w": 20,
+ "h": 20,
+ "walk": ".dac=",
+ "spawn": [
+  [
+   9,
+   17
+  ],
+  [
+   10,
+   17
+  ],
+  [
+   9,
+   18
+  ],
+  [
+   10,
+   18
+  ]
+ ],
+ "legend": "W laut dalam, a air dangkal (bisa diarungi), d pasir basah, . pasir, c kerang, = jalan papan, b semak pandan, r batu karang, P pohon kelapa, U payung pantai, J perahu jukung (3 petak), F api unggun, L bangku kayu, S papan nama",
+ "rows": [
+  "WWWWWWWWWWWWWWWWWWWW",
+  "WWWWWWWWWWWWWWWWWWWW",
+  "WWWWWWWWWWWWWWWWWWWW",
+  "WWWaWWWaaWWWWaWWWWWr",
+  "baaaaaaaaaaaaaaaaarr",
+  "baaaaaaaaaaaaaaaaarr",
+  "bdddddddddddJJJddddr",
+  "bdd....ddddc...ddd.r",
+  "P...c........P...c.r",
+  "b..P..U...U....U...r",
+  "b..................r",
+  "b................P.r",
+  "P.......L...U......r",
+  "b.P................r",
+  "b.....L.F.L...c....r",
+  "b..................r",
+  "P....P..L..........r",
+  "b..c.....==.....P..r",
+  "b........==.S......r",
+  "bbbbbbbbb==bbbbbbbbb"
+ ]
+}

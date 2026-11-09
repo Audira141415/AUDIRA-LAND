@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lomba & Event · AUDIRA LAND</title>
+<meta name="description" content="Lomba dan event warga AUDIRA LAND: papan peringkat langsung, jadwal lomba berikutnya, dan para juara.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/kota.css">
+<link rel="stylesheet" href="css/event.css">
+</head>
+<body class="event">
+<main class="ev-wrap">
+  <header class="ev-top">
+    <a class="pill back" href="/">← Kota</a>
+    <a class="pill back" href="/kerja.html">Kerja</a>
+  </header>
+
+  <section class="ev-hero">
+    <p class="kicker">Lomba &amp; Event</p>
+    <h1>Siapa juara kota minggu ini?</h1>
+    <p class="ev-lead">Ikuti lomba warga, kejar papan peringkat, dan bawa pulang hadiahnya. Pemenang diumumkan di Koran kota.</p>
+  </section>
+
+  <section class="ev-sec" aria-labelledby="hJalan">
+    <h2 id="hJalan"><span class="ev-live" aria-hidden="true"></span>Sedang berlangsung</h2>
+    <div id="jalan" class="ev-list"><p class="ev-empty">Memuat…</p></div>
+  </section>
+
+  <section class="ev-sec" aria-labelledby="hAkan">
+    <h2 id="hAkan">Akan datang</h2>
+    <div id="akan" class="ev-list"></div>
+  </section>
+
+  <section class="ev-sec" aria-labelledby="hSelesai">
+    <h2 id="hSelesai">Sudah selesai</h2>
+    <div id="selesai" class="ev-list"></div>
+  </section>
+
+  <p class="ev-foot" id="foot" aria-live="polite"></p>
+</main>
+
+<script src="js/util.js"></script>
+<script src="js/corong.js"></script>
+<script src="js/event.js"></script>
+</body>
+</html>

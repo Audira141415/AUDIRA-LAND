@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Balai Warga · AUDIRA LAND</title>
+<meta name="description" content="Balai Warga AUDIRA LAND: Kartu Tanda Warga dan Buku Warga. Cari namamu, lihat rumah, kerja, lencana, dan rekormu.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/balai.css">
+</head>
+<body class="balai">
+<main class="bl-wrap">
+  <header class="bl-top">
+    <a class="pill back" href="/">← Kota</a>
+    <a class="bl-brand" href="/balai.html" id="toBook">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><path d="M16 4 27 26H5Z" fill="#ffd166"/><path d="M16 12 21.5 23h-11Z" fill="#14324a"/><path d="M3 27c4-2 7-2 10 0s7 2 10 0 5-1.5 6-1" stroke="#7fcbd8" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      </span>
+      <span>Balai Warga</span>
+    </a>
+  </header>
+
+  <p class="msg" id="status" aria-live="polite">Membuka buku warga…</p>
+
+  <!-- Buku Warga -->
+  <section class="bl-book" id="book" hidden aria-labelledby="bookTitle">
+    <p class="kicker">Balai Warga</p>
+    <h1 id="bookTitle">Buku Warga</h1>
+    <p class="bl-lead" id="bookLead"></p>
+    <a class="btn bl-mine" id="mine" href="/balai.html" hidden>Kartu saya</a>
+    <form class="field bl-search" id="searchForm" role="search">
+      <span aria-hidden="true">@</span>
+      <input id="q" type="search" placeholder="Cari username warga" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="31" aria-label="Cari username warga">
+    </form>
+    <div class="tabs bl-tabs" role="tablist" aria-label="Urutkan warga">
+      <button type="button" role="tab" data-tab="baru" aria-selected="true">Terbaru</button>
+      <button type="button" role="tab" data-tab="level" aria-selected="false">Level tertinggi</button>
+      <button type="button" role="tab" data-tab="juara" aria-selected="false">Juara</button>
+    </div>
+    <p class="bl-note" id="listNote" hidden></p>
+    <ol class="bl-list" id="list"></ol>
+    <button type="button" class="btn ghost bl-more" id="more" hidden>Muat lagi</button>
+  </section>
+
+  <!-- Kartu Tanda Warga -->
+  <section class="bl-ktw" id="ktw" hidden aria-label="Kartu Tanda Warga">
+    <a class="link bl-backbook" href="/balai.html" id="backBook">← Buku Warga</a>
+    <article class="ktw" id="card"></article>
+    <div class="bl-share" id="share">
+      <div class="tabs bl-fmt" role="tablist" aria-label="Ukuran gambar">
+        <button type="button" role="tab" data-fmt="feed" aria-selected="true">Feed 4:5</button>
+        <button type="button" role="tab" data-fmt="story" aria-selected="false">Story 9:16</button>
+      </div>
+      <div class="acts">
+        <button type="button" class="btn" id="dl">Unduh kartu</button>
+        <button type="button" class="btn ghost" id="copy">Salin tautan</button>
+      </div>
+      <p class="msg" id="shareMsg" hidden aria-live="polite"></p>
+    </div>
+    <section class="bl-extra" id="extra"></section>
+  </section>
+</main>
+
+<script src="js/util.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/aksesori.js"></script>
+<script src="js/world.js"></script>
+<script src="js/balai.js"></script>
+</body>
+</html>
