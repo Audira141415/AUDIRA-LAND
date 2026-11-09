@@ -201,24 +201,27 @@ Protokol WebSocket `/ws/taman` (JSON, hanya dari Origin situs ini sendiri):
 
 Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua klien (BFS pada `js/taman-map.json`), dimulai dari `fx, fy`.
 
-## Sedang dikerjakan (belum tersambung)
+## Fitur kota
 
-Modul berikut sudah ada kodenya tetapi **belum didaftarkan di `server/server.mjs` dan belum ditautkan dari peta**, jadi belum bisa dipakai pemain. Halamannya masih 404 dan rute API-nya belum ada.
+Semua modul di bawah didaftarkan di `server/server.mjs` (`MODS`) dan bisa dibuka dari tombol **Jelajah** di peta, kartu warga, atau tombol alat di kanan.
 
-| Fitur | Server | Klien | API yang dipanggil klien |
+| Fitur | Server | Klien | Dibuka dari |
 |---|---|---|---|
-| Balai Warga (kartu KTW, Buku Warga) | `server/balai.mjs` | `balai.html`, `js/balai.js` | `/api/balai/warga`, `/api/balai/juara` |
-| Rumahku (ruang dalam, perabot, stiker) | `server/rumah.mjs` | `js/rumah.js` | `/api/rumah/*` |
-| Surat & teman | `server/surat.mjs` | `js/surat.js` | `/api/surat/*` |
-| Voting warga | `server/voting.mjs` | `js/voting.js` | `/api/voting`, `/api/voting/pilih` |
-| Corong Kota (siaran 30 dtk) | `server/corong.mjs` | `js/corong.js` | `/api/corong/*` |
-| Lomba & Event | `server/lomba.mjs` | `event.html`, `js/event.js` | `/api/lomba` |
-| Pantai Nyiur (room realtime) | `server/pantai.mjs` | `pantai.html`, `js/pantai-config.js` | WebSocket room |
-| Cetak biru bangunan | `server/cetak.mjs` | `js/cetak.js` | `/api/cetak` |
-| Damkar (kebakaran) | `server/damkar.mjs` | — | — |
-| Musim & intro harian | — | `js/musim.js`, `js/intro.js` | — |
+| Balai Warga (KTW, Buku Warga) | `server/balai.mjs` | `/balai`, `js/balai.js` | Jelajah, kartu warga › Kartu warga |
+| Rumahku (ruang dalam, perabot, ketuk pintu, stiker) | `server/rumah.mjs` | `/rumah?u=`, `js/rumah.js` | Jelajah, kartu warga › Masuk rumah |
+| Surat & teman | `server/surat.mjs` | `js/surat.js`, `css/surat.css` | tombol amplop, kartu warga › Kirim surat |
+| Voting warga | `server/voting.mjs` | `js/voting.js`, `css/kota.css` | tombol kotak suara |
+| Corong Kota (siaran 30 dtk, donasi Saweria) | `server/corong.mjs` | `js/corong.js`, `css/kota.css` | banner di atas peta, dialog Voting |
+| Lomba & Event | `server/lomba.mjs` | `/event`, `js/event.js`, `css/event.css` | Jelajah |
+| Pantai Nyiur (room realtime, maks 60) | `server/pantai.mjs` | `/pantai`, `js/pantai-config.js` | Jelajah |
+| Cetak biru bangunan | `server/cetak.mjs` | `js/cetak.js` (validator), `js/cetak-gambar.js` (gambar) | admin › Cetak biru |
+| Musim & intro harian | — | `js/musim.js`, `js/intro.js` | otomatis (uji: `?musim=hujan|agustus|tahunbaru|ramadan|lebaran`) |
 
-Catatan: `event.html` memanggil `css/event.css` yang belum ada.
+Konfigurasi opsional di `server/.env`: `SAWERIA_URL` (tautan donasi Corong) dan `CORONG_HARGA` (teks harga, mis. `Rp10.000`).
+
+Cetak biru: daftar primitif JSON per kavling (`kotak`, `jendela`, `atap`, `limas`, `kubah`, `tiang`, `bidang`, `pohon`, `teks`; format di kepala `js/cetak.js`). Kavling bercetak biru dianggap sudah berdiri walau belum ada warga. `GET /api/cetak` di-cache 60 dtk.
+
+Belum tersambung: **Damkar** (`server/damkar.mjs`, event kebakaran bersama). Servernya ada, tetapi belum ada klien untuk menampilkan api dan tombol Siram, jadi sengaja tidak didaftarkan.
 
 ## API
 
@@ -248,7 +251,15 @@ Catatan: `event.html` memanggil `css/event.css` yang belum ada.
 | GET | `/api/sponsor?b=<ember30dtk>` | sponsor yang sedang tayang |
 | POST | `/api/sponsor/lihat` | `{id}` hitung tayangan |
 | GET | `/api/sponsor/klik?id=` | 302 ke tautan mitra, hitung klik |
-| GET | `/api/taman` | `{online}` |
+| GET | `/api/taman` | `{online, pantai}` |
+| GET | `/api/balai/warga?u=` · `/api/balai/juara` | lencana, juara, rekor satu warga · papan juara |
+| GET/POST | `/api/rumah`, `/api/rumah/{katalog,beli,pasang,ketuk,stiker,stiker/hapus}` | ruang rumah (header sesi untuk aksi) |
+| GET/POST | `/api/surat/*` | percakapan, kirim, teman, minta, terima, tolak, batal, hapus, blokir, laporkan (header sesi) |
+| GET/POST | `/api/voting` · `/api/voting/pilih` | polling aktif & riwayat · `{id, choice}` |
+| GET/POST | `/api/corong`, `/api/corong/{riwayat,aku,ajukan}` | siaran yang tayang, riwayat, pengajuanku, `{text, donor}` |
+| GET | `/api/lomba` | lomba berjalan, akan datang, selesai |
+| GET | `/api/cetak` | cetak biru semua kavling |
+| WS | `/ws/taman?room=pantai` | room Pantai Nyiur |
 | POST | `/api/masuk` | `{username, kode}` → `{token}` |
 | POST | `/api/sesi/hapus` | `{token}` |
-| GET/POST | `/api/admin/{ringkas,cari,setujui,tolak,impor,hapus,pertahankan,kode,bisukan,kabar,kabar/hapus,acara,acara/hapus,sponsor,sponsor/hapus,radio,radio/atur,radio/unggah,radio/ubah,radio/hapus,koin}` | header `Authorization: Bearer <ADMIN_TOKEN>` |
+| GET/POST | `/api/admin/{ringkas,cari,setujui,tolak,impor,hapus,pertahankan,kode,bisukan,kabar,kabar/hapus,acara,acara/hapus,sponsor,sponsor/hapus,radio,radio/atur,radio/unggah,radio/ubah,radio/hapus,koin}` · `/api/admin/{lomba,voting,corong,cetak,surat,rumah/stiker/hapus}…` | header `Authorization: Bearer <ADMIN_TOKEN>` |

@@ -27,6 +27,10 @@
 
   <div id="app" hidden>
     <section class="stats" id="stats"></section>
+    <nav class="jump" aria-label="Lompat ke panel">
+      <a href="#pnLomba">Lomba</a><a href="#pnVoting">Voting</a><a href="#pnCorong">Corong <span class="count" id="crCountNav" hidden></span></a>
+      <a href="#pnCetak">Cetak biru</a><a href="#pnLapor">Laporan <span class="count" id="lpCountNav" hidden></span></a><a href="#pnStiker">Stiker</a>
+    </nav>
 
     <section class="panel">
       <div class="row">
@@ -150,6 +154,118 @@
       <div class="codebox" id="codeBox" hidden aria-live="polite"></div>
       <ul class="list" id="found"></ul>
     </section>
+    <section class="panel" id="pnLomba">
+      <h2>Lomba &amp; Event</h2>
+      <p class="hint">Lomba mini-game punya papan skor otomatis dari skor Kerja selama lomba berjalan. Lomba bebas tanpa papan: kamu tulis pemenangnya sendiri. Pengumuman Koran dibuat otomatis saat lomba mulai. Semua waktu dalam WIB.</p>
+      <form class="grid-form" id="lbForm" autocomplete="off">
+        <input type="hidden" id="lbId">
+        <label class="wide">Judul <input id="lbTitle" maxlength="80" required></label>
+        <label class="wide">Jenis <select id="lbKind" required></select></label>
+        <label class="wide">Mulai (WIB) <input id="lbStart" type="datetime-local" required></label>
+        <label class="wide">Selesai (WIB) <input id="lbEnd" type="datetime-local" required></label>
+        <label class="full">Hadiah <input id="lbPrize" maxlength="120" placeholder="Juara 1: 5.000 koin, juara 2: 2.000 koin"></label>
+        <label class="full">Keterangan <textarea id="lbDescr" rows="3" maxlength="600"></textarea></label>
+        <div class="acts full">
+          <button class="btn" type="submit" id="lbSave">Buat lomba</button>
+          <button class="btn ghost" type="button" id="lbCancel" hidden>Batal edit</button>
+        </div>
+      </form>
+      <div class="subpanel" id="lbWin" hidden>
+        <h3 id="lbWinTitle"></h3>
+        <p class="hint">Urut dari juara 1 (maks 10). Koin langsung masuk dompet (0–100.000). Pemenang hanya bisa ditetapkan sekali, lalu lomba tidak bisa diubah.</p>
+        <div class="win-rows" id="lbWinRows"></div>
+        <div class="acts">
+          <button class="btn ghost sm" type="button" id="lbWinAdd">Tambah juara</button>
+          <label class="check"><input type="checkbox" id="lbWinAnn" checked> Umumkan di Koran</label>
+          <button class="btn" type="button" id="lbWinSave">Tetapkan pemenang</button>
+          <button class="btn ghost" type="button" id="lbWinCancel">Batal</button>
+        </div>
+      </div>
+      <ul class="list" id="lbList"></ul>
+    </section>
+
+    <section class="panel" id="pnVoting">
+      <h2>Voting Warga</h2>
+      <p class="hint">Warga KTW memilih satu kali dan boleh ganti pilihan sampai polling selesai. Hasil otomatis diumumkan di Koran saat selesai (termasuk saat ditutup lebih awal).</p>
+      <form class="grid-form" id="vtForm" autocomplete="off">
+        <label class="full">Pertanyaan <input id="vtQ" maxlength="140" required></label>
+        <label class="full">Pilihan, satu per baris (2–6, maks 60 huruf) <textarea id="vtOpts" rows="4" required></textarea></label>
+        <label class="wide">Selesai (WIB) <input id="vtEnd" type="datetime-local" required></label>
+        <div class="acts wide"><button class="btn" type="submit">Buat polling</button></div>
+      </form>
+      <ul class="list" id="vtList"></ul>
+    </section>
+
+    <section class="panel" id="pnCorong">
+      <div class="row">
+        <h2>Corong Kota <span class="count" id="crCount"></span></h2>
+        <button class="btn ghost sm" type="button" id="crReload">Muat ulang</button>
+      </div>
+      <p class="hint" id="crInfo"></p>
+      <form class="grid-form" id="crForm" autocomplete="off">
+        <label class="full">Siaran admin gratis (langsung paling depan antrean, 3–100 huruf) <input id="crText" maxlength="100" required></label>
+        <div class="acts full"><button class="btn" type="submit">Siarkan</button></div>
+      </form>
+      <ul class="list" id="crList"></ul>
+      <details class="more">
+        <summary>Riwayat siaran</summary>
+        <ul class="list" id="crHist"></ul>
+      </details>
+    </section>
+
+    <section class="panel" id="pnCetak">
+      <h2>Cetak Biru Bangunan</h2>
+      <p class="hint">Ganti tampilan satu kavling dengan bangunan dari daftar primitif JSON. Koordinat lokal kavling: x dan y 0–2, tinggi z 0–12 petak. Maks 120 primitif.</p>
+      <form class="grid-form" id="ctForm" autocomplete="off">
+        <label>Nomor kavling <input id="ctLot" type="number" min="0" step="1" required></label>
+        <p class="hint span3" id="ctLotInfo">Isi nomor kavling (lot0, lot1, …).</p>
+        <label class="wide">Nama bangunan <input id="ctNama" maxlength="40" required placeholder="Masjid Al-Bahri"></label>
+        <label class="wide">Jenis <input id="ctJenis" maxlength="24" placeholder="Masjid, Menara Jam…"></label>
+        <label class="full">Primitif (JSON) <textarea id="ctG" rows="10" spellcheck="false" required></textarea></label>
+        <p class="msg full" id="ctCheck" hidden></p>
+        <div class="acts full">
+          <button class="btn" type="submit">Simpan cetak biru</button>
+          <button class="btn ghost" type="button" id="ctContoh">Isi contoh</button>
+          <button class="btn ghost" type="button" id="ctReset">Kosongkan</button>
+        </div>
+      </form>
+      <details class="more">
+        <summary>Format primitif</summary>
+        <pre class="fmt">["kotak",   x, y, w, d, h, "#warna", z0?]          balok
+["jendela", x, y, w, d, h, "#kaca", z0?]           jendela di dua sisi depan balok seukuran
+["atap",    x, y, w, d, z0, tinggi, "#warna", "x"|"y"?]   atap pelana
+["limas",   x, y, w, d, z0, tinggi, "#warna"]      atap limas / puncak menara
+["kubah",   cx, cy, r, z0, "#warna"]               kubah setengah bola
+["tiang",   cx, cy, r, z0, h, "#warna"]            silinder
+["bidang",  x, y, w, d, "#warna", z0?]             permukaan datar
+["pohon",   x, y, ukuran]                          pohon hias (0.3–1.5)
+["teks",    x, y, z0, ukuran, "TEKS", "#warna"]    tulisan depan, maks 16 huruf</pre>
+      </details>
+      <ul class="list" id="ctList"></ul>
+    </section>
+
+    <section class="panel" id="pnLapor">
+      <div class="row">
+        <h2>Laporan warga <span class="count" id="lpCount"></span></h2>
+        <select class="sel" id="lpStatus" aria-label="Status laporan"><option value="baru">Baru</option><option value="selesai">Selesai</option></select>
+      </div>
+      <p class="hint">Laporan dari fitur Surat. Bukti = maks 10 surat terakhir dari warga yang dilaporkan ke pelapor, disalin saat laporan dibuat.</p>
+      <ul class="list" id="lpList"></ul>
+    </section>
+
+    <section class="panel" id="pnStiker">
+      <h2>Stiker rumah</h2>
+      <p class="hint">Hapus stiker tamu yang tidak pantas. Ketik username pemilik rumah untuk melihat 24 stiker terbarunya, atau isi ID stiker langsung.</p>
+      <form class="grid-form" id="stForm" autocomplete="off">
+        <label class="wide">Pemilik rumah <input id="stHost" maxlength="31" placeholder="username" required></label>
+        <div class="acts"><button class="btn ghost" type="submit">Lihat stiker</button></div>
+      </form>
+      <form class="grid-form" id="stDelForm" autocomplete="off">
+        <label class="wide">ID stiker <input id="stId" type="number" min="1" step="1" required></label>
+        <div class="acts"><button class="btn danger" type="submit">Hapus stiker</button></div>
+      </form>
+      <ul class="list" id="stList"></ul>
+    </section>
     <div id="adminExtra"></div>
   </div>
 </main>
@@ -158,6 +274,7 @@
 <script src="js/world.js"></script>
 <script src="js/render.js"></script>
 <script src="js/sponsor.js"></script>
+<script src="js/cetak.js"></script>
 <script src="js/admin.js"></script>
 </body>
 </html>

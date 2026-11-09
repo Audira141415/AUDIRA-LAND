@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rumahku · AUDIRA LAND</title>
+<meta name="description" content="Rumah warga AUDIRA LAND: lihat isi rumah, ketuk pintu tetangga, dan tempel stiker di papan tamu.">
+<meta name="theme-color" content="#14324a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/rumah.css">
+</head>
+<body class="rumah">
+<main class="rm-wrap">
+  <header class="rm-top">
+    <a class="pill back" href="/">← Kota</a>
+    <div class="rm-who" id="who"></div>
+  </header>
+
+  <!-- belum ada rumah untuk ditampilkan / sedang memuat -->
+  <section class="rm-empty" id="empty" aria-live="polite">
+    <div class="rm-door" aria-hidden="true"><span></span></div>
+    <h1 id="emptyTitle">Membuka pintu…</h1>
+    <p id="emptyText">Sebentar, rumahnya sedang disiapkan.</p>
+    <a class="btn ghost" href="/balai.html">Cari di Buku Warga</a>
+  </section>
+
+  <section class="rm-main" id="main" hidden aria-labelledby="title">
+    <div class="rm-head">
+      <p class="kicker" id="kicker"></p>
+      <h1 id="title">Rumah</h1>
+      <p class="rm-addr" id="addr" hidden></p>
+      <div class="rm-stats" id="stats"></div>
+    </div>
+
+    <section class="rm-rusun" id="rusun" hidden>
+      <div class="rm-rusun-art" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <h2>Antre rusun</h2>
+      <p id="rusunText"></p>
+    </section>
+
+    <div class="rm-stage" id="stage" hidden>
+      <canvas id="room" width="360" height="340" role="img" aria-label="Isi ruang rumah"></canvas>
+    </div>
+
+    <div class="rm-acts" id="acts"></div>
+    <p class="msg" id="actMsg" hidden aria-live="polite"></p>
+
+    <section class="rm-card rm-atur" id="atur" hidden aria-labelledby="aturTitle">
+      <div class="rm-card-head">
+        <h2 id="aturTitle">Atur perabot</h2>
+        <span class="rm-saldo" id="saldo"></span>
+      </div>
+      <p class="rm-lead">Beli sekali, pasang kapan saja. Tiap tempat di rumah muat satu perabot.</p>
+      <p class="msg" id="aturMsg" hidden aria-live="polite"></p>
+      <div class="rm-katalog" id="katalog"></div>
+    </section>
+
+    <section class="rm-card rm-tamu" id="tamu" hidden aria-labelledby="tamuTitle">
+      <h2 id="tamuTitle">Papan tamu</h2>
+      <p class="rm-lead" id="tamuLead"></p>
+      <form class="rm-stiker" id="stikerForm" hidden novalidate>
+        <div class="rm-pick" id="stikerPick" role="radiogroup" aria-label="Pilih stiker"></div>
+        <label class="field" for="stikerPesan"><input id="stikerPesan" maxlength="40" placeholder="Pesan singkat (boleh kosong)" autocomplete="off"></label>
+        <button class="btn" id="stikerKirim" type="submit">Tempel stiker</button>
+      </form>
+      <p class="msg" id="stikerMsg" hidden aria-live="polite"></p>
+      <ul class="rm-list" id="stikerList"></ul>
+    </section>
+  </section>
+</main>
+
+<dialog class="sheet" id="loginSheet" aria-labelledby="loginTitle">
+  <form id="loginForm" novalidate>
+    <button class="close" id="loginClose" type="button" aria-label="Tutup">×</button>
+    <h2 id="loginTitle">Masuk sebagai warga</h2>
+    <p class="lead">Pakai username Instagram dan kode KTW 8 huruf dari admin AUDIRA supaya bisa mengetuk pintu dan menempel stiker.</p>
+    <label class="field" for="lu"><span>@</span><input id="lu" required maxlength="31" placeholder="username_instagram" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
+    <label class="field" for="lk"><span>KTW</span><input id="lk" required maxlength="8" placeholder="8 huruf" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false"></label>
+    <button class="btn" type="submit">Masuk</button>
+    <p class="msg" id="loginMsg" hidden aria-live="polite"></p>
+  </form>
+</dialog>
+
+<script src="js/util.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/aksesori.js"></script>
+<script src="js/rumah.js"></script>
+</body>
+</html>

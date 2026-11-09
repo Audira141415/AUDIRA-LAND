@@ -40,11 +40,17 @@
       <div class="acts">
         ${home ? '<button class="btn" data-go="home">Lihat rumah</button>' : ''}
         ${pl.lot >= 0 ? '<button class="btn ghost" data-go="work">Lihat kantor</button>' : ''}
+      </div>
+      <div class="acts more">
+        ${home ? `<a class="btn ghost" href="/rumah.html?u=${encodeURIComponent(res.u)}">Masuk rumah</a>` : ''}
+        <a class="btn ghost" href="/balai.html?u=${encodeURIComponent(res.u)}">Kartu warga</a>
+        ${AL.surat ? '<button class="btn ghost" data-go="surat">Kirim surat</button>' : ''}
       </div>`;
     AL.drawPortrait($('card').querySelector('.portrait').getContext('2d'), res.look, 128);
     openCard();
     $('card').querySelector('[data-go="home"]')?.addEventListener('click', () => focusLot(res.home));
     $('card').querySelector('[data-go="work"]')?.addEventListener('click', () => focusLot(pl.lot));
+    $('card').querySelector('[data-go="surat"]')?.addEventListener('click', () => AL.surat.buka(res.u));
     clearInterval(cardTimer);
     cardTimer = setInterval(() => {
       const el = $('saldo');
@@ -68,7 +74,10 @@
         ? `<p class="kicker">Tanah kosong · ${lot.district === 'kampung' ? 'Kampung' : 'Kota'}</p>
            <h2>Rencana ${esc((AL.LABEL[lot.type] || 'bangunan').toLowerCase())}</h2>
            <p class="since">${CAP_HINT[lot.type] || 'Bangunan berdiri saat warga pertama bekerja di sini.'}</p>`
-        : `<p class="kicker">${esc(AL.LABEL[lot.type])}</p>
+        : lot.cetak
+          ? `<p class="kicker">${esc(lot.cetak.jenis || AL.LABEL[lot.type])}</p>
+      <h2>${esc(lot.cetak.nama || lot.name)}</h2>`
+          : `<p class="kicker">${esc(AL.LABEL[lot.type])}</p>
       <h2>${esc(lot.name)}</h2>`}
       <p class="since">${esc(lot.street)} No. ${lot.num}</p>
       <div class="chips">

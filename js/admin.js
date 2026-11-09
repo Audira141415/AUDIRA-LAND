@@ -51,7 +51,359 @@
     await loadKabar();
     await loadSponsor();
     await loadRadio();
+    // panel modul fitur: satu yang gagal tidak menghalangi yang lain
+    const res = await Promise.allSettled([loadLomba(), loadVoting(), loadCorong(), loadCetak(), loadLapor()]);
+    res.forEach(r => { if (r.status === 'rejected') { console.error(r.reason); toast(r.reason.message, true); } });
   }
+
+  // ---------- waktu WIB (input datetime-local dibaca sebagai WIB, bukan zona peramban) ----------
+  const WIB = 7 * 3600e3;
+  const fmtW = ms => new Date(ms).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' WIB';
+  const toInp = ms => new Date(ms + WIB).toISOString().slice(0, 16);
+  const fromInp = v => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || '');
+    return m ? Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) - WIB : 0;
+  };
+  const nextHour = (h = 0) => Math.ceil(Date.now() / 3600e3) * 3600e3 + h * 3600e3;
+  // jam tertentu (WIB) beberapa hari dari sekarang
+  const atWib = (days, hour) => Math.floor((Date.now() + WIB) / 86400e3) * 86400e3 - WIB + days * 86400e3 + hour * 3600e3;
+  const num = n => (+n || 0).toLocaleString('id-ID');
+
+  // ---------- Lomba & Event ----------
+  let lb = { games: {}, lomba: [] };
+  const LB_TAG = { akan: ['terjadwal', 'akan datang'], jalan: ['aktif', 'berjalan'], selesai: ['selesai', 'selesai'] };
+  const bisaJuara = l => !l.winners_at && (l.game ? l.status === 'selesai' : l.status !== 'akan');
+  async function loadLomba() {
+    lb = await call('lomba');
+    const sel = $('lbKind'), keep = sel.value;
+    sel.innerHTML = '<option value="bebas">Lomba bebas (pemenang ditulis admin)</option>' +
+      Object.entries(lb.games).map(([k, g]) => `<option value="kerja:${esc(k)}">Mini-game ${esc(g.name)} (papan otomatis, ${esc(g.unit)})</option>`).join('');
+    if (keep) sel.value = keep;
+    if (!$('lbStart').value) { $('lbStart').value = toInp(nextHour(1)); $('lbEnd').value = toInp(nextHour(1 + 7 * 24)); }
+    $('lbList').innerHTML = lb.lomba.length ? lb.lomba.map(l => {
+      const [cls, txt] = LB_TAG[l.status] || ['', l.status];
+      const unit = l.unit ? ' ' + esc(l.unit) : '';
+      const papan = l.papan && l.papan.length ? ' · Papan: ' + l.papan.slice(0, 3).map(r => `${r.rank}. @${esc(r.u)} (${num(r.score)}${unit})`).join(', ') : '';
+      const juara = l.winners.length ? ' · Juara: ' + l.winners.map(w => `${w.rank}. @${esc(w.u)}${w.koin ? ' +' + num(w.koin) + ' koin' : ''}`).join(', ') : '';
+      return `<li class="stack"><span class="tag ${cls}">${txt}</span><b>${esc(l.title)}</b>
+        <small>${esc(l.kindLabel)} · ${fmtW(l.start_at)} s/d ${fmtW(l.end_at)}${l.peserta != null ? ' · ' + l.peserta + ' peserta' : ''}${papan}${juara}${l.prize ? ' · Hadiah: ' + esc(l.prize) : ''}</small>
+        <span class="acts">${l.winners_at ? '' : `<button class="btn ghost sm" type="button" data-lb-edit="${l.id}">Edit</button>`}
+        ${bisaJuara(l) ? `<button class="btn sm" type="button" data-lb-win="${l.id}">Tetapkan pemenang</button>` : ''}
+        <button class="btn danger sm" type="button" data-lb-del="${l.id}">Hapus</button></span></li>`;
+    }).join('') : '<li class="empty">Belum ada lomba.</li>';
+  }
+  function resetLb() {
+    $('lbForm').reset(); $('lbId').value = '';
+    $('lbStart').value = toInp(nextHour(1)); $('lbEnd').value = toInp(nextHour(1 + 7 * 24));
+    $('lbSave').textContent = 'Buat lomba'; $('lbCancel').hidden = true;
+  }
+  $('lbCancel').addEventListener('click', resetLb);
+  $('lbForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const editing = !!$('lbId').value;
+    const body = {
+      id: $('lbId').value ? +$('lbId').value : undefined, title: $('lbTitle').value, kind: $('lbKind').value,
+      start_at: fromInp($('lbStart').value), end_at: fromInp($('lbEnd').value), prize: $('lbPrize').value, descr: $('lbDescr').value,
+    };
+    if (body.start_at <= Date.now() && !confirm('Waktu mulai sudah lewat: lomba langsung berjalan dan pengumuman Koran dibuat sekarang. Lanjut?')) return;
+    try { await call('lomba', body); resetLb(); await loadLomba(); toast(editing ? 'Lomba diperbarui' : 'Lomba dibuat'); }
+    catch (er) { toast(er.message, true); }
+  });
+  let lbWinId = 0;
+  function winRow(u = '') {
+    if ($('lbWinRows').children.length >= 10) return toast('Maksimal 10 juara', true);
+    const d = document.createElement('div');
+    d.className = 'win-row';
+    d.innerHTML = `<span class="rank"></span><input class="w-u" maxlength="31" placeholder="username" value="${esc(u)}">
+      <input class="w-k" type="number" min="0" max="100000" step="1" placeholder="koin (0)">
+      <input class="w-n" maxlength="80" placeholder="catatan (opsional)">
+      <button class="btn ghost sm" type="button" data-w-del>Hapus</button>`;
+    $('lbWinRows').appendChild(d);
+    renumWin();
+  }
+  const renumWin = () => [...$('lbWinRows').children].forEach((r, i) => { r.querySelector('.rank').textContent = 'Juara ' + (i + 1); });
+  function closeWin() { lbWinId = 0; $('lbWin').hidden = true; $('lbWinRows').innerHTML = ''; }
+  $('lbWinAdd').addEventListener('click', () => winRow());
+  $('lbWinCancel').addEventListener('click', closeWin);
+  $('lbWinRows').addEventListener('click', e => {
+    if (!e.target.closest('[data-w-del]')) return;
+    e.target.closest('.win-row').remove(); renumWin();
+  });
+  $('lbWinSave').addEventListener('click', async () => {
+    const winners = [...$('lbWinRows').children].map(r => ({
+      u: r.querySelector('.w-u').value.trim().replace(/^@+/, ''), koin: Math.floor(+r.querySelector('.w-k').value || 0), note: r.querySelector('.w-n').value.trim(),
+    })).filter(w => w.u);
+    if (!winners.length) return toast('Isi minimal satu pemenang', true);
+    const koin = winners.reduce((a, w) => a + w.koin, 0);
+    if (!confirm(`Tetapkan ${winners.length} pemenang${koin ? ` dan bayar total ${num(koin)} koin` : ''}? Tidak bisa diubah lagi.`)) return;
+    try {
+      const r = await call('lomba/pemenang', { id: lbWinId, winners, umumkan: $('lbWinAnn').checked });
+      closeWin(); await loadLomba();
+      toast(`Pemenang ditetapkan${r.dibayar ? `, koin dibayar ke ${r.dibayar} juara` : ''}`);
+    } catch (er) { toast(er.message, true); }
+  });
+  $('lbList').addEventListener('click', async e => {
+    const ed = e.target.closest('[data-lb-edit]'), win = e.target.closest('[data-lb-win]'), del = e.target.closest('[data-lb-del]');
+    if (ed) {
+      const l = lb.lomba.find(x => x.id === +ed.dataset.lbEdit);
+      if (!l) return;
+      $('lbId').value = l.id; $('lbTitle').value = l.title; $('lbKind').value = l.kind; $('lbPrize').value = l.prize; $('lbDescr').value = l.descr;
+      $('lbStart').value = toInp(l.start_at); $('lbEnd').value = toInp(l.end_at);
+      $('lbSave').textContent = 'Simpan perubahan'; $('lbCancel').hidden = false; $('lbTitle').focus();
+    } else if (win) {
+      const l = lb.lomba.find(x => x.id === +win.dataset.lbWin);
+      if (!l) return;
+      closeWin(); lbWinId = l.id;
+      $('lbWinTitle').textContent = 'Pemenang: ' + l.title;
+      const top = (l.papan || []).slice(0, 3);
+      if (top.length) top.forEach(r => winRow(r.u)); else winRow();
+      $('lbWin').hidden = false;
+      $('lbWin').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else if (del) {
+      const l = lb.lomba.find(x => x.id === +del.dataset.lbDel);
+      if (!l || !confirm(`Hapus lomba "${l.title}"? Pengumuman di Koran (jika ada) tidak ikut terhapus.`)) return;
+      try { await call('lomba/hapus', { id: l.id }); if (lbWinId === l.id) closeWin(); await loadLomba(); toast('Lomba dihapus'); }
+      catch (er) { toast(er.message, true); }
+    }
+  });
+
+  // ---------- Voting ----------
+  async function loadVoting() {
+    const d = await call('voting');
+    if (!$('vtEnd').value) $('vtEnd').value = toInp(atWib(3, 20));
+    $('vtList').innerHTML = d.polls.length ? d.polls.map(p => `
+      <li><span class="tag ${p.done ? 'selesai' : 'aktif'}">${p.done ? 'selesai' : 'berjalan'}</span><b>${esc(p.question)}</b>
+      <small>${p.done ? 'Selesai' : 'Sampai'} ${fmtW(p.ends_at)} · ${num(p.total)} suara${p.done && p.announced ? ' · sudah diumumkan' : ''}</small>
+      <span class="acts">${p.done ? '' : `<button class="btn ghost sm" type="button" data-vt-close="${p.id}">Tutup sekarang</button>`}
+      <button class="btn danger sm" type="button" data-vt-del="${p.id}">Hapus</button></span>
+      <div class="bars">${p.options.map((o, i) => `<div class="bar"><span>${esc(o)}</span><progress max="100" value="${p.pct[i]}"></progress><em>${num(p.counts[i])} · ${p.pct[i]}%</em></div>`).join('')}</div></li>`).join('')
+      : '<li class="empty">Belum ada polling.</li>';
+  }
+  $('vtForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const options = $('vtOpts').value.split('\n').map(s => s.trim()).filter(Boolean);
+    if (options.length < 2 || options.length > 6) return toast('Pilihan harus 2–6 baris', true);
+    try {
+      await call('voting', { question: $('vtQ').value, options, ends_at: fromInp($('vtEnd').value) });
+      $('vtForm').reset(); $('vtEnd').value = toInp(atWib(3, 20));
+      await loadVoting(); toast('Polling dibuat');
+    } catch (er) { toast(er.message, true); }
+  });
+  $('vtList').addEventListener('click', async e => {
+    const cl = e.target.closest('[data-vt-close]'), del = e.target.closest('[data-vt-del]');
+    try {
+      if (cl && confirm('Tutup polling sekarang? Hasilnya langsung diumumkan di Koran.')) { await call('voting/tutup', { id: +cl.dataset.vtClose }); await loadVoting(); toast('Polling ditutup'); }
+      else if (del && confirm('Hapus polling ini beserta semua suaranya? Pengumuman Koran (jika ada) tidak ikut terhapus.')) { await call('voting/hapus', { id: +del.dataset.vtDel }); await loadVoting(); toast('Polling dihapus'); }
+    } catch (er) { toast(er.message, true); }
+  });
+
+  // ---------- Corong Kota ----------
+  const CR_TXT = { menunggu: 'menunggu', antre: 'antre', tayang: 'tayang', selesai: 'selesai', ditolak: 'ditolak', batal: 'batal' };
+  const crWho = r => (r.source === 'admin' ? 'Admin' : '@' + esc(r.username));
+  async function loadCorong() {
+    const d = await call('corong');
+    const link = d.saweria ? `<a href="${esc(d.saweria)}" target="_blank" rel="noopener noreferrer">Buka Saweria</a>` : 'SAWERIA_URL belum diatur di server/.env.';
+    $('crInfo').innerHTML = `Siaran tampil ${d.durasi} detik di atas peta dan Taman. ${d.harga ? 'Harga: ' + esc(d.harga) + '. ' : ''}Cocokkan nama/kode donasi dengan Saweria sebelum menyetujui. ${link}`;
+    const nMenunggu = d.aktif.filter(r => r.status === 'menunggu').length;
+    $('crCount').textContent = nMenunggu;
+    $('crCountNav').textContent = nMenunggu; $('crCountNav').hidden = !nMenunggu;
+    $('crList').innerHTML = d.aktif.length ? d.aktif.map(r => {
+      const sisa = r.status === 'tayang' ? ` · ${Math.max(0, Math.ceil((r.end_at - d.now) / 1000))} dtk lagi` : '';
+      const acts = r.status === 'menunggu'
+        ? `<button class="btn sm" type="button" data-cr="setujui" data-id="${r.id}">Setujui</button><button class="btn danger sm" type="button" data-cr="tolak" data-id="${r.id}">Tolak</button>`
+        : r.status === 'antre' ? `<button class="btn ghost sm" type="button" data-cr="batal" data-id="${r.id}">Batalkan</button>`
+        : `<button class="btn danger sm" type="button" data-cr="henti" data-id="${r.id}">Hentikan</button>`;
+      return `<li><span class="tag ${r.status}">${CR_TXT[r.status] || esc(r.status)}</span><b>${crWho(r)}</b>
+        <small>“${esc(r.text)}”${r.donor ? ` · donasi: <b>${esc(r.donor)}</b>` : ''} · ${fmtW(r.created_at)}${sisa}</small>
+        <span class="acts">${acts}</span></li>`;
+    }).join('') : '<li class="empty">Tidak ada pengajuan, antrean, atau siaran berjalan.</li>';
+    $('crHist').innerHTML = d.riwayat.length ? d.riwayat.map(r => `
+      <li><span class="tag ${r.status}">${CR_TXT[r.status] || esc(r.status)}</span><b>${crWho(r)}</b>
+      <small>“${esc(r.text)}”${r.donor ? ' · donasi: ' + esc(r.donor) : ''} · ${fmtW(r.start_at || r.created_at)}${r.note ? ' · ' + esc(r.note) : ''}</small></li>`).join('')
+      : '<li class="empty">Belum ada riwayat.</li>';
+  }
+  $('crReload').addEventListener('click', () => loadCorong().catch(er => toast(er.message, true)));
+  $('crForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try { await call('corong/siar', { text: $('crText').value }); $('crText').value = ''; await loadCorong(); toast('Siaran masuk paling depan antrean'); }
+    catch (er) { toast(er.message, true); }
+  });
+  $('crList').addEventListener('click', async e => {
+    const b = e.target.closest('[data-cr]');
+    if (!b) return;
+    const id = +b.dataset.id, act = b.dataset.cr;
+    let body = { id };
+    if (act === 'tolak') {
+      const note = prompt('Alasan menolak (dilihat warga, opsional):', 'Donasi tidak ditemukan');
+      if (note === null) return;
+      body.note = note;
+    } else if (act === 'batal') {
+      const note = prompt('Alasan membatalkan (opsional):', 'Dibatalkan admin');
+      if (note === null) return;
+      body.note = note;
+    } else if (act === 'henti' && !confirm('Hentikan siaran yang sedang tayang?')) return;
+    try {
+      await call('corong/' + (act === 'henti' ? 'batal' : act), body);
+      await loadCorong();
+      toast({ setujui: 'Masuk antrean siaran', tolak: 'Pengajuan ditolak', batal: 'Dibatalkan', henti: 'Siaran dihentikan' }[act]);
+    } catch (er) { toast(er.message, true); }
+  });
+  // antrean maju sendiri tiap 30 dtk: segarkan panel selama halaman admin terbuka
+  setInterval(() => { if (token && !$('app').hidden && !document.hidden) loadCorong().catch(() => {}); }, 15e3);
+
+  // ---------- Cetak Biru ----------
+  let ct = { cetak: [] };
+  const CT_CONTOH = [
+    ['bidang', 0, 0, 2, 2, '#d9cfb8'],
+    ['kotak', 0.3, 0.3, 1.4, 1.2, 1.4, '#e8d9b5'],
+    ['jendela', 0.3, 0.3, 1.4, 1.2, 1.4, '#86b6dc'],
+    ['atap', 0.25, 0.25, 1.5, 1.3, 1.4, 0.6, '#c0573e', 'x'],
+    ['teks', 0.5, 1.5, 0.25, 0.16, 'BALAI WARGA', '#14324a'],
+    ['pohon', 1.75, 1.75, 0.5],
+  ];
+  const ctJson = g => '[\n' + g.map(p => '  ' + JSON.stringify(p)).join(',\n') + '\n]';
+  const lotOf = n => (Number.isInteger(n) && n >= 0 && AL.lots ? AL.lots[n] : null);
+  function lotText(l) {
+    if (!l) return '';
+    const jenis = (AL.LABEL && AL.LABEL[l.type]) || l.type;
+    const distrik = (AL.DISTRICT && AL.DISTRICT[l.district]) || l.district;
+    return `${l.name ? l.name + ' · ' : ''}${jenis} · ${distrik} · ${l.street} No. ${l.num} · petak (${l.x}, ${l.y})`;
+  }
+  function showLot() {
+    const raw = $('ctLot').value, n = raw === '' ? -1 : +raw, l = lotOf(n);
+    const ada = l && ct.cetak.find(c => c.lot === l.id);
+    $('ctLotInfo').textContent = raw === '' ? `Isi nomor kavling (0–${AL.lots ? AL.lots.length - 1 : '?'}).`
+      : !l ? 'Kavling tidak ada di peta.'
+      : lotText(l) + (ada ? ` · sudah punya cetak biru "${ada.nama}" (akan diganti)` : '');
+  }
+  function cekCetak() {
+    const t = $('ctG').value.trim(), box = $('ctCheck');
+    if (!t) { box.hidden = true; return null; }
+    const v = AL.cetakValidasi(t);
+    box.hidden = false;
+    box.className = 'msg full' + (v.ok ? '' : ' err');
+    box.textContent = v.ok ? `Valid: ${v.g.length} primitif, puncak setinggi ${v.top} petak.` : v.error;
+    return v.ok ? v : null;
+  }
+  async function loadCetak() {
+    ct = await call('cetak');
+    if (AL.lots) $('ctLot').max = AL.lots.length - 1;
+    $('ctList').innerHTML = ct.cetak.length ? ct.cetak.map(c => `
+      <li><b>${esc(c.nama)}</b>${c.jenis ? `<span class="tag">${esc(c.jenis)}</span>` : ''}
+      <small>${esc(c.lot)}${c.kavling ? ' · ' + esc(lotText(lotOf(+c.lot.slice(3))) || c.kavling.type) : ''} · ${c.g.length} primitif · ${fmtW(c.updated_at)}</small>
+      <span class="acts"><button class="btn ghost sm" type="button" data-ct-edit="${esc(c.lot)}">Edit</button>
+      <button class="btn danger sm" type="button" data-ct-del="${esc(c.lot)}">Hapus</button></span></li>`).join('')
+      : '<li class="empty">Belum ada cetak biru. Semua kavling memakai bangunan biasa.</li>';
+    showLot();
+  }
+  let ctT = 0;
+  $('ctG').addEventListener('input', () => { clearTimeout(ctT); ctT = setTimeout(cekCetak, 250); });
+  $('ctLot').addEventListener('input', showLot);
+  $('ctContoh').addEventListener('click', () => {
+    if ($('ctG').value.trim() && !confirm('Ganti isi primitif dengan contoh?')) return;
+    $('ctG').value = ctJson(CT_CONTOH); cekCetak();
+  });
+  $('ctReset').addEventListener('click', () => { $('ctForm').reset(); $('ctCheck').hidden = true; showLot(); });
+  $('ctForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const l = lotOf(+$('ctLot').value);
+    if (!l) return toast('Kavling tidak ada di peta', true);
+    const v = cekCetak();
+    if (!v) return toast('Perbaiki primitif dulu', true);
+    const ada = ct.cetak.find(c => c.lot === l.id);
+    if (ada && !confirm(`${l.id} sudah punya cetak biru "${ada.nama}". Ganti?`)) return;
+    try {
+      const r = await call('cetak', { lot: l.id, nama: $('ctNama').value, jenis: $('ctJenis').value, g: v.g });
+      await loadCetak(); toast(`Cetak biru ${r.lot} disimpan (${r.n} primitif)`);
+    } catch (er) { toast(er.message, true); }
+  });
+  $('ctList').addEventListener('click', async e => {
+    const ed = e.target.closest('[data-ct-edit]'), del = e.target.closest('[data-ct-del]');
+    if (ed) {
+      const c = ct.cetak.find(x => x.lot === ed.dataset.ctEdit);
+      if (!c) return;
+      $('ctLot').value = c.lot.slice(3); $('ctNama').value = c.nama; $('ctJenis').value = c.jenis; $('ctG').value = ctJson(c.g);
+      showLot(); cekCetak(); $('ctNama').focus();
+    } else if (del && confirm(`Hapus cetak biru ${del.dataset.ctDel}? Kavling kembali ke bangunan biasa.`)) {
+      try { await call('cetak/hapus', { lot: del.dataset.ctDel }); await loadCetak(); toast('Cetak biru dihapus'); }
+      catch (er) { toast(er.message, true); }
+    }
+  });
+
+  // ---------- Laporan warga (Surat) ----------
+  const ALASAN = { spam: 'spam', kasar: 'kasar', mengganggu: 'mengganggu', lainnya: 'lainnya' };
+  async function loadLapor() {
+    const st = $('lpStatus').value;
+    const d = await call('surat/laporan?status=' + st);
+    if (st === 'baru') { $('lpCount').textContent = d.laporan.length; $('lpCountNav').textContent = d.laporan.length; $('lpCountNav').hidden = !d.laporan.length; }
+    $('lpList').innerHTML = d.laporan.length ? d.laporan.map(r => `
+      <li><span class="tag ${r.alasan === 'kasar' ? 'pengumuman' : ''}">${ALASAN[r.alasan] || esc(r.alasan)}</span><b>@${esc(r.target)}</b>
+      <small>dilaporkan @${esc(r.pelapor)} · ${fmtW(r.created_at)}${r.catatan ? ' · “' + esc(r.catatan) + '”' : ''}</small>
+      <span class="acts"><button class="btn ghost sm" type="button" data-lp="bisukan" data-u="${esc(r.target)}">Bisukan</button>
+      <button class="btn danger sm" type="button" data-lp="hapus-semua" data-u="${esc(r.target)}">Hapus semua suratnya</button>
+      ${r.status === 'baru' ? `<button class="btn sm" type="button" data-lp="selesai" data-id="${r.id}">Tandai selesai</button>` : ''}</span>
+      <div class="bukti">${r.bukti.length ? r.bukti.map(b => `<p><small>${fmtW(b.t)}</small><span>${esc(b.isi)}</span>
+        <button class="btn ghost sm" type="button" data-lp="hapus-pesan" data-id="${b.id}">Hapus surat</button></p>`).join('')
+        : `<p class="empty">Tidak ada surat dari @${esc(r.target)} ke pelapor.</p>`}</div></li>`).join('')
+      : `<li class="empty">${st === 'baru' ? 'Tidak ada laporan baru.' : 'Belum ada laporan selesai.'}</li>`;
+  }
+  $('lpStatus').addEventListener('change', () => loadLapor().catch(er => toast(er.message, true)));
+  $('lpList').addEventListener('click', async e => {
+    const b = e.target.closest('[data-lp]');
+    if (!b) return;
+    const u = b.dataset.u, id = +b.dataset.id;
+    try {
+      if (b.dataset.lp === 'bisukan') {
+        if (!confirm(`Bisukan @${u}? Tidak bisa ngobrol di Taman/Pesta dan menulis pesan stiker. Buka lagi lewat Cari warga.`)) return;
+        await call('bisukan', { usernames: [u], on: true }); toast(`@${u} dibisukan`);
+      } else if (b.dataset.lp === 'hapus-semua') {
+        if (!confirm(`Hapus SEMUA surat yang pernah dikirim @${u} ke siapa pun? Tidak bisa dibatalkan.`)) return;
+        const r = await call('surat/hapus-pesan', { dari: u }); toast(`${r.changed} surat dihapus`);
+      } else if (b.dataset.lp === 'hapus-pesan') {
+        if (!confirm('Hapus surat ini dari kotak surat kedua warga?')) return;
+        const r = await call('surat/hapus-pesan', { id });
+        b.disabled = true; b.textContent = r.changed ? 'Terhapus' : 'Sudah tidak ada';
+        toast(r.changed ? 'Surat dihapus' : 'Surat sudah tidak ada');
+      } else if (b.dataset.lp === 'selesai') {
+        await call('surat/laporan-selesai', { id }); await loadLapor(); toast('Laporan ditandai selesai');
+      }
+    } catch (er) { toast(er.message, true); }
+  });
+
+  // ---------- Stiker rumah ----------
+  let stHost = '';
+  async function loadStiker() {
+    if (!stHost) return;
+    const r = await fetch('/api/rumah?u=' + encodeURIComponent(stHost), { cache: 'no-store' });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'Gagal (' + r.status + ')');
+    $('stList').innerHTML = j.stiker.length ? j.stiker.map(s => `
+      <li><span class="emo">${esc(s.e)}</span><b>@${esc(s.guest)}</b>
+      <small>ID ${s.id} · ${fmtW(s.t)}${s.msg ? ' · “' + esc(s.msg) + '”' : ''}</small>
+      <button class="btn danger sm" type="button" data-st-del="${s.id}">Hapus</button></li>`).join('')
+      : `<li class="empty">Rumah @${esc(stHost)} belum punya stiker.</li>`;
+  }
+  async function hapusStiker(id) {
+    const r = await call('rumah/stiker/hapus', { id });
+    toast(r.ok ? `Stiker ${id} dihapus` : `Stiker ${id} tidak ditemukan`, !r.ok);
+    if (r.ok && stHost) await loadStiker();
+  }
+  $('stForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    stHost = $('stHost').value.trim().replace(/^@+/, '').toLowerCase();
+    try { await loadStiker(); } catch (er) { $('stList').innerHTML = ''; toast(er.message, true); }
+  });
+  $('stDelForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const id = Math.floor(+$('stId').value);
+    if (!(id > 0) || !confirm(`Hapus stiker ID ${id}?`)) return;
+    try { await hapusStiker(id); $('stId').value = ''; } catch (er) { toast(er.message, true); }
+  });
+  $('stList').addEventListener('click', async e => {
+    const b = e.target.closest('[data-st-del]');
+    if (!b || !confirm('Hapus stiker ini?')) return;
+    try { await hapusStiker(+b.dataset.stDel); } catch (er) { toast(er.message, true); }
+  });
 
   // ---------- Radio ----------
   const durTxt = s => Math.floor(s / 60) + ':' + String(Math.round(s % 60)).padStart(2, '0');

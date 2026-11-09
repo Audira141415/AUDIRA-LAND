@@ -399,8 +399,11 @@
     // malam: ruang meredup, lampu memberi cahaya hangat
     if (n > 0) {
       const lit = pasang.langit === 'lampu' || pasang['lantai-kanan'] === 'akuarium' || pasang['dinding-kanan'] === 'tv';
+      // redup hanya di atas gambar ruang (source-atop), bukan di area transparan sekeliling diorama
+      c.save(); c.globalCompositeOperation = 'source-atop';
       c.fillStyle = 'rgba(16,24,56,' + (n * (lit ? 0.38 : 0.55)).toFixed(3) + ')';
       c.fillRect(0, 0, CW, CH);
+      c.restore();
       c.save(); c.globalCompositeOperation = 'lighter';
       if (pasang.langit === 'lampu') {
         const b = P(2.6, 2.6, 4.25), f = P(2.9, 2.9, 0);

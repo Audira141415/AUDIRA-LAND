@@ -1,0 +1,119 @@
+/* Rumahku: ruang dalam rumah warga, perabot, ketuk pintu, papan tamu. Token warna dari style.css */
+html:has(body.rumah), body.rumah { height: auto; min-height: 100%; overflow: auto; background: #efe6d2; }
+body.rumah { background: #efe6d2; }
+body.rumah.rm-kampung { background: #ece0c6; }
+.rm-wrap { max-width: 640px; margin: 0 auto; padding: calc(12px + var(--safe-t)) 16px calc(28px + var(--safe-b)); display: grid; gap: 14px; }
+.rm-wrap [hidden] { display: none !important; }
+
+/* ---------- atas ---------- */
+.rm-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.rm-top .back { display: flex; align-items: center; padding: 11px 14px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; flex: none; }
+.rm-who { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 700; font-size: 13px; background: var(--paper); border-radius: 999px; padding: 6px 6px 6px 14px; box-shadow: var(--shadow); min-height: 40px; }
+.rm-who:empty { display: none; }
+.rm-who:has(> .btn:only-child) { padding: 4px; }
+.rm-who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm-who .link { color: var(--coral-ink); font-weight: 800; padding: 0 8px 0 0; }
+.rm-who .btn.sm { border-radius: 999px; padding: 8px 14px; }
+
+/* ---------- kosong / memuat ---------- */
+.rm-empty { background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); padding: 28px 20px 22px; display: grid; gap: 8px; justify-items: center; text-align: center; }
+.rm-empty h1 { margin: 6px 0 0; font-size: 22px; font-weight: 800; line-height: 1.25; }
+.rm-empty p { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; max-width: 34ch; }
+.rm-empty .btn { flex: none; margin-top: 8px; padding: 11px 18px; border-radius: 999px; text-decoration: none; }
+.rm-door { width: 72px; height: 96px; border-radius: 36px 36px 6px 6px; background: #9c6b3a; box-shadow: 0 0 0 6px #d9967c, 0 10px 0 -2px #b48c52; position: relative; }
+.rm-door span { position: absolute; right: 14px; top: 52px; width: 9px; height: 9px; border-radius: 50%; background: var(--sun); }
+
+/* ---------- kepala ---------- */
+.rm-main { display: grid; gap: 12px; }
+.rm-head { display: grid; gap: 4px; }
+.rm-head h1 { margin: 0; font-size: 26px; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+.rm-addr { margin: 0; color: var(--ink-2); font-size: 15px; font-weight: 600; line-height: 1.45; }
+.rm-stats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.rm-stats:empty { display: none; }
+.rm-chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 2px 8px rgba(10, 30, 50, .08); }
+.rm-chip b { font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* ---------- ruang ---------- */
+.rm-stage {
+  border-radius: 24px; padding: 8px; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(120% 80% at 50% 0%, #fffaf0 0%, #f3ead8 60%, #e6d9bd 100%);
+  box-shadow: var(--shadow);
+}
+body.rm-kampung .rm-stage { background: radial-gradient(120% 80% at 50% 0%, #fff6e4 0%, #efdcb6 60%, #dcc394 100%); }
+#room { display: block; width: min(100%, 520px); height: auto; aspect-ratio: 360 / 340; }
+#room.knock { animation: rm-knock .45s ease-out; }
+@keyframes rm-knock {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-4px) rotate(-.4deg); }
+  35% { transform: translateX(4px) rotate(.4deg); }
+  55% { transform: translateX(-3px); }
+  75% { transform: translateX(2px); }
+}
+@media (prefers-reduced-motion: reduce) { #room.knock { animation: none; } }
+
+/* ---------- rusun (antre) ---------- */
+.rm-rusun { background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); padding: 20px; display: grid; gap: 8px; }
+.rm-rusun h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.rm-rusun p { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+.rm-rusun-art { display: grid; grid-template-columns: repeat(3, 28px); gap: 6px; padding: 10px; justify-self: start; background: #d9967c; border-radius: 10px 10px 4px 4px; }
+.rm-rusun-art i { height: 22px; border-radius: 4px; background: #f3ead8; }
+.rm-rusun-art i:nth-child(2n) { background: #5f9e98; }
+
+/* ---------- aksi ---------- */
+.rm-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.rm-acts:empty { display: none; }
+.rm-acts .btn { flex: 1 1 160px; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; border-radius: 999px; padding: 11px 16px; font-size: 15px; }
+.rm-acts .btn:not(.ghost) { background: var(--coral); color: var(--ink); }
+.rm-acts .btn.ghost { background: var(--paper); }
+.rm-acts .msg { flex: 1 1 100%; }
+
+/* ---------- kartu bagian ---------- */
+.rm-card { background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 10px; scroll-margin-top: 12px; }
+.rm-card h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.rm-card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rm-lead { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.rm-saldo { background: var(--ink); color: var(--paper); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.rm-saldo b { color: var(--sun); font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* katalog perabot */
+.rm-katalog { display: grid; gap: 14px; }
+.rm-slot { display: grid; gap: 8px; }
+.rm-slot h3 { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rm-slot h3 .link { text-transform: none; letter-spacing: 0; color: var(--coral-ink); padding: 0; }
+.rm-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.rm-item { background: var(--paper-2); border-radius: 16px; padding: 8px 10px 10px; display: grid; gap: 4px; align-content: start; box-shadow: 0 0 0 2px transparent inset; }
+.rm-item.on { background: #fff; box-shadow: 0 0 0 2px var(--ink) inset; }
+.rm-item canvas { width: 100%; height: auto; aspect-ratio: 120 / 96; border-radius: 12px; background: #e6dcc4; }
+.rm-item b { font-size: 14px; font-weight: 800; line-height: 1.3; }
+.rm-item small { font-size: 12px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.rm-item .btn.sm { justify-self: start; margin-top: 2px; border-radius: 999px; min-height: 36px; padding: 7px 14px; }
+.rm-item .btn[data-beli]:not(:disabled) { background: var(--coral); color: var(--ink); }
+.rm-item .btn:disabled { cursor: not-allowed; }
+.rm-tag { justify-self: start; margin-top: 2px; font-size: 12px; font-weight: 800; background: var(--ink); color: var(--paper); border-radius: 999px; padding: 6px 12px; }
+
+/* papan tamu */
+.rm-stiker { display: grid; gap: 10px; }
+.rm-pick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-width: 400px; }
+.rm-pick button { border: 0; background: var(--paper-2); border-radius: 14px; aspect-ratio: 1; min-height: 44px; font-size: 22px; line-height: 1; display: grid; place-items: center; transition: transform .1s; }
+.rm-pick button:active { transform: scale(.94); }
+.rm-pick button[aria-checked="true"] { background: #fff; box-shadow: 0 0 0 3px var(--coral) inset; }
+.rm-pick button:disabled { opacity: .5; cursor: default; }
+.rm-stiker .btn { border-radius: 999px; min-height: 46px; background: var(--coral); color: var(--ink); }
+.rm-stiker .btn:disabled { background: var(--paper-2); color: var(--ink-2); cursor: default; }
+.rm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rm-list li { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: start; background: var(--paper-2); border-radius: 14px; padding: 10px 12px; }
+.rm-list li > div { min-width: 0; display: grid; gap: 2px; }
+.rm-emo { width: 40px; height: 40px; border-radius: 12px; background: #fff; display: grid; place-items: center; font-size: 22px; }
+.rm-guest { font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm-guest:hover { text-decoration: underline; text-underline-offset: 3px; }
+.rm-list p { margin: 0; font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+.rm-list small { font-size: 12px; color: var(--ink-2); }
+.rm-list .link { color: var(--coral-ink); padding: 2px 0; }
+.rm-list li.rm-none { display: block; text-align: center; color: var(--ink-2); font-size: 14px; background: none; border: 2px dashed var(--line); }
+
+@media (max-width: 480px) {
+  .rm-head h1 { font-size: 22px; }
+  .rm-stage { padding: 4px; border-radius: 20px; }
+  .rm-items { grid-template-columns: 1fr 1fr; }
+  .rm-pick button { font-size: 20px; border-radius: 12px; }
+}

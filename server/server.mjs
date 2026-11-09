@@ -18,6 +18,14 @@ import { createKabarku } from './kabarku.mjs';
 import { createKabar } from './kabar.mjs';
 import { createSponsor } from './sponsor.mjs';
 import { createRadio } from './radio.mjs';
+import { createBalai } from './balai.mjs';
+import { createCetak } from './cetak.mjs';
+import { createCorong } from './corong.mjs';
+import { createLomba } from './lomba.mjs';
+import { createRumah } from './rumah.mjs';
+import { createSurat } from './surat.mjs';
+import { createVoting } from './voting.mjs';
+import { createPantai } from './pantai.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
@@ -74,6 +82,7 @@ const kabarku = createKabarku(db, { world });
 const kerja = createKerja(db, { world, ekonomi, sim: loadKerjaSim(ROOT), kabar, kabarku });
 const lencana = createLencana(db, { world });
 const taman = createTaman({ store, map: JSON.parse(readFileSync(join(ROOT, 'js', 'taman-map.json'), 'utf8')), itemsOf: ekonomi.itemsOf, badgeOf: lencana.iconOf });
+const pantai = createPantai({ store, itemsOf: ekonomi.itemsOf, badgeOf: lencana.iconOf });
 const pesta = createPesta(db, { store, itemsOf: ekonomi.itemsOf, badgeOf: lencana.iconOf, map: JSON.parse(readFileSync(join(ROOT, 'js', 'pesta-map.json'), 'utf8')) });
 
 // ---------- helper ----------
@@ -131,7 +140,16 @@ function usernamesFrom(body) {
 
 // ---------- modul fitur ----------
 // Tiap modul: { route(req, res, url, ctx) -> true bila permintaan ditangani }. Daftar diisi di bawah setelah modul dibuat.
-const MODS = [];
+// Rute /api/admin/... milik modul dicek sendiri di route() masing-masing lewat ctx.isAdmin().
+const MODS = [
+  createBalai(db, { lencana }),
+  createCetak(db, { world }),
+  createCorong(db, { cfg }),
+  createLomba(db, { ekonomi, kabarku, kabar, kerja }),
+  createRumah(db, { ekonomi, kabarku, world }),
+  createSurat(db, { kabarku }),
+  createVoting(db, { kabar }),
+];
 const sessionUser = req => { const mt = (req.headers.authorization || '').match(/^Bearer (.+)$/); const s = mt ? store.session(mt[1]) : null; return s ? s.username : null; };
 const bad = (msg, code = 400) => Object.assign(new Error(msg), { code });
 
@@ -182,7 +200,7 @@ async function api(req, res, url) {
       const body = await readJson(req, 512);
       const r = lencana.pakai(u, body.id ? String(body.id) : null);
       const icon = lencana.iconOf(u);
-      taman.setBadge(u, icon); pesta.setBadge(u, icon);
+      taman.setBadge(u, icon); pesta.setBadge(u, icon); pantai.setBadge(u, icon);
       return send(res, 200, r);
     }
     return send(res, 404, { error: 'Tidak ditemukan' });
@@ -196,7 +214,7 @@ async function api(req, res, url) {
     if (m !== 'POST') return send(res, 405, { error: 'Metode tidak didukung' });
     if (limited(ip, 'dompet', 30, 60e3)) return send(res, 429, { error: 'Terlalu cepat. Tunggu sebentar.' });
     const body = await readJson(req, 4096);
-    const lookChanged = r => { taman.setItems(u, r.items); pesta.setItems(u, r.items); return r; };
+    const lookChanged = r => { taman.setItems(u, r.items); pesta.setItems(u, r.items); pantai.setItems(u, r.items); return r; };
     if (a === '/absen') return send(res, 200, ekonomi.absen(u));
     if (a === '/beli') return send(res, 200, lookChanged(ekonomi.beli(u, String(body.item || ''))));
     if (a === '/pakai') return send(res, 200, lookChanged(ekonomi.pakai(u, String(body.slot || ''), body.item ? String(body.item) : null)));
@@ -246,7 +264,7 @@ async function api(req, res, url) {
     const body = await readJson(req, 4096);
     return send(res, 200, pesta.tutup(body.token));
   }
-  if (p === '/api/taman' && m === 'GET') return send(res, 200, { online: taman.count() }, { 'Cache-Control': 'no-store' });
+  if (p === '/api/taman' && m === 'GET') return send(res, 200, { online: taman.count(), pantai: pantai.count() }, { 'Cache-Control': 'no-store' });
   if (p === '/api/masuk' && m === 'POST') {
     if (limited(ip, 'masuk', 10, 600e3)) return send(res, 429, { error: 'Terlalu banyak percobaan. Coba lagi 10 menit lagi.' });
     const body = await readJson(req, 4096);
@@ -299,10 +317,10 @@ async function api(req, res, url) {
     const { ok, bad } = usernamesFrom(body);
     if (a === 'setujui') return send(res, 200, { approved: store.approve(ok, { instant: !!body.instant }), invalid: bad });
     if (a === 'tolak') return send(res, 200, { changed: store.reject(ok) });
-    if (a === 'hapus') { taman.kick(ok); pesta.kick(ok); pesta.hapusHost(ok); return send(res, 200, { changed: store.remove(ok) }); }
+    if (a === 'hapus') { taman.kick(ok); pesta.kick(ok); pantai.kick(ok); pesta.hapusHost(ok); return send(res, 200, { changed: store.remove(ok) }); }
     if (a === 'kode') { const kode = ok[0] ? store.issueCode(ok[0]) : null; return kode ? send(res, 200, { username: ok[0], kode }) : send(res, 400, { error: 'Hanya warga yang sudah disetujui yang bisa dapat kode KTW' }); }
     if (a === 'koin') return send(res, 200, ekonomi.beri(ok, body.amount, body.note));
-    if (a === 'bisukan') { taman.mute(ok, !!body.on); pesta.mute(ok, !!body.on); return send(res, 200, { changed: store.setMuted(ok, !!body.on) }); }
+    if (a === 'bisukan') { taman.mute(ok, !!body.on); pesta.mute(ok, !!body.on); pantai.mute(ok, !!body.on); return send(res, 200, { changed: store.setMuted(ok, !!body.on) }); }
     if (a === 'pertahankan') return send(res, 200, { changed: store.keep(ok) });
     if (a === 'impor') return send(res, 200, { ...store.importUsers(ok, { instant: !!body.instant }), invalid: bad });
   }
@@ -310,7 +328,7 @@ async function api(req, res, url) {
 }
 
 // ---------- file statis (hanya folder publik) ----------
-const PUBLIC = ['index.html', 'admin.html', 'taman.html', 'pesta.html', 'kerja.html', 'css', 'js', 'assets'];
+const PUBLIC = ['index.html', 'admin.html', 'taman.html', 'pesta.html', 'kerja.html', 'balai.html', 'event.html', 'pantai.html', 'rumah.html', 'css', 'js', 'assets'];
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.mp3': 'audio/mpeg', '.ico': 'image/x-icon' };
 function serveStatic(req, res, url) {
   let rel = decodeURIComponent(url.pathname).replace(/^\/+/, '');
@@ -319,6 +337,7 @@ function serveStatic(req, res, url) {
   if (rel === 'taman') rel = 'taman.html';
   if (rel === 'pesta') rel = 'pesta.html';
   if (rel === 'kerja') rel = 'kerja.html';
+  if (['balai', 'event', 'pantai', 'rumah'].includes(rel)) rel += '.html';
   const top = rel.split('/')[0];
   const file = resolve(ROOT, rel);
   if (!PUBLIC.includes(top) || !file.startsWith(ROOT + sep)) return send(res, 404, 'Tidak ditemukan');
@@ -375,6 +394,7 @@ server.on('upgrade', (req, socket) => {
   if (!conn) return;
   const roomName = url.searchParams.get('room') || 'taman';
   if (roomName === 'taman') return taman.handle(conn);
+  if (roomName === 'pantai') return pantai.handle(conn);
   const host = roomName.startsWith('pesta:') ? normUsername(roomName.slice(6)) : null;
   const room = host && pesta.room(host);
   if (room) return room.handle(conn);

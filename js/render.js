@@ -585,7 +585,8 @@
   AL.spriteCacheSize = () => cache.size;
   AL.getSprite = function (obj, s, night, budget) {
     // kavling kosong & kavling berbangunan beda sprite: saat warga pertama masuk, sprite baru dibuat
-    const st = obj.type ? (AL.isBuilt(obj) ? 'b' : 'e') : '';
+    // cetak biru admin (js/cetak-gambar.js) punya versi sendiri supaya sprite lama tidak terpakai setelah diubah
+    const st = obj.type ? (obj.cetak ? 'c' + obj.cetak.v : AL.isBuilt(obj) ? 'b' : 'e') : '';
     const base = obj.id + '|' + st + '|' + (night ? 1 : 0);
     const key = base + '|' + s;
     let e = cache.get(key);
