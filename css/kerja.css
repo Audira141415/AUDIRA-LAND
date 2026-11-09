@@ -29,7 +29,7 @@ body.kerja { background: #efe6d2; }
 .kj-card .kj-best { font-weight: 700; color: var(--ink); }
 .kj-kota { margin-top: 18px; background: var(--paper); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow); }
 .kj-kota h2 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
-.kj-kota ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kj-kota ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
 .kj-kota li { background: var(--paper-2); border-radius: 14px; padding: 10px; font-size: 13px; }
 .kj-kota li b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
 .kj-kota li small { display: block; color: var(--ink-2); margin-top: 2px; }
@@ -56,7 +56,7 @@ body.kerja { background: #efe6d2; }
 .kj-note { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
 .kj-end .acts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
 @media (max-width: 480px) {
-  .kj-kota ul { grid-template-columns: 1fr; }
+  .kj-kota ul { grid-template-columns: 1fr 1fr; }
   .kj-home h1 { font-size: 22px; }
   .kj-card { grid-template-columns: 104px 1fr; column-gap: 12px; align-items: start; }
   .kj-card canvas { grid-row: span 5; width: 104px; }
@@ -71,8 +71,9 @@ body.kerja { background: #efe6d2; }
 .kj-seg { display: inline-flex; background: var(--paper-2); border-radius: 999px; padding: 3px; gap: 2px; }
 .kj-seg button { border: 0; background: none; border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13px; color: var(--ink-2); min-height: 36px; }
 .kj-seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
-.kj-seg-game { display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 14px; }
-.kj-seg-game button { border-radius: 11px; display: grid; gap: 1px; padding: 6px 4px; }
+.kj-seg-game { display: flex; min-width: 0; border-radius: 14px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; }
+.kj-seg-game::-webkit-scrollbar { display: none; }
+.kj-seg-game button { flex: 1 0 auto; min-width: 92px; border-radius: 11px; display: grid; gap: 1px; padding: 6px 10px; white-space: nowrap; scroll-snap-align: start; }
 .kj-seg-game small { font-size: 11px; font-weight: 600; opacity: .75; }
 .kj-rank { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .kj-rank li { display: grid; grid-template-columns: 34px 1fr auto auto; align-items: baseline; gap: 6px; padding: 8px 10px; border-radius: 12px; background: var(--paper-2); font-size: 14px; }

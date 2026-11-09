@@ -201,6 +201,25 @@ Protokol WebSocket `/ws/taman` (JSON, hanya dari Origin situs ini sendiri):
 
 Server hanya menyimpan petak tujuan tiap orang; jalur dihitung sama di semua klien (BFS pada `js/taman-map.json`), dimulai dari `fx, fy`.
 
+## Sedang dikerjakan (belum tersambung)
+
+Modul berikut sudah ada kodenya tetapi **belum didaftarkan di `server/server.mjs` dan belum ditautkan dari peta**, jadi belum bisa dipakai pemain. Halamannya masih 404 dan rute API-nya belum ada.
+
+| Fitur | Server | Klien | API yang dipanggil klien |
+|---|---|---|---|
+| Balai Warga (kartu KTW, Buku Warga) | `server/balai.mjs` | `balai.html`, `js/balai.js` | `/api/balai/warga`, `/api/balai/juara` |
+| Rumahku (ruang dalam, perabot, stiker) | `server/rumah.mjs` | `js/rumah.js` | `/api/rumah/*` |
+| Surat & teman | `server/surat.mjs` | `js/surat.js` | `/api/surat/*` |
+| Voting warga | `server/voting.mjs` | `js/voting.js` | `/api/voting`, `/api/voting/pilih` |
+| Corong Kota (siaran 30 dtk) | `server/corong.mjs` | `js/corong.js` | `/api/corong/*` |
+| Lomba & Event | `server/lomba.mjs` | `event.html`, `js/event.js` | `/api/lomba` |
+| Pantai Nyiur (room realtime) | `server/pantai.mjs` | `pantai.html`, `js/pantai-config.js` | WebSocket room |
+| Cetak biru bangunan | `server/cetak.mjs` | `js/cetak.js` | `/api/cetak` |
+| Damkar (kebakaran) | `server/damkar.mjs` | — | — |
+| Musim & intro harian | — | `js/musim.js`, `js/intro.js` | — |
+
+Catatan: `event.html` memanggil `css/event.css` yang belum ada.
+
 ## API
 
 | Metode | Path | Isi |

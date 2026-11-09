@@ -1,5 +1,10 @@
 /* AUDIRA LAND · util: hash, rng, noise, warna, format angka. */
 window.AL = window.AL || {};
+// kait modul fitur: AL.overlays = fungsi (ctx, toScr, z, t, vw, vh, night) digambar di atas kota;
+// AL.screenFx = fungsi (ctx, vw, vh, t, night) digambar paling akhir (layar penuh, mis. hujan/intro)
+window.AL.overlays = window.AL.overlays || [];
+window.AL.screenFx = window.AL.screenFx || [];
+window.AL.onBoot = window.AL.onBoot || [];   // fungsi () dipanggil setelah data kota dimuat (bukan mode demo)
 (function (AL) {
   'use strict';
 

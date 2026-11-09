@@ -7,7 +7,7 @@
   let token = '', user = '', data = null, items = {}, tab = 'dompet', tickTimer = 0;
   try { token = localStorage.getItem(TK) || ''; user = localStorage.getItem(UK) || ''; } catch (e) { /* abaikan */ }
   const fmt = n => Math.floor(n).toLocaleString('id-ID');
-  const SLOT = { kepala: 'Kepala', mata: 'Mata', leher: 'Leher', aura: 'Aura' };
+  const SLOT = { kepala: 'Kepala', mata: 'Mata', leher: 'Leher', aura: 'Aura', hewan: 'Hewan pendamping' };
   const KIND = { absen: 'Absen harian', beli: 'Belanja', kirim: 'Kirim ke', terima: 'Dari', hadiah: 'Hadiah', kerja: 'Kerja', juara: 'Hadiah juara' };
 
   async function api(path, body) {

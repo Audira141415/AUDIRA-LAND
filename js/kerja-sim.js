@@ -180,8 +180,258 @@ window.AL = window.AL || {};
     };
     return g;
   }
-  const MAKERS = { nelayan, petani, kurir };
-  const UNIT = { nelayan: 'ikan', petani: 'ikat padi', kurir: 'paket' };
+  // teks melayang (+1/−1) bergaris krem supaya terbaca di latar apa pun
+  function popText(c, text, x, y, col, a) {
+    c.globalAlpha = Math.max(0, a); c.font = '800 22px "Plus Jakarta Sans", system-ui'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.lineJoin = 'round'; c.lineWidth = 5; c.strokeStyle = C.paper; c.strokeText(text, x, y);
+    c.fillStyle = col; c.fillText(text, x, y); c.globalAlpha = 1;
+  }
+
+  // ---------- Koki · Dapur Warung ----------
+  // Pesanan datang terjadwal (seed). Satu pesanan aktif di loket; ketuk bahan sesuai urutan di nota.
+  // Skor maks = 2 × jumlah pesanan terjadwal (tetap, tidak tergantung seed).
+  const ING = [
+    { id: 'nasi', name: 'Nasi' }, { id: 'ayam', name: 'Ayam' }, { id: 'telur', name: 'Telur' },
+    { id: 'tempe', name: 'Tempe' }, { id: 'sambal', name: 'Sambal' }, { id: 'esteh', name: 'Es teh' },
+  ];
+  const BIN = { x0: 12, y0: 334, w: 108, h: 84, gap: 6 };
+  const binAt = (x, y) => {
+    const cx = Math.floor((x - BIN.x0) / (BIN.w + BIN.gap)), cy = Math.floor((y - BIN.y0) / (BIN.h + BIN.gap));
+    if (cx < 0 || cx > 2 || cy < 0 || cy > 1) return -1;
+    const lx = x - BIN.x0 - cx * (BIN.w + BIN.gap), ly = y - BIN.y0 - cy * (BIN.h + BIN.gap);
+    return lx <= BIN.w && ly <= BIN.h ? cy * 3 + cx : -1;
+  };
+  function drawIng(c, id, x, y, s) {
+    c.save(); c.translate(x, y); c.scale(s, s);
+    if (id === 'nasi') {
+      c.fillStyle = C.gold; c.beginPath(); c.moveTo(-16, 2); c.lineTo(16, 2); c.lineTo(11, 13); c.lineTo(-11, 13); c.closePath(); c.fill();
+      c.fillStyle = '#f7f3ea'; c.beginPath(); c.ellipse(0, 2, 15, 12, 0, Math.PI, 0); c.fill();
+      c.strokeStyle = 'rgba(20,50,74,.25)'; c.lineWidth = 1.2; c.beginPath(); c.ellipse(0, 2, 15, 12, 0, Math.PI, 0); c.stroke();
+    } else if (id === 'ayam') {
+      c.fillStyle = '#b98046'; c.beginPath(); c.ellipse(-3, 0, 13, 10, -0.5, 0, 7); c.fill();
+      c.fillStyle = '#f2e8d4'; c.fillRect(6, 4, 9, 4); c.beginPath(); c.arc(16, 4, 3, 0, 7); c.arc(16, 9, 3, 0, 7); c.fill();
+      c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.ellipse(-7, -4, 4, 2.5, -0.5, 0, 7); c.fill();
+    } else if (id === 'telur') {
+      c.fillStyle = '#f7f3ea'; c.beginPath(); c.moveTo(-15, 2); c.bezierCurveTo(-16, -12, 4, -14, 14, -6); c.bezierCurveTo(19, 4, 6, 12, -4, 10); c.bezierCurveTo(-12, 9, -14, 6, -15, 2); c.fill();
+      c.fillStyle = '#e3b85c'; c.beginPath(); c.arc(0, -1, 6, 0, 7); c.fill();
+    } else if (id === 'tempe') {
+      c.fillStyle = '#cdb38a'; c.beginPath(); c.roundRect(-15, -9, 30, 18, 3); c.fill();
+      c.fillStyle = '#a88a68';
+      for (let i = 0; i < 7; i++) { c.beginPath(); c.arc(-10 + (i % 4) * 7 + (i > 3 ? 3 : 0), i > 3 ? 4 : -3, 1.6, 0, 7); c.fill(); }
+    } else if (id === 'sambal') {
+      c.fillStyle = C.ink; c.beginPath(); c.ellipse(0, 4, 15, 9, 0, 0, Math.PI); c.fill();
+      c.fillStyle = '#b5654f'; c.beginPath(); c.ellipse(0, 3, 14, 5, 0, 0, 7); c.fill();
+      c.fillStyle = '#8fb27a'; c.beginPath(); c.ellipse(9, -2, 5, 2, -0.6, 0, 7); c.fill();
+    } else {
+      c.fillStyle = 'rgba(255,255,255,.65)'; c.beginPath(); c.moveTo(-10, -14); c.lineTo(10, -14); c.lineTo(7, 14); c.lineTo(-7, 14); c.closePath(); c.fill();
+      c.fillStyle = '#c08a4f'; c.beginPath(); c.moveTo(-9, -6); c.lineTo(9, -6); c.lineTo(7, 13); c.lineTo(-7, 13); c.closePath(); c.fill();
+      c.fillStyle = 'rgba(255,255,255,.7)'; c.fillRect(-6, -4, 5, 5); c.fillRect(1, 0, 5, 5);
+      c.strokeStyle = C.tealDim; c.lineWidth = 2; c.beginPath(); c.moveTo(3, -6); c.lineTo(7, -19); c.stroke();
+    }
+    c.restore();
+  }
+
+  function koki(rng) {
+    const g = { score: 0, hint: 'Ketuk bahan sesuai urutan di nota. Cepat +2, selesai +1, salah bahan −1.' };
+    const orders = [];
+    for (let t = 0.6, gap = 2; t < DUR - 1; t += gap, gap = Math.max(0.85, gap * 0.95)) {
+      const items = ['nasi'], lauk = ['ayam', 'telur', 'tempe'];
+      const a = Math.floor(rng() * 3); items.push(lauk[a]);
+      if (rng() < 0.25) items.push(lauk[(a + 1 + Math.floor(rng() * 2)) % 3]);
+      if (rng() < 0.55) items.push('sambal');
+      if (items.length < 4 && rng() < 0.4) items.push('esteh');
+      orders.push({ t0: t, items, look: Math.floor(rng() * 4) });
+    }
+    g.orders = orders.length;
+    g.want = () => (cur ? cur.o.items[cur.i] : null); // untuk uji/bot
+    let qi = 0, cur = null, nextAt = 0, fx = [], flash = { i: -1, t: -9, ok: true };
+    g.update = (dt, t) => {
+      if (cur && t > cur.ts + cur.lim) { fx.push({ t, text: 'Kelamaan', col: C.wilt }); cur = null; nextAt = t + 0.35; }
+      if (!cur && qi < orders.length && orders[qi].t0 <= t && t >= nextAt) {
+        const o = orders[qi++], n = o.items.length;
+        cur = { o, ts: t, i: 0, lim: (2.2 + 1.1 * n) * (1 - 0.25 * t / DUR) };
+      }
+      fx = fx.filter(f => t - f.t < 0.9);
+    };
+    g.tap = (x, y, t) => {
+      const b = binAt(x, y);
+      if (b < 0 || !cur) return;
+      const ok = ING[b].id === cur.o.items[cur.i];
+      flash = { i: b, t, ok };
+      if (!ok) { g.score -= 1; fx.push({ t, text: '−1 salah', col: C.wilt }); return; }
+      cur.i++;
+      if (cur.i === cur.o.items.length) {
+        const cepat = t - cur.ts <= cur.lim * 0.5;
+        g.score += cepat ? 2 : 1;
+        fx.push({ t, text: cepat ? '+2 cepat!' : '+1', col: C.tealDim });
+        cur = null; nextAt = t + 0.35;
+      }
+    };
+    const person = (c, x, y, look, s) => {
+      const shirt = [C.salem, C.tealDim, C.blueDim, C.gold][look], skin = ['#e0b48c', '#c99a72', '#ad7f5b', '#e8c39e'][look];
+      c.save(); c.translate(x, y); c.scale(s, s);
+      c.fillStyle = shirt; c.beginPath(); c.roundRect(-18, 0, 36, 44, 12); c.fill();
+      c.fillStyle = skin; c.beginPath(); c.arc(0, -14, 14, 0, 7); c.fill();
+      c.fillStyle = C.ink;
+      if (look % 2) { c.beginPath(); c.arc(0, -17, 14.5, Math.PI, 0); c.fill(); } else { c.fillRect(-14, -29, 28, 8); }
+      c.beginPath(); c.arc(-5, -12, 1.8, 0, 7); c.arc(5, -12, 1.8, 0, 7); c.fill();
+      c.restore();
+    };
+    g.draw = (c, t) => {
+      c.fillStyle = '#efe2c8'; c.fillRect(0, 0, W, H);
+      // tenda warung bergaris
+      for (let i = 0; i < 9; i++) { c.fillStyle = i % 2 ? C.paper : C.salem; c.fillRect(i * 40, 0, 40, 34); c.beginPath(); c.arc(i * 40 + 20, 34, 20, 0, Math.PI); c.fill(); }
+      c.fillStyle = C.ink; c.font = '800 13px "Plus Jakarta Sans", system-ui'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillStyle = C.paper; c.beginPath(); c.roundRect(W / 2 - 62, 60, 124, 22, 11); c.fill();
+      c.fillStyle = C.ink; c.fillText('WARUNG AUDIRA', W / 2, 71);
+      // antrean pembeli (yang belum dilayani)
+      let qn = 0;
+      for (let k = qi; k < orders.length && orders[k].t0 <= t && qn < 4; k++, qn++) person(c, W - 34 - qn * 26, 128, orders[k].look, 0.55);
+      // pembeli aktif + nota
+      if (cur) {
+        person(c, 54, 128, cur.o.look, 1);
+        const n = cur.o.items.length, nw = 52 * n + 16, nx = Math.min(W - nw - 8, 100);
+        c.fillStyle = C.paper; c.beginPath(); c.roundRect(nx, 96, nw, 74, 12); c.fill();
+        c.strokeStyle = 'rgba(20,50,74,.2)'; c.lineWidth = 1.5; c.stroke();
+        cur.o.items.forEach((id, i) => {
+          const ix = nx + 34 + i * 52;
+          c.globalAlpha = i < cur.i ? 0.3 : 1; drawIng(c, id, ix, 124, 0.95); c.globalAlpha = 1;
+          if (i < cur.i) { c.strokeStyle = C.tealDim; c.lineWidth = 3.5; c.beginPath(); c.moveTo(ix - 8, 124); c.lineTo(ix - 2, 131); c.lineTo(ix + 10, 115); c.stroke(); }
+          if (i === cur.i) { c.strokeStyle = C.you; c.lineWidth = 2.5; c.beginPath(); c.roundRect(ix - 23, 102, 46, 42, 9); c.stroke(); }
+        });
+        const p = Math.max(0, 1 - (t - cur.ts) / cur.lim);
+        c.fillStyle = 'rgba(20,50,74,.12)'; c.beginPath(); c.roundRect(nx + 10, 152, nw - 20, 8, 4); c.fill();
+        c.fillStyle = p > 0.5 ? C.tealDim : p > 0.25 ? C.gold : C.wilt; c.beginPath(); c.roundRect(nx + 10, 152, Math.max(8, (nw - 20) * p), 8, 4); c.fill();
+      } else if (qi >= orders.length) {
+        c.fillStyle = C.ink; c.font = '700 15px "Plus Jakarta Sans", system-ui'; c.fillText('Warung tutup sebentar lagi…', W / 2, 130);
+      }
+      // meja saji + piring
+      c.fillStyle = C.wood; c.fillRect(0, 186, W, 18);
+      c.fillStyle = '#d9cdb2'; c.fillRect(0, 204, W, 120);
+      c.fillStyle = C.paper; c.beginPath(); c.ellipse(W / 2, 262, 110, 42, 0, 0, 7); c.fill();
+      c.strokeStyle = 'rgba(20,50,74,.15)'; c.lineWidth = 2; c.beginPath(); c.ellipse(W / 2, 262, 88, 32, 0, 0, 7); c.stroke();
+      if (cur) cur.o.items.slice(0, cur.i).forEach((id, i) => drawIng(c, id, W / 2 - (cur.i - 1) * 24 + i * 48, 258, 1.2));
+      // laci bahan
+      ING.forEach((b, i) => {
+        const x = BIN.x0 + (i % 3) * (BIN.w + BIN.gap), y = BIN.y0 + Math.floor(i / 3) * (BIN.h + BIN.gap);
+        c.fillStyle = '#f6efe0'; c.beginPath(); c.roundRect(x, y, BIN.w, BIN.h, 14); c.fill();
+        c.strokeStyle = 'rgba(20,50,74,.18)'; c.lineWidth = 1.5; c.stroke();
+        drawIng(c, b.id, x + BIN.w / 2, y + 34, 1.3);
+        c.fillStyle = C.ink; c.font = '700 13px "Plus Jakarta Sans", system-ui'; c.fillText(b.name, x + BIN.w / 2, y + BIN.h - 13);
+        if (flash.i === i && t - flash.t < 0.3) { c.globalAlpha = 0.45 * (1 - (t - flash.t) / 0.3); c.fillStyle = flash.ok ? C.tealDim : C.wilt; c.beginPath(); c.roundRect(x, y, BIN.w, BIN.h, 14); c.fill(); c.globalAlpha = 1; }
+      });
+      for (const f of fx) popText(c, f.text, W / 2, 232 - (t - f.t) * 30, f.col, 1 - (t - f.t) / 0.9);
+    };
+    return g;
+  }
+
+  // ---------- Polisi · Razia Helm ----------
+  // Motor lewat di 3 lajur, makin lama makin cepat & rapat. Ketuk pengendara/pembonceng tanpa helm.
+  // Skor maks = jumlah motor melanggar ≤ jumlah motor terjadwal (tetap).
+  const LANES = [{ y: 214, dir: 1 }, { y: 292, dir: -1 }, { y: 370, dir: 1 }];
+  function polisi(rng) {
+    const g = { score: 0, hint: 'Ketuk motor yang pengendaranya TANPA helm (+1). Yang pakai helm jangan (−1).' };
+    const PAL = [C.salem, C.tealDim, C.blueDim, C.gold, '#8a8f99'];
+    const motors = [];
+    for (let t = 0.4, gap = 0.95; t < DUR - 0.5; t += gap, gap = Math.max(0.4, gap * 0.972)) {
+      const lane = Math.floor(rng() * 3), v = (95 + t * 4.5) * (0.92 + rng() * 0.2);
+      const helm = rng() >= 0.42, pas = rng() < 0.22, pasHelm = pas ? rng() >= 0.35 : true;
+      motors.push({ t0: t, lane, v, helm, pas, pasHelm, viol: !helm || !pasHelm, body: PAL[Math.floor(rng() * 5)], hc: PAL[Math.floor(rng() * 5)], skin: Math.floor(rng() * 3), done: '', dt: 0 });
+    }
+    g.motors = motors.length;
+    // untuk uji/bot: motor di layar {x, y, viol}
+    g.live = t => motors.filter(m => !m.done && t >= m.t0).map(m => ({ x: mx(m, t), y: LANES[m.lane].y, viol: m.viol })).filter(m => m.x > 0 && m.x < W);
+    const mx = (m, t) => (LANES[m.lane].dir > 0 ? -50 + (t - m.t0) * m.v : W + 50 - (t - m.t0) * m.v);
+    let fx = [];
+    g.update = (dt, t) => {
+      for (const m of motors) {
+        if (m.done || t < m.t0 || !m.viol) continue;
+        const x = mx(m, t);
+        if (x < -60 || x > W + 60) { m.done = 'lolos'; m.dt = t; fx.push({ t, text: 'Lolos', x: LANES[m.lane].dir > 0 ? W - 40 : 40, y: LANES[m.lane].y - 40, col: C.wilt }); }
+      }
+      fx = fx.filter(f => t - f.t < 0.8);
+    };
+    g.tap = (x, y, t) => {
+      let best = null, bd = 1e9;
+      for (const m of motors) {
+        if (m.done || t < m.t0) continue;
+        const L = LANES[m.lane], d = Math.abs(mx(m, t) - x);
+        if (d < 36 && y >= L.y - 66 && y <= L.y + 18 && d < bd) { best = m; bd = d; }
+      }
+      if (!best) return;
+      best.dt = t;
+      if (best.viol) { best.done = 'tilang'; g.score += 1; fx.push({ t, text: '+1', x, y: y - 10, col: C.tealDim }); }
+      else { best.done = 'salah'; g.score -= 1; fx.push({ t, text: '−1', x, y: y - 10, col: C.wilt }); }
+    };
+    const SKIN = ['#e0b48c', '#c99a72', '#ad7f5b'];
+    const rider = (c, x, y, helm, hc, skin, shirt) => {
+      c.fillStyle = shirt; c.beginPath(); c.roundRect(x - 8, y - 30, 16, 24, 6); c.fill();
+      c.fillStyle = SKIN[skin]; c.beginPath(); c.arc(x, y - 40, 9, 0, 7); c.fill();
+      if (helm) {
+        c.fillStyle = hc; c.beginPath(); c.arc(x, y - 42, 12, Math.PI * 0.95, Math.PI * 0.05 + Math.PI * 2); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(20,50,74,.75)'; c.fillRect(x - 3, y - 44, 15, 4);
+        c.strokeStyle = C.ink; c.lineWidth = 1.5; c.beginPath(); c.arc(x, y - 42, 12, Math.PI, 0); c.stroke();
+      } else {
+        c.fillStyle = C.ink; c.beginPath(); c.arc(x, y - 43, 9.5, Math.PI * 1.05, Math.PI * 1.95); c.fill();
+        c.fillRect(x - 9, y - 47, 6, 9);
+      }
+    };
+    g.draw = (c, t) => {
+      // trotoar & toko
+      c.fillStyle = '#e9dfc4'; c.fillRect(0, 0, W, 170);
+      for (let i = 0; i < 4; i++) {
+        const x = 8 + i * 90; c.fillStyle = [C.salem, C.tealDim, C.gold, C.blueDim][i]; c.globalAlpha = 0.55; c.fillRect(x, 40, 80, 100); c.globalAlpha = 1;
+        c.fillStyle = '#fff6df'; c.fillRect(x + 10, 62, 24, 30); c.fillRect(x + 46, 62, 24, 30);
+      }
+      c.fillStyle = C.paper; c.beginPath(); c.roundRect(W / 2 - 78, 10, 156, 24, 12); c.fill();
+      c.fillStyle = C.ink; c.font = '800 13px "Plus Jakarta Sans", system-ui'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('RAZIA HELM · POLSEK AUDIRA', W / 2, 22);
+      c.fillStyle = '#d6cbb2'; c.fillRect(0, 140, W, 30);
+      // jalan
+      c.fillStyle = '#9a968c'; c.fillRect(0, 170, W, 236);
+      c.strokeStyle = 'rgba(255,250,240,.7)'; c.lineWidth = 3; c.setLineDash([22, 18]);
+      const off = (t * 60) % 40;
+      for (const yy of [253, 331]) { c.beginPath(); c.moveTo(-off, yy); c.lineTo(W + 40, yy); c.stroke(); }
+      c.setLineDash([]);
+      // motor
+      for (const m of motors) {
+        if (t < m.t0) continue;
+        const x = mx(m, t); if (x < -70 || x > W + 70) continue;
+        if (m.done === 'tilang' && t - m.dt > 0.9) continue;
+        const L = LANES[m.lane], y = L.y;
+        c.save(); c.translate(x, 0);
+        if (m.done === 'tilang') c.globalAlpha = 1 - Math.max(0, t - m.dt - 0.5) / 0.4;
+        c.scale(L.dir, 1);
+        c.fillStyle = 'rgba(20,50,74,.18)'; c.beginPath(); c.ellipse(0, y + 12, 32, 5, 0, 0, 7); c.fill();
+        c.fillStyle = C.ink; c.beginPath(); c.arc(-20, y + 4, 9, 0, 7); c.arc(20, y + 4, 9, 0, 7); c.fill();
+        c.fillStyle = '#d9d4c8'; c.beginPath(); c.arc(-20, y + 4, 3.5, 0, 7); c.arc(20, y + 4, 3.5, 0, 7); c.fill();
+        c.fillStyle = m.body; c.beginPath(); c.roundRect(-24, y - 12, 44, 14, 6); c.fill();
+        c.fillRect(14, y - 22, 6, 12);
+        if (m.pas) rider(c, -12, y - 2, m.pasHelm, PAL[(PAL.indexOf(m.hc) + 2) % 5], (m.skin + 1) % 3, PAL[(PAL.indexOf(m.body) + 3) % 5]);
+        rider(c, 4, y - 2, m.helm, m.hc, m.skin, PAL[(PAL.indexOf(m.body) + 1) % 5]);
+        c.restore();
+        if (m.done === 'tilang' || m.done === 'salah') {
+          c.fillStyle = m.done === 'tilang' ? C.paper : C.wilt; c.beginPath(); c.roundRect(x - 26, y - 82, 52, 18, 9); c.fill();
+          c.fillStyle = m.done === 'tilang' ? C.ink : C.paper; c.font = '800 11px "Plus Jakarta Sans", system-ui'; c.fillText(m.done === 'tilang' ? 'TILANG' : 'Pakai helm', x, y - 73);
+        }
+      }
+      // trotoar bawah + pos polisi + kamu
+      c.fillStyle = '#d6cbb2'; c.fillRect(0, 406, W, 22);
+      c.fillStyle = '#e9dfc4'; c.fillRect(0, 428, W, 92);
+      c.fillStyle = C.blueDim; c.beginPath(); c.roundRect(20, 440, 92, 64, 8); c.fill();
+      c.fillStyle = C.paper; c.fillRect(32, 452, 68, 22); c.fillStyle = C.ink; c.font = '800 12px "Plus Jakarta Sans", system-ui'; c.fillText('POS', 66, 464);
+      const px = W / 2 + 40, py = 486;
+      c.fillStyle = C.blueDim; c.beginPath(); c.roundRect(px - 11, py - 18, 22, 32, 7); c.fill();
+      c.fillStyle = '#e0b48c'; c.beginPath(); c.arc(px, py - 27, 10, 0, 7); c.fill();
+      c.fillStyle = C.you; c.beginPath(); c.roundRect(px - 12, py - 40, 24, 8, 3); c.fill(); c.fillRect(px - 8, py - 35, 18, 4);
+      c.strokeStyle = C.you; c.lineWidth = 4; c.lineCap = 'round'; c.beginPath(); c.moveTo(px + 10, py - 12); c.lineTo(px + 22, py - 26 + Math.abs(((t * 2) % 2) - 1) * 6); c.stroke();
+      c.fillStyle = C.ink; c.font = '700 12px "Plus Jakarta Sans", system-ui'; c.fillText('kamu', px, py + 24);
+      for (const f of fx) popText(c, f.text, Math.max(30, Math.min(W - 30, f.x)), f.y - (t - f.t) * 40, f.col, 1 - (t - f.t) / 0.8);
+    };
+    return g;
+  }
+
+  const MAKERS = { nelayan, petani, kurir, koki, polisi };
+  const UNIT = { nelayan: 'ikan', petani: 'ikat padi', kurir: 'paket', koki: 'poin', polisi: 'tilang' };
 
   // Ronde: k = langkah yang sudah dijalankan. Ketukan diterapkan pada waktu k*STEP lalu dicatat [k, x, y]
   // (kurir lewat tombol gerobak: [k, -1, gerobak]).

@@ -1,4 +1,4 @@
-// AUDIRA LAND · Mini-game kerja: Nelayan, Petani, Kurir. Ronde 30 detik, hasilnya jadi koin + "hasil kota hari ini".
+// AUDIRA LAND · Mini-game kerja: Nelayan, Petani, Kurir, Koki, Polisi. Ronde 30 detik, hasilnya jadi koin + "hasil kota hari ini".
 // Anti-curang: ronde dibuka server (seed + waktu mulai). Klien mengirim daftar ketukan, server memutar ulang
 // ronde dengan kode yang sama (js/kerja-sim.js) dan memakai skor hasil putar ulang, bukan skor kiriman klien.
 // Ditambah: durasi minimal, satu ronde aktif per warga, batas ketukan per detik, dan batas koin harian.
@@ -9,6 +9,9 @@ export const GAMES = {
   nelayan: { name: 'Nelayan', unit: 'ikan', rate: 6, max: 40, jobs: ['pelabuhan'] },
   petani: { name: 'Petani', unit: 'ikat padi', rate: 3, max: 90, jobs: ['field', 'park', 'kebun'] },
   kurir: { name: 'Kurir Pasar', unit: 'paket', rate: 3.5, max: 80, jobs: ['pasar', 'shop', 'mall', 'warung', 'kantorpos'] },
+  // max = batas keras dari jadwal di js/kerja-sim.js: koki 24 pesanan × 2, polisi 55 motor terjadwal
+  koki: { name: 'Koki Warung', unit: 'poin', rate: 6, max: 48, jobs: ['warung', 'mall'] },
+  polisi: { name: 'Polisi', unit: 'tilang', rate: 6, max: 55, jobs: ['polsek', 'balai', 'camat', 'lurah'] },
 };
 const DURASI_S = 30;
 const KOIN_HARIAN = 400;      // batas koin dari kerja per warga per hari (WIB)

@@ -8,7 +8,8 @@
   const TK = 'audira-taman-token', UK = 'audira-taman-user';
   // room: Taman (bawaan) atau pesta rumah (window.ROOM diisi js/pesta-config.js)
   const ROOM = window.ROOM || { room: 'taman', map: 'js/taman-map.json', kind: 'taman' };
-  const PESTA = ROOM.kind === 'pesta' ? AL.pesta : null;
+  // SCENE = penggambar room selain Taman: pesta (AL.pesta, di dalam rumah) atau pantai (AL.pantai, luar ruang)
+  const SCENE = ROOM.kind === 'pesta' ? AL.pesta : ROOM.kind === 'pantai' ? AL.pantai : null;
   let MAP = null, vw = 0, vh = 0, dpr = 1;
   const cam = { x: 0, y: 0, zoom: 1 };
   const users = new Map();
@@ -245,10 +246,10 @@
       const a = AL.toWorld(x, y), b = AL.toWorld(x + 1, y), c = AL.toWorld(x + 1, y + 1), d = AL.toWorld(x, y + 1);
       p.moveTo(a.x, a.y); p.lineTo(b.x, b.y); p.lineTo(c.x, c.y); p.lineTo(d.x, d.y); p.closePath();
     };
-    if (PESTA) {
-      for (let y = 0; y < MAP.h; y++) for (let x = 0; x < MAP.w; x++) PESTA.ground(add, x, y, MAP.rows[y][x]);
+    if (SCENE) {
+      for (let y = 0; y < MAP.h; y++) for (let x = 0; x < MAP.w; x++) SCENE.ground(add, x, y, MAP.rows[y][x], stones);
       ground = { paths, stones };
-      objs = PESTA.objects(MAP).sort((a, b) => a.key - b.key);
+      objs = SCENE.objects(MAP).sort((a, b) => a.key - b.key);
       return;
     }
     for (let y = 0; y < MAP.h; y++) for (let x = 0; x < MAP.w; x++) {
@@ -279,7 +280,7 @@
   function drawObj(o, t, night) {
     const [sx, sy] = toScreen(o.x, o.y);
     const p = new AL.Painter(ctx, cam.zoom, sx, sy, night > 0.5);
-    if (PESTA) return PESTA.drawObj(o, p, ctx, t, cam.zoom);
+    if (SCENE) return SCENE.drawObj(o, p, ctx, t, cam.zoom, night);
     if (o.ch === 'T') p.tree(0.5, 0.5, 1.15, o.v);
     else if (o.ch === 'B') {
       p.box(0.18, 0.4, 0.06, 0.06, 0, 0.18, '#6b4a33'); p.box(0.76, 0.4, 0.06, 0.06, 0, 0.18, '#6b4a33');
@@ -416,15 +417,15 @@
     requestAnimationFrame(frame);
   }
   function draw(t, now) {
-    const night = PESTA ? 0 : nightFactor(), z = cam.zoom; // pesta di dalam rumah: lampu ruangan
+    const night = SCENE && !SCENE.outdoor ? 0 : nightFactor(), z = cam.zoom; // pesta di dalam rumah: lampu ruangan
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = PESTA ? PESTA.bg : AL.mix('#7fb86a', '#1f2c3a', night * 0.7); ctx.fillRect(0, 0, vw, vh);
+    ctx.fillStyle = SCENE ? (SCENE.bgAt ? SCENE.bgAt(night) : SCENE.bg) : AL.mix('#7fb86a', '#1f2c3a', night * 0.7); ctx.fillRect(0, 0, vw, vh);
     ctx.setTransform(dpr * z, 0, 0, dpr * z, dpr * (vw / 2 - cam.x * z), dpr * (vh / 2 - cam.y * z));
     for (const [col, p] of ground.paths) { ctx.fillStyle = col; ctx.fill(p); }
     ctx.strokeStyle = 'rgba(120,100,70,.25)'; ctx.lineWidth = 1; ctx.stroke(ground.stones);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (night > 0) { ctx.fillStyle = `rgba(16,24,56,${night * 0.5})`; ctx.fillRect(0, 0, vw, vh); }
-    if (PESTA) PESTA.floorFx(ctx, toScreen, z, t);
+    if (SCENE) SCENE.floorFx(ctx, toScreen, z, t, night);
     if (target && me() && me().path) {
       const pts = [[target.x, target.y], [target.x + 1, target.y], [target.x + 1, target.y + 1], [target.x, target.y + 1]].map(([x, y]) => toScreen(x, y));
       ctx.strokeStyle = '#ff7a59'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
@@ -437,7 +438,7 @@
       drawObj(o, t, night);
     }
     while (pi < people.length) drawUser(people[pi++].u, t, now, night);
-    if (PESTA) PESTA.overlay(ctx, toScreen, z, t);
+    if (SCENE) SCENE.overlay(ctx, toScreen, z, t, night);
   }
 
   // ---------- mulai ----------

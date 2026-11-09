@@ -15,6 +15,9 @@ export function createKabarku(db, { world }) {
     );
     CREATE INDEX IF NOT EXISTS idx_notif_user ON notif(username, created_at);
   `);
+  const cols = new Set(db.prepare('PRAGMA table_info(notif)').all().map(c => c.name));
+  if (!cols.has('icon')) db.exec("ALTER TABLE notif ADD COLUMN icon TEXT NOT NULL DEFAULT ''");
+  if (!cols.has('link')) db.exec("ALTER TABLE notif ADD COLUMN link TEXT NOT NULL DEFAULT ''");
   const { AL } = world;
   // nomor urut warga yang serumah: kavling rumah -> [seq]
   const serumah = new Map();
@@ -24,9 +27,9 @@ export function createKabarku(db, { world }) {
   }
   const q = {
     res: db.prepare("SELECT seq, arrive_at FROM residents WHERE username = ? AND status = 'approved' AND arrive_at <= ?"),
-    notif: db.prepare('SELECT kind, text, created_at FROM notif WHERE username = ? AND created_at >= ? ORDER BY created_at DESC LIMIT 50'),
+    notif: db.prepare('SELECT kind, text, icon, link, created_at FROM notif WHERE username = ? AND created_at >= ? ORDER BY created_at DESC LIMIT 50'),
     ada: db.prepare('SELECT 1 FROM notif WHERE username = ? AND kind = ? AND ref = ? AND created_at >= ? LIMIT 1'),
-    tambah: db.prepare('INSERT INTO notif (username, kind, text, ref, created_at) VALUES (?, ?, ?, ?, ?)'),
+    tambah: db.prepare('INSERT INTO notif (username, kind, text, ref, created_at, icon, link) VALUES (?, ?, ?, ?, ?, ?, ?)'),
     bersih: db.prepare('DELETE FROM notif WHERE created_at < ?'),
     koin: db.prepare("SELECT amount, kind, note, ref, created_at FROM ledger WHERE username = ? AND kind IN ('terima', 'hadiah', 'juara') AND created_at >= ? ORDER BY id DESC LIMIT 30"),
     bySeq: db.prepare("SELECT username, arrive_at FROM residents WHERE seq = ? AND status = 'approved'"),
@@ -36,11 +39,12 @@ export function createKabarku(db, { world }) {
   const fmt = n => Math.floor(n).toLocaleString('id-ID');
 
   return {
-    // simpan kabar; ref + jeda mencegah kabar sama berulang (mis. disalip orang yang sama berkali-kali)
-    tambah(u, kind, text, ref = '', jedaMs = 0) {
+    // simpan kabar; ref + jeda mencegah kabar sama berulang (mis. disalip orang yang sama berkali-kali).
+    // opsi: { icon: emoji, link: path situs ini (mis. '/rumah.html?u=x') }
+    tambah(u, kind, text, ref = '', jedaMs = 0, { icon = '', link = '' } = {}) {
       const now = Date.now();
       if (jedaMs && ref && q.ada.get(u, kind, ref, now - jedaMs)) return false;
-      q.tambah.run(u, kind, String(text).slice(0, 160), ref, now);
+      q.tambah.run(u, kind, String(text).slice(0, 160), ref, now, String(icon).slice(0, 8), /^\/[^/]/.test(link) ? String(link).slice(0, 120) : '');
       return true;
     },
     feed(u) {
@@ -48,7 +52,7 @@ export function createKabarku(db, { world }) {
       const r = q.res.get(u, now);
       if (!r) return { items: [], now };
 
-      for (const n of q.notif.all(u, dari)) out.push({ t: n.created_at, kind: n.kind, icon: n.kind === 'disalip' ? '🏃' : '📣', text: n.text, link: n.kind === 'disalip' ? '/kerja.html#peringkat' : '' });
+      for (const n of q.notif.all(u, dari)) out.push({ t: n.created_at, kind: n.kind, icon: n.icon || (n.kind === 'disalip' ? '🏃' : '📣'), text: n.text, link: n.link || (n.kind === 'disalip' ? '/kerja.html#peringkat' : '') });
 
       for (const l of q.koin.all(u, dari)) {
         if (l.kind === 'terima') out.push({ t: l.created_at, kind: 'koin', icon: '💌', text: `@${l.ref} mengirimimu ${fmt(l.amount)} koin${l.note ? `: “${l.note}”` : ''}` });

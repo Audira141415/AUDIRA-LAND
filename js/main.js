@@ -224,6 +224,7 @@
     if (AL.drawKampung) AL.drawKampung(ctx, toScr, z, t, vw, vh, night);
     if (AL.drawLandmarks) AL.drawLandmarks(ctx, toScr, z, t, vw, vh, night);
     if (AL.drawFlyovers) AL.drawFlyovers(ctx, toScr, z, t, vw, vh, night);
+    for (const f of AL.overlays) { try { f(ctx, toScr, z, t, vw, vh, night); } catch (e) { console.error(e); } }
 
     // sorot mercusuar
     const LH = AL.lighthouse;
@@ -276,6 +277,7 @@
         ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(sx, sy - 21, 4.5, 0, Math.PI * 2); ctx.fill();
       }
     }
+    for (const f of AL.screenFx) { try { f(ctx, vw, vh, t, night); } catch (e) { console.error(e); } }
     AL.stats = { fps: Math.round(fpsAvg), sprites: AL.spriteCacheSize(), agents: AL.agents.length };
   }
   AL.renderOnce = function () { update(0.016); draw(); return AL.stats; };
@@ -287,5 +289,6 @@
     if (AL.pestaInit && !AL.net.demo) AL.pestaInit();
     if (AL.dompetInit && !AL.net.demo) AL.dompetInit();
     if (AL.radioMount && !AL.net.demo) AL.radioMount(document.querySelector('.tools'), { before: document.getElementById('speed') });
+    if (!AL.net.demo) for (const f of AL.onBoot) { try { f(); } catch (e) { console.error(e); } }
   });
 })(window.AL);

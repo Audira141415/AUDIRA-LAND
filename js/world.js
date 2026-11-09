@@ -325,9 +325,12 @@
     residents.push(res);
     AL.byName.set(u.toLowerCase(), res);
     AL.bySeq.set(seq, res);
-    if (res.home >= 0) { const l = lots[res.home]; l.residents.push(i); l.built = true; }
+    // builtAt: waktu tiba warga pertama yang membuat kavling berdiri (dasar progres pembangunan 10 menit).
+    // Diambil yang paling awal supaya urutan data dari server tidak mengubah hasil. Kavling tetap: tanpa builtAt.
+    const mark = l => { l.built = true; if (!l.fixed && Number.isFinite(joined) && !(l.builtAt <= joined)) l.builtAt = joined; };
+    if (res.home >= 0) { const l = lots[res.home]; l.residents.push(i); mark(l); }
     const pl = places[res.job];
-    if (pl && pl.lot >= 0) { const l = lots[pl.lot]; l.workers.push(i); l.built = true; }
+    if (pl && pl.lot >= 0) { const l = lots[pl.lot]; l.workers.push(i); mark(l); }
     return res;
   };
   AL.homeCapacity = homeSlots.length;

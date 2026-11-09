@@ -129,10 +129,23 @@ function usernamesFrom(body) {
   return { ok: [...new Set(ok)], bad };
 }
 
+// ---------- modul fitur ----------
+// Tiap modul: { route(req, res, url, ctx) -> true bila permintaan ditangani }. Daftar diisi di bawah setelah modul dibuat.
+const MODS = [];
+const sessionUser = req => { const mt = (req.headers.authorization || '').match(/^Bearer (.+)$/); const s = mt ? store.session(mt[1]) : null; return s ? s.username : null; };
+const bad = (msg, code = 400) => Object.assign(new Error(msg), { code });
+
 // ---------- API ----------
 async function api(req, res, url) {
   const ip = clientIp(req);
   const p = url.pathname, m = req.method;
+  const ctx = {
+    ip, send, readJson, readRaw, bad,
+    user: () => sessionUser(req),                        // username warga KTW dari header Authorization, atau null
+    isAdmin: () => isAdmin(req),                         // header Authorization: Bearer <ADMIN_TOKEN>
+    limited: (key, n, ms) => limited(ip, key, n, ms),    // true = kebanyakan permintaan
+  };
+  for (const mod of MODS) if (await mod.route(req, res, url, ctx)) return;
 
   if (p === '/api/city' && m === 'GET') {
     const after = Math.max(0, Math.floor(+url.searchParams.get('after') || 0));

@@ -13,8 +13,14 @@ export const ITEMS = {
   'syal-batik':      { slot: 'leher', name: 'Syal Batik', price: 1200 },
   'aura-ombak':      { slot: 'aura', name: 'Aura Ombak', price: 8000 },
   'aura-bintang':    { slot: 'aura', name: 'Aura Bintang', price: 12000 },
+  // hewan pendamping: berjalan di samping pemilik (gambar di js/aksesori.js)
+  'kura-kura':       { slot: 'hewan', name: 'Kura-kura Santai', price: 2000 },
+  'ayam-kampung':    { slot: 'hewan', name: 'Ayam Kampung', price: 3000 },
+  'kucing-oyen':     { slot: 'hewan', name: 'Kucing Oyen', price: 4500 },
+  'anjing-kampung':  { slot: 'hewan', name: 'Anjing Kampung', price: 6500 },
+  'burung-beo':      { slot: 'hewan', name: 'Burung Beo', price: 9000 },
 };
-const SLOTS = ['kepala', 'mata', 'leher', 'aura'];
+const SLOTS = ['kepala', 'mata', 'leher', 'aura', 'hewan'];
 const ABSEN = 50;               // koin per hari (+5 per level)
 const KIRIM_MIN = 10, KIRIM_MAKS_HARIAN = 5000;
 const bad = (msg, code = 400) => Object.assign(new Error(msg), { code });
@@ -146,6 +152,19 @@ export function createEkonomi(db, { world }) {
     kredit(u, amount, kind, note, ref = '') {
       q.add.run(u, Math.floor(amount), kind, String(note).slice(0, 60), ref, Date.now());
     },
+    // dipakai modul lain untuk membayar dengan koin (cek saldo dalam transaksi). Melempar error 400 bila kurang.
+    debit(u, amount, kind, note, ref = '') {
+      amount = Math.floor(+amount);
+      if (!(amount > 0)) throw bad('Jumlah tidak valid');
+      return tx(() => {
+        const { balance } = saldo(u);
+        if (balance < amount) throw bad(`Koinmu kurang ${(amount - balance).toLocaleString('id-ID')}`);
+        q.add.run(u, -amount, kind, String(note).slice(0, 60), ref, Date.now());
+        return { balance: balance - amount };
+      });
+    },
+    // saldo sekarang (koin) satu warga
+    saldo: u => saldo(u).balance,
     // admin: hadiah lomba / koreksi
     beri(us, amount, note) {
       amount = Math.floor(+amount);

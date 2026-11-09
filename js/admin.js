@@ -19,6 +19,9 @@
     return j;
   }
   const fmt = ms => new Date(ms).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  // modul admin tambahan (js/admin-*.js) memakai ini; mereka mendaftar di window.ADMIN_MODS = [fn(api)] dan
+  // dipanggil sekali setelah admin masuk. Tiap modul menambah <section class="panel"> sendiri ke #adminExtra.
+  window.ADMIN = { call, esc, fmt, toast: (t, err) => toast(t, err), root: () => $('adminExtra') };
 
   function logout() {
     token = '';
@@ -273,6 +276,7 @@
       await refresh();
       try { sessionStorage.setItem(KEY, token); } catch (er) { /* abaikan */ }
       $('login').hidden = true; $('app').hidden = false; $('loginErr').hidden = true;
+      startMods();
     } catch (er) { $('loginErr').hidden = false; $('loginErr').textContent = er.message; }
   });
   $('selAll').addEventListener('click', () => {
@@ -373,5 +377,14 @@
     $('closeCode').onclick = () => { box.hidden = true; box.innerHTML = ''; };
   }
 
-  if (token) refresh().then(() => { $('login').hidden = true; $('app').hidden = false; }).catch(() => logout());
+  let modsOn = false;
+  function startMods() {
+    if (modsOn) return;
+    modsOn = true;
+    for (const f of window.ADMIN_MODS || []) { try { f(window.ADMIN); } catch (e) { console.error(e); } }
+  }
+  // modul admin dimuat setelah file ini: tunggu semua skrip selesai sebelum masuk otomatis
+  window.addEventListener('DOMContentLoaded', () => {
+    if (token) refresh().then(() => { $('login').hidden = true; $('app').hidden = false; startMods(); }).catch(() => logout());
+  });
 })();

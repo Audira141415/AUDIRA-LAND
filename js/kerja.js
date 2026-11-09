@@ -1,4 +1,5 @@
-/* AUDIRA LAND · Mini-game kerja: Nelayan (Pancing Teluk), Petani (Panen Kilat), Kurir (Sortir Paket).
+/* AUDIRA LAND · Mini-game kerja: Nelayan (Pancing Teluk), Petani (Panen Kilat), Kurir (Sortir Paket),
+   Koki (Dapur Warung), Polisi (Razia Helm).
    Ronde 30 detik, deterministik dari seed server. Tanpa login = Latihan (tanpa koin). */
 (function (AL) {
   'use strict';
@@ -11,6 +12,14 @@
   const fmt = n => Math.floor(n).toLocaleString('id-ID');
 
   const SIM = AL.kerjaSim, { MAKERS, UNIT, C } = SIM;
+  // [peran, judul, ajakan]
+  const META = {
+    nelayan: ['Nelayan', 'Pancing Teluk', 'Jatuhkan kail ke ikan yang lewat.'],
+    petani: ['Petani', 'Panen Kilat', 'Petik padi tepat saat menguning.'],
+    kurir: ['Kurir Pasar', 'Sortir Paket', 'Masukkan paket ke gerobak yang cocok.'],
+    koki: ['Koki Warung', 'Dapur Warung', 'Siapkan pesanan sesuai urutan di nota.'],
+    polisi: ['Polisi', 'Razia Helm', 'Tilang pengendara motor tanpa helm.'],
+  };
 
   async function api(path, body) {
     const r = await fetch(path, {
@@ -49,14 +58,13 @@
     if (token) { try { status = await api('/api/kerja'); } catch (e) { status = null; } }
     $('chip').hidden = !status;
     if (status) $('chip').innerHTML = `Koin dari kerja hari ini <b>${fmt(status.koinHariIni)}</b> / ${fmt(status.batas)} · ronde ${status.ronde}/${status.rondeMaks}`;
-    const meta = { nelayan: ['Nelayan', 'Pancing Teluk', 'Jatuhkan kail ke ikan yang lewat.'], petani: ['Petani', 'Panen Kilat', 'Petik padi tepat saat menguning.'], kurir: ['Kurir Pasar', 'Sortir Paket', 'Masukkan paket ke gerobak yang cocok.'] };
     $('cards').innerHTML = Object.keys(MAKERS).map(k => {
       const s = status && status.games[k];
       return `<button type="button" class="kj-card" data-game="${k}">
         <canvas width="240" height="160" data-ico="${k}" aria-hidden="true"></canvas>
-        <span class="kj-role">${meta[k][0]}${s && s.bonus ? '<em>Bonus profesi ×1,5</em>' : ''}</span>
-        <b>${meta[k][1]}</b>
-        <small>${meta[k][2]}</small>
+        <span class="kj-role">${META[k][0]}${s && s.bonus ? '<em>Bonus profesi ×1,5</em>' : ''}</span>
+        <b>${META[k][1]}</b>
+        <small>${META[k][2]}</small>
         <small class="kj-best">${s ? `Rekor hari ini: ${s.best} ${UNIT[k]}` : 'Mode latihan'}</small>
         ${s && s.minggu ? `<small class="kj-myrank">#${s.minggu.rank} minggu ini · ${s.minggu.score} ${UNIT[k]}</small>` : ''}
       </button>`;
@@ -90,7 +98,10 @@
       : 'Skor terbaik tiap warga hari ini. Hadiah dihitung dari papan mingguan.';
     $('boardGames').innerHTML = Object.entries(d.games).map(([k, g]) =>
       `<button type="button" role="tab" data-g="${k}" aria-selected="${k === board.game}">${esc(g.name)}<small>${g.peserta} warga</small></button>`).join('');
-    const g = d.games[board.game];
+    // tab pekerjaan bisa digulir: pastikan yang terpilih terlihat tanpa menggulir halaman
+    const tabs = $('boardGames'), sel = tabs.querySelector('[aria-selected="true"]');
+    if (sel) { const a = sel.getBoundingClientRect(), b = tabs.getBoundingClientRect(); if (a.left < b.left || a.right > b.right) tabs.scrollLeft += a.left - b.left - 8; }
+    const g = d.games[board.game] || Object.values(d.games)[0];
     $('boardList').innerHTML = g.top.length
       ? g.top.map(r => `<li class="${r.u === user ? 'me' : ''}"><span class="kj-pos">${MEDAL[r.rank - 1] || r.rank}</span><span class="kj-name">@${esc(r.u)}</span><b>${fmt(r.score)}</b><small>${esc(g.unit)}</small></li>`).join('')
       : `<li class="kj-empty">Belum ada skor ${board.p === 'hari' ? 'hari ini' : 'minggu ini'}. Jadilah yang pertama!</li>`;
@@ -103,10 +114,13 @@
     if (p && p.dataset.p !== board.p) { board.p = p.dataset.p; loadBoard(); }
     if (g) { board.game = g.dataset.g; drawBoard(); }
   });
+  // ikon kartu: ronde contoh dijalankan sampai detik 6, lalu dipotong ke bagian yang paling bercerita
+  const ICON_Y = { koki: 0.1, polisi: 0.3 };
   function drawIcon(c) {
-    const g = MAKERS[c.dataset.ico](AL.rng(7)), x = c.getContext('2d');
-    x.save(); x.scale(240 / W, 160 / (H * 0.45)); x.translate(0, -H * 0.2);
-    g.draw(x, 6); x.restore();
+    const k = c.dataset.ico, r = SIM.ronde(k, 7), x = c.getContext('2d');
+    r.until(6 * SIM.HZ);
+    x.save(); x.scale(240 / W, 160 / (H * 0.45)); x.translate(0, -H * (ICON_Y[k] ?? 0.2));
+    r.g.draw(x, r.t()); x.restore();
   }
 
   function show(id) { ['home', 'play', 'end'].forEach(s => { $(s).hidden = s !== id; }); }
@@ -122,7 +136,7 @@
     run = { game, sim, g, round, t0: performance.now() + 3000, over: false };
     // cadangan: ronde tetap selesai walau tab disembunyikan (requestAnimationFrame berhenti)
     run.timer = setTimeout(finish, 3000 + DUR * 1000 + 150);
-    $('hudGame').textContent = { nelayan: 'Pancing Teluk', petani: 'Panen Kilat', kurir: 'Sortir Paket' }[game];
+    $('hudGame').textContent = META[game][1];
     $('hint').textContent = g.hint;
     $('carts').hidden = !g.carts;
     if (g.carts) {
