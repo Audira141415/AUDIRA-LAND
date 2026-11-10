@@ -586,6 +586,223 @@
     return RECIPES[obj.type](p, obj, r);
   };
 
+  // =============== PROGRES PEMBANGUNAN: 10 menit sejak warga pertama tiba (data server, sama di semua perangkat) ===============
+  const BUILD_MS = 10 * 60 * 1000;
+  AL.BUILD_MS = BUILD_MS;
+  const nowMs = () => (AL.now ? AL.now() : Date.now());
+  // 0..1 (1 = jadi). Kavling kosong = 0; kavling tetap/sponsor/tanpa data waktu = 1.
+  AL.buildProgress = function (lot) {
+    if (!lot || !lot.type) return 1;
+    if (!AL.isBuilt(lot)) return 0;
+    if (lot.fixed || !Number.isFinite(lot.builtAt)) return 1;
+    return AL.clamp((nowMs() - lot.builtAt) / BUILD_MS, 0, 1);
+  };
+  // -1 kosong, 0 pondasi, 1 rangka, 2 hampir jadi, 3 jadi
+  AL.buildStage = function (lot) {
+    if (!lot || !lot.type) return 3;
+    if (!AL.isBuilt(lot)) return -1;
+    const k = AL.buildProgress(lot);
+    return k >= 1 ? 3 : k < 1 / 3 ? 0 : k < 2 / 3 ? 1 : 2;
+  };
+  const FLAT = { park: 1, field: 1, kebun: 1 };
+  let ucT = -1e15, ucList = [];
+  AL.constructionLots = function () {
+    const n = nowMs();
+    if (n - ucT > 1000 || n < ucT) {
+      ucT = n;
+      ucList = AL.lots.filter(l => Number.isFinite(l.builtAt) && !l.fixed && AL.isBuilt(l) && n - l.builtAt < BUILD_MS);
+    }
+    return ucList;
+  };
+
+  function scaffold(p, x, y, w, d, h, kampung) {
+    const pole = kampung ? '#b89c6a' : '#e39b3b', tie = kampung ? '#8d7048' : '#c7812e';
+    const fy = y + d + 0.1, fx = x + w + 0.1;
+    for (let u = x; u <= x + w + 1e-6; u += Math.max(0.3, w / 4)) line3(p, [u, fy, 0], [u, fy, h], pole, 1.3);
+    for (let v = y; v <= y + d + 1e-6; v += Math.max(0.3, d / 4)) line3(p, [fx, v, 0], [fx, v, h], pole, 1.3);
+    line3(p, [fx, fy, 0], [fx, fy, h], pole, 1.3);
+    for (let z = 0.35; z <= h + 1e-6; z += 0.35) {
+      line3(p, [x - 0.05, fy, z], [fx, fy, z], tie, 1);
+      line3(p, [fx, y - 0.05, z], [fx, fy, z], tie, 1);
+      if (!kampung) p.poly([[x - 0.05, fy, z], [fx, fy, z], [fx, fy + 0.08, z], [x - 0.05, fy + 0.08, z]], '#b9a27a'); // papan injakan
+    }
+    // silang pengaku
+    if (kampung) for (let z = 0; z + 0.35 <= h + 1e-6; z += 0.7) line3(p, [x, fy, z], [x + Math.min(w, 0.7), fy, z + 0.35], tie, 0.8);
+  }
+  function siteBase(p, lot) {
+    const kampung = lot.district === 'kampung', soil = kampung ? '#bfa47c' : '#c4baa6';
+    p.poly([[0.06, 0.06, 0.005], [1.94, 0.06, 0.005], [1.94, 1.94, 0.005], [0.06, 1.94, 0.005]], soil);
+    // pagar proyek (seng di kota, bambu di kampung) di dua sisi belakang
+    const fence = kampung ? '#c6a873' : '#9aa6b2';
+    p.box(0.04, 0.04, 1.92, 0.03, 0, 0.26, fence);
+    p.box(0.04, 0.04, 0.03, 1.92, 0, 0.26, fence);
+  }
+  function siteSign(p, lot) {
+    p.box(1.3, 1.82, 0.04, 0.04, 0, 0.55, '#8a6c4c'); p.box(1.84, 1.82, 0.04, 0.04, 0, 0.55, '#8a6c4c');
+    p.box(1.26, 1.8, 0.66, 0.04, 0.3, 0.3, '#ffd166');
+    p.textY('PROYEK', 1.3, 1.84, 0.57, 0.08, '#14324a');
+    const lab = PERUNTUKAN[lot.type] || 'BANGUNAN';
+    p.textY(lab, 1.3, 1.84, 0.47, Math.min(0.11, 0.58 / (lab.length * 0.66)), '#14324a');
+  }
+  function materials(p, lot, r) {
+    if (lot.district === 'kampung') {
+      // ikatan bambu & tumpukan daun rumbia
+      for (let k = 0; k < 5; k++) line3(p, [0.2, 1.62 + k * 0.03, 0.03 + (k % 2) * 0.03], [1.0, 1.62 + k * 0.03, 0.03 + (k % 2) * 0.03], '#c6a873', 2);
+      p.box(1.55, 0.25, 0.3, 0.3, 0, 0.1, '#8f7d4e');
+    } else {
+      // tumpukan bata, sak semen, besi beton
+      for (let k = 0; k < 3; k++) p.box(0.2 + k * 0.17, 1.6, 0.15, 0.22, 0, 0.12 + (k % 2) * 0.06, '#b5654f');
+      p.box(1.5, 0.22, 0.3, 0.22, 0, 0.1, '#d9d4c7');
+      for (let k = 0; k < 4; k++) line3(p, [0.15, 0.25 + k * 0.03, 0.02], [1.05, 0.25 + k * 0.03, 0.02], '#5d6670', 1);
+    }
+    if (r() < 0.6) p.cyl(0.35, 0.4, 0.09, 0, 0.14, lot.district === 'kampung' ? '#9a6a4a' : '#e0a040'); // ember / drum
+  }
+  AL.drawConstruction = function (p, lot, stage, inner) {
+    const kampung = lot.district === 'kampung', r = AL.rng(lot.seed + 31);
+    const Ht = AL.clamp((lot.hmax || 1.6) * 0.82, 0.7, 9);
+    const x = 0.3, y = 0.3, w = 1.4, d = 1.3;
+    if (FLAT[lot.type] && !lot.cetak) {
+      if (stage < 2) {
+        siteBase(p, lot);
+        // bedengan / jalur tanam
+        for (let k = 1; k < 6; k++) p.poly([[0.2, k / 3 - 0.02, 0.01], [1.8, k / 3 - 0.02, 0.01], [1.8, k / 3 + 0.04, 0.01], [0.2, k / 3 + 0.04, 0.01]], kampung ? '#9e835c' : '#a99f8a');
+        if (stage === 1) for (let k = 0; k < 14; k++) { const q = p.P(0.25 + r() * 1.5, 0.3 + r() * 1.4, 0.02); p.c.fillStyle = p.col('#6aa84f'); p.c.beginPath(); p.c.arc(q[0], q[1], 2 * p.s, 0, 7); p.c.fill(); }
+        materials(p, lot, r);
+        siteSign(p, lot);
+        return 0.8;
+      }
+      const top = inner(p);
+      siteSign(p, lot);
+      return top;
+    }
+    if (stage === 0) {
+      siteBase(p, lot);
+      // galian & pondasi
+      p.poly([[x - 0.06, y - 0.06, 0.006], [x + w + 0.06, y - 0.06, 0.006], [x + w + 0.06, y + d + 0.06, 0.006], [x - 0.06, y + d + 0.06, 0.006]], kampung ? '#8f7656' : '#8d8478');
+      if (kampung) {
+        for (let u = 0; u <= 2; u++) for (let v = 0; v <= 2; v++) p.box(x + u * (w - 0.1) / 2, y + v * (d - 0.1) / 2, 0.1, 0.1, 0, 0.1, '#a99a7c'); // umpak batu
+      } else {
+        p.box(x, y, w, d, 0, 0.08, '#b9b6ae');
+        for (let u = 0; u <= 3; u++) for (let v = 0; v <= 3; v++) {
+          const px = x + 0.05 + u * (w - 0.1) / 3, py = y + 0.05 + v * (d - 0.1) / 3;
+          line3(p, [px, py, 0.08], [px, py, 0.3], '#6f5a4a', 1);
+        }
+      }
+      materials(p, lot, r);
+      siteSign(p, lot);
+      return 0.4;
+    }
+    if (stage === 1) {
+      siteBase(p, lot);
+      const H = Ht * 0.65;
+      if (kampung) {
+        p.box(x - 0.04, y - 0.04, w + 0.08, d + 0.08, 0, 0.06, '#a99a7c');
+        const posts = [[0, 0], [1, 0], [0, 1], [1, 1], [0.5, 1], [0.5, 0]];
+        posts.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1]));
+        const hh = Math.min(Math.max(H, 0.5), 0.75);
+        for (const [u, v] of posts) p.box(x + u * (w - 0.07), y + v * (d - 0.07), 0.07, 0.07, 0.06, hh, '#b89c6a');
+        for (const z of [0.4, hh]) {
+          line3(p, [x, y + d, z], [x + w, y + d, z], '#8d7048', 1.6);
+          line3(p, [x + w, y, z], [x + w, y + d, z], '#8d7048', 1.6);
+        }
+        // rangka atap
+        const ym = y + d / 2, zr = hh + 0.5;
+        for (const u of [x, x + w / 2, x + w]) { line3(p, [u, y, hh], [u, ym, zr], '#8d7048', 1.2); line3(p, [u, y + d, hh], [u, ym, zr], '#8d7048', 1.2); }
+        line3(p, [x, ym, zr], [x + w, ym, zr], '#7d6340', 1.6);
+        materials(p, lot, r);
+        siteSign(p, lot);
+        return zr;
+      }
+      // kota: rangka baja per lantai + pelat beton
+      const fl = 0.42, nF = Math.max(1, Math.round(H / fl));
+      const cols = [];
+      for (let u = 0; u <= 3; u++) for (let v = 0; v <= 3; v++) if (u === 0 || v === 0 || u === 3 || v === 3) cols.push([x + u * (w - 0.06) / 3, y + v * (d - 0.06) / 3]);
+      cols.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1]));
+      p.box(x, y, w, d, 0, 0.08, '#b9b6ae');
+      const open = r() < 0.6; // lantai teratas kadang belum dicor
+      for (let f = 0; f < nF; f++) {
+        const z0 = 0.08 + f * fl;
+        for (const [cx2, cy2] of cols) p.box(cx2, cy2, 0.06, 0.06, z0, fl - 0.04, '#7d8b99');
+        line3(p, [x, y + d, z0 + fl - 0.04], [x + w, y + d, z0 + fl - 0.04], '#5f6d7a', 1.4);
+        line3(p, [x + w, y, z0 + fl - 0.04], [x + w, y + d, z0 + fl - 0.04], '#5f6d7a', 1.4);
+        if (!(open && f === nF - 1)) p.box(x, y, w, d, z0 + fl - 0.04, 0.04, '#c9c5bc');
+      }
+      const Hs = 0.08 + nF * fl;
+      scaffold(p, x, y, w, d, Hs * 0.75 + 0.2, false);
+      materials(p, lot, r);
+      siteSign(p, lot);
+      return Hs;
+    }
+    // tahap 2: bangunan hampir jadi + perancah di depan + jaring pengaman
+    const top = inner(p);
+    const H = Math.max(0.5, top * 0.92);
+    scaffold(p, 0.22, 0.22, 1.56, 1.5, H, kampung);
+    if (!kampung && H > 1.2) {
+      const fy = 1.84, z0 = H * 0.55;
+      p.poly([[0.17, fy, z0], [1.88, fy, z0], [1.88, fy, H], [0.17, fy, H]], 'rgba(70,150,100,0.32)', true);
+      p.poly([[1.88, 0.17, z0], [1.88, fy, z0], [1.88, fy, H], [1.88, 0.17, H]], 'rgba(55,125,85,0.32)', true);
+    }
+    siteSign(p, lot);
+    return top;
+  };
+
+  // crane kecil berputar & pekerja (digambar tiap bingkai di atas kota). Murah: hanya kavling yang sedang dibangun.
+  AL.drawCrews = function (ctx, toScr, z, t, vw, vh, night) {
+    if (z < 0.3) return;
+    const list = AL.constructionLots();
+    if (!list.length) return;
+    const lw = Math.max(1, 1.6 * z);
+    for (const l of list) {
+      const st = AL.buildStage(l);
+      const [cx0, cy0] = toScr(l.x + 1, l.y + 1, 0);
+      if (cx0 < -300 * z || cx0 > vw + 300 * z || cy0 < -40 * z || cy0 > vh + 500 * z) continue;
+      const kampung = l.district === 'kampung';
+      const Ht = AL.clamp((l.hmax || 1.6) * 0.82, 0.7, 9);
+      ctx.save();
+      ctx.lineCap = 'round';
+      if (!kampung && st >= 1 && !FLAT[l.type]) {
+        // tower crane: tiang di sudut belakang, lengan berputar pelan
+        const mx = l.x + 0.12, my = l.y + 0.12, mh = Ht + 1.1;
+        const [bx, by] = toScr(mx, my, 0), [tx, ty] = toScr(mx, my, mh);
+        ctx.strokeStyle = night > 0.5 ? '#8a7a40' : '#e8b33a'; ctx.lineWidth = lw * 1.6;
+        ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.stroke();
+        const a = t * 0.25 + (l.seed % 628) / 100, L = 1.7, Lc = 0.55;
+        const [jx, jy] = toScr(mx + Math.cos(a) * L, my + Math.sin(a) * L, mh);
+        const [kx, ky] = toScr(mx - Math.cos(a) * Lc, my - Math.sin(a) * Lc, mh);
+        ctx.lineWidth = lw * 1.2;
+        ctx.beginPath(); ctx.moveTo(kx, ky); ctx.lineTo(jx, jy); ctx.stroke();
+        ctx.fillStyle = '#5d6670'; ctx.fillRect(kx - 3 * z, ky - 2 * z, 6 * z, 5 * z); // pemberat
+        ctx.fillStyle = night > 0.5 ? '#3a4a5c' : '#2f4a6b'; ctx.fillRect(tx - 3 * z, ty, 6 * z, 5 * z); // kabin
+        const hk = 0.7, lift = Ht * (0.45 + 0.35 * Math.sin(t * 0.6 + l.i));
+        const [hx, hy] = toScr(mx + Math.cos(a) * L * hk, my + Math.sin(a) * L * hk, mh);
+        const [gx, gy] = toScr(mx + Math.cos(a) * L * hk, my + Math.sin(a) * L * hk, lift);
+        ctx.strokeStyle = '#3d4a55'; ctx.lineWidth = Math.max(0.6, 0.7 * z);
+        ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(gx, gy); ctx.stroke();
+        ctx.fillStyle = '#b5654f'; ctx.fillRect(gx - 4 * z, gy, 8 * z, 4 * z); // muatan
+        if (night > 0.3 && Math.sin(t * 3) > 0) { ctx.fillStyle = '#ff5a4a'; ctx.beginPath(); ctx.arc(tx, ty - 2 * z, 2 * z, 0, 7); ctx.fill(); }
+      }
+      // pekerja: helm kuning (kota) / caping (kampung), mondar-mandir di depan kavling
+      const n = z < 0.6 ? 1 : 2;
+      for (let k = 0; k < n; k++) {
+        const ph = t * 0.35 + k * 1.7 + l.i;
+        const u = 0.35 + (Math.sin(ph) * 0.5 + 0.5) * 1.3;
+        const [px, py] = toScr(l.x + u, l.y + 1.75 - k * 0.15, 0);
+        const bob = Math.abs(Math.sin(t * 6 + k)) * 1.2 * z;
+        ctx.fillStyle = night > 0.5 ? '#4a5568' : '#4f6d8a';
+        ctx.fillRect(px - 2 * z, py - 9 * z - bob, 4 * z, 7 * z);
+        ctx.fillStyle = night > 0.5 ? '#9a8a6a' : '#e0b48a';
+        ctx.beginPath(); ctx.arc(px, py - 11 * z - bob, 2 * z, 0, 7); ctx.fill();
+        ctx.fillStyle = kampung ? '#d2b886' : '#ffd166';
+        ctx.beginPath(); ctx.ellipse(px, py - 12.5 * z - bob, (kampung ? 4 : 2.6) * z, (kampung ? 1.4 : 1.6) * z, 0, Math.PI, Math.PI * 2); ctx.fill();
+        if (kampung && k === 0) { // memikul bambu
+          ctx.strokeStyle = '#b89c6a'; ctx.lineWidth = Math.max(1, 1.4 * z);
+          ctx.beginPath(); ctx.moveTo(px - 9 * z, py - 9 * z - bob); ctx.lineTo(px + 9 * z, py - 10 * z - bob); ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+  };
+
   // =============== SPRITE CACHE: bangunan statis digambar sekali per tingkat zoom ===============
   const KSTEP = 1.25;
   AL.tierFor = R => AL.clamp(Math.pow(KSTEP, Math.round(Math.log(R) / Math.log(KSTEP))), 0.3, 4);
@@ -604,7 +821,9 @@
   AL.getSprite = function (obj, s, night, budget) {
     // kavling kosong & kavling berbangunan beda sprite: saat warga pertama masuk, sprite baru dibuat
     // cetak biru admin (js/cetak-gambar.js) punya versi sendiri supaya sprite lama tidak terpakai setelah diubah
-    const st = obj.type ? (obj.cetak ? 'c' + obj.cetak.v : AL.isBuilt(obj) ? 'b' : 'e') : '';
+    // tahap pembangunan (s0/s1/s2, 10 menit pertama) juga punya sprite sendiri
+    const stage = obj.type ? AL.buildStage(obj) : 3;
+    const st = obj.type ? (obj.cetak ? 'c' + obj.cetak.v : AL.isBuilt(obj) ? 'b' : 'e') + (stage >= 0 && stage < 3 ? 's' + stage : '') : '';
     const base = obj.id + '|' + st + '|' + (night ? 1 : 0);
     const key = base + '|' + s;
     let e = cache.get(key);
@@ -615,7 +834,8 @@
     const cv = document.createElement('canvas');
     cv.width = b.w; cv.height = b.h;
     const ctx = cv.getContext('2d');
-    const top = AL.drawObject(new Painter(ctx, s, b.ox, b.oy, night), obj);
+    const pnt = new Painter(ctx, s, b.ox, b.oy, night);
+    const top = obj.type && stage >= 0 && stage < 3 ? AL.drawConstruction(pnt, obj, stage, q => AL.drawObject(q, obj)) : AL.drawObject(pnt, obj);
     if (obj.hTop !== undefined && top) obj.hTop = top;
     e = { cv, ox: b.ox, oy: b.oy, s };
     cache.set(key, e);
@@ -759,11 +979,14 @@
   AL.drawGround = function (ctx, cam, vw, vh, dpr, t) {
     const g = AL.ground, z = cam.zoom;
     ctx.setTransform(dpr * z, 0, 0, dpr * z, dpr * (vw / 2 - cam.x * z), dpr * (vh / 2 - cam.y * z));
-    ctx.save();
-    ctx.translate(Math.sin(t * 0.7) * 4, Math.cos(t * 0.5) * 1.5);
-    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
-    ctx.stroke(g.waves);
-    ctx.restore();
+    const fx = AL.fx || { waves: true, detail: true };
+    if (fx.waves) { // ombak & kilau dimatikan pada kualitas terendah (js/main.js AL.fx)
+      ctx.save();
+      ctx.translate(Math.sin(t * 0.7) * 4, Math.cos(t * 0.5) * 1.5);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+      ctx.stroke(g.waves);
+      ctx.restore();
+    }
     // potongan detail yang terlihat (koordinat dunia)
     const wx0 = cam.x - vw / 2 / z, wx1 = cam.x + vw / 2 / z, wy0 = cam.y - vh / 2 / z, wy1 = cam.y + vh / 2 / z;
     const vis = g.chunks.filter(c => c.x1 > wx0 && c.x0 < wx1 && c.y1 > wy0 && c.y0 < wy1);
@@ -773,7 +996,7 @@
     for (const c of vis) ctx.stroke(c.shore);
     for (const [col, p] of g.paths) { ctx.fillStyle = col; ctx.fill(p); }
     ctx.lineCap = 'round';
-    if (z > 0.55) {
+    if (z > 0.55 && fx.detail) {
       ctx.fillStyle = 'rgba(132,168,86,.62)'; for (const c of vis) ctx.fill(c.patch);
       ctx.strokeStyle = 'rgba(66,118,48,.55)'; ctx.lineWidth = 1; for (const c of vis) ctx.stroke(c.tuft);
       ctx.fillStyle = 'rgba(110,85,55,.4)'; for (const c of vis) ctx.fill(c.grit);
@@ -781,7 +1004,7 @@
     }
     // kilau matahari di air (berkedip pelan, tidak di malam hari)
     const night = AL.nightFactor ? AL.nightFactor() : 0;
-    if (night < 0.8 && z > 0.35) {
+    if (night < 0.8 && z > 0.35 && fx.waves) {
       ctx.fillStyle = 'rgba(255,255,255,' + (0.7 * (1 - night)) + ')';
       for (const [p, ph] of g.glint) {
         if (p.x < wx0 || p.x > wx1 || p.y < wy0 || p.y > wy1) continue;

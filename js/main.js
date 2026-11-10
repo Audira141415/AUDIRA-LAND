@@ -5,7 +5,7 @@
   const ctx = canvas.getContext('2d');
   const LITE = (navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
   AL.LITE = LITE;
-  const DPR_CAP = LITE ? 1.5 : 2;
+  const DPR_CAP = LITE ? 1.5 : 2; // batas awal; kualitas adaptif bisa menurunkannya sampai 1
   let vw = 0, vh = 0, dpr = 1;
 
   // ---------- data ----------
@@ -26,7 +26,7 @@
     objs.splice(lo, 0, o);
   };
   AL.removeObjs = pred => { for (let i = objs.length - 1; i >= 0; i--) if (pred(objs[i])) objs.splice(i, 1); };
-  AL.spawnCars(LITE ? 14 : 28);
+  let Q = null; // tingkat kualitas aktif (diisi di bagian kualitas adaptif)
 
   // ---------- kamera ----------
   const center = AL.toWorld(AL.W / 2, AL.H / 2);
@@ -35,13 +35,70 @@
   let fly = null;
   function resize() {
     vw = window.innerWidth; vh = window.innerHeight;
-    dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+    dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP, Q ? Q.dpr : DPR_CAP);
     canvas.width = Math.round(vw * dpr); canvas.height = Math.round(vh * dpr);
     canvas.style.width = vw + 'px'; canvas.style.height = vh + 'px';
   }
   resize();
   cam.zoom = AL.clamp(Math.min(vw, vh * 1.8) / (AL.W * AL.TW) * 1.6, 0.16, 1.2);
   window.addEventListener('resize', resize);
+
+  // ---------- kualitas adaptif ----------
+  // Tingkat 0 (hemat) .. 3 (penuh). Turun bila FPS rata-rata < 40 selama 3 dtk, naik bila > 55 stabil 8 dtk.
+  // Anti-osilasi: jeda 2 dtk setelah tiap perubahan, dan tingkat yang baru saja gagal (turun lagi < 30 dtk
+  // setelah dinaikkan) butuh waktu stabil 2× lebih lama sebelum dicoba lagi (maks 2 menit).
+  const QLEVELS = [
+    { name: 'hemat', dpr: 1, cars: 6, walkers: 10, budget: 8, fx: { lamps: false, beam: false, vignette: false, crews: false, waves: false, detail: false } },
+    { name: 'rendah', dpr: 1.25, cars: 12, walkers: 20, budget: 12, fx: { lamps: true, beam: false, vignette: false, crews: true, waves: true, detail: false } },
+    { name: 'sedang', dpr: 1.5, cars: 20, walkers: 35, budget: 20, fx: { lamps: true, beam: true, vignette: true, crews: true, waves: true, detail: true } },
+    { name: 'tinggi', dpr: 2, cars: 28, walkers: 50, budget: 28, fx: { lamps: true, beam: true, vignette: true, crews: true, waves: true, detail: true } },
+  ];
+  // HP lemah mulai dari 'sedang' dengan jumlah agen seperti sebelumnya
+  if (LITE) Object.assign(QLEVELS[2], { cars: 14, walkers: 25, budget: 12 });
+  AL.QLEVELS = QLEVELS;
+  /* QCTL-START */
+  function makeQualityCtl(max, opts) {
+    const o = Object.assign({ low: 40, high: 55, downAfter: 3, upAfter: 8, settle: 2, warmup: 3, failWindow: 30, upMax: 120 }, opts || {});
+    const st = { level: max, max, lowT: 0, highT: 0, settle: o.warmup, clock: 0, upAt: -1e9, fails: new Array(max + 1).fill(0) };
+    st.step = function (dt, fps) {
+      if (!(dt > 0) || dt > 0.25) { st.lowT = 0; st.highT = 0; return 0; } // tab tersembunyi / sendat: abaikan
+      st.clock += dt;
+      if (st.settle > 0) { st.settle -= dt; st.lowT = 0; st.highT = 0; return 0; }
+      st.lowT = fps < o.low ? st.lowT + dt : 0;
+      st.highT = fps > o.high ? st.highT + dt : 0;
+      if (st.lowT >= o.downAfter && st.level > 0) {
+        if (st.clock - st.upAt < o.failWindow) st.fails[st.level] = Math.min(st.fails[st.level] + 1, 8);
+        st.level--; st.lowT = st.highT = 0; st.settle = o.settle;
+        return -1;
+      }
+      const need = st.level < max ? Math.min(o.upMax, o.upAfter * Math.pow(2, st.fails[st.level + 1])) : Infinity;
+      if (st.highT >= need) {
+        st.level++; st.upAt = st.clock; st.lowT = st.highT = 0; st.settle = o.settle;
+        return 1;
+      }
+      return 0;
+    };
+    return st;
+  }
+  /* QCTL-END */
+  AL.makeQualityCtl = makeQualityCtl;
+  const QMAX = LITE ? 2 : 3;
+  const qctl = makeQualityCtl(QMAX);
+  Q = QLEVELS[QMAX];
+  AL.spawnCars(Q.cars);
+  AL.quality = QMAX;
+  AL.fx = Q.fx;
+  function applyQuality(level) {
+    Q = QLEVELS[level];
+    AL.quality = level; AL.fx = Q.fx;
+    resize(); // DPR baru
+    const cars = AL.agents.filter(a => a.kind === 'car');
+    if (cars.length > Q.cars) {
+      let drop = cars.length - Q.cars;
+      for (let i = AL.agents.length - 1; i >= 0 && drop > 0; i--) if (AL.agents[i].kind === 'car') { AL.agents.splice(i, 1); drop--; }
+    } else if (cars.length < Q.cars) AL.spawnCars(Q.cars - cars.length);
+    // pejalan berlebih dibiarkan sampai tiba; yang baru dibatasi Q.walkers
+  }
   const ZMIN = 0.16, ZMAX = 3.2;
   function zoomAt(f, sx, sy) {
     const nz = AL.clamp(cam.zoom * f, ZMIN, ZMAX);
@@ -146,9 +203,11 @@
   let last = performance.now(), simT = 0, commuterT = 0, fpsAvg = 60;
   const budget = { n: 0 };
   function frame(ts) {
-    const dt = Math.min(0.05, (ts - last) / 1000);
+    const raw = (ts - last) / 1000, dt = Math.min(0.05, raw);
     last = ts;
-    fpsAvg = fpsAvg * 0.95 + (1 / Math.max(dt, 0.001)) * 0.05;
+    if (raw > 0 && raw < 0.25) fpsAvg = fpsAvg * 0.95 + (1 / Math.max(raw, 0.001)) * 0.05;
+    const qd = qctl.step(raw, fpsAvg);
+    if (qd) applyQuality(qctl.level);
     simT += dt;
     AL.simT = simT;
     if (clock.fast) clock.offset += dt * 6; // 1 detik nyata = 6 menit game
@@ -166,7 +225,7 @@
     AL.updateFerry();
     AL.updateAgents(dt);
     commuterT -= dt;
-    const maxW = LITE ? 25 : 50;
+    const maxW = Q.walkers;
     if (commuterT <= 0 && AL.countWalkers() < maxW) { AL.spawnCommuter(); commuterT = 0.35; }
   }
 
@@ -181,7 +240,7 @@
     if (night > 0) { ctx.fillStyle = 'rgba(16,24,56,' + (night * 0.6) + ')'; ctx.fillRect(0, 0, vw, vh); }
 
     // lampu jalan
-    if (night > 0.15) {
+    if (night > 0.15 && AL.fx.lamps) {
       ctx.save(); ctx.globalCompositeOperation = 'lighter';
       const rr = 26 * z;
       for (const L of AL.ground.lamps) {
@@ -196,7 +255,7 @@
 
     // objek statis + agen, digabung urut kedalaman
     const s = AL.tierFor(z * dpr);
-    budget.n = LITE ? 12 : 28;
+    budget.n = Q.budget;
     const dyn = AL.agents.map(a => ({ a, key: a.x + a.y })).sort((p, q) => p.key - q.key);
     let di = 0;
     const drawDyn = a => {
@@ -240,6 +299,7 @@
     if (AL.drawKampung) AL.drawKampung(ctx, toScr, z, t, vw, vh, night);
     if (AL.drawLandmarks) AL.drawLandmarks(ctx, toScr, z, t, vw, vh, night);
     if (AL.drawFlyovers) AL.drawFlyovers(ctx, toScr, z, t, vw, vh, night);
+    if (AL.drawCrews && AL.fx.crews) AL.drawCrews(ctx, toScr, z, t, vw, vh, night); // crane & pekerja kavling yang sedang dibangun
     for (const f of AL.overlays) { try { f(ctx, toScr, z, t, vw, vh, night); } catch (e) { console.error(e); } }
 
     // gradasi suasana (fajar/sore/senja) + vinyet lembut; HUD & penanda di bawah ini tetap warna asli
@@ -248,7 +308,7 @@
       for (const [rgb, a] of tone) { ctx.fillStyle = 'rgba(' + rgb + ',' + a + ')'; ctx.fillRect(0, 0, vw, vh); }
       ctx.restore();
     }
-    {
+    if (AL.fx.vignette) {
       const vg = ctx.createRadialGradient(vw / 2, vh / 2, Math.min(vw, vh) * 0.45, vw / 2, vh / 2, Math.hypot(vw, vh) * 0.62);
       vg.addColorStop(0, 'rgba(10,20,40,0)'); vg.addColorStop(1, 'rgba(10,20,40,' + (0.1 + 0.22 * night) + ')');
       ctx.fillStyle = vg; ctx.fillRect(0, 0, vw, vh);
@@ -256,7 +316,7 @@
 
     // sorot mercusuar
     const LH = AL.lighthouse;
-    if (LH && night > 0.15) {
+    if (LH && night > 0.15 && AL.fx.beam) {
       const w = AL.toWorld(LH.x + 0.5, LH.y + 0.5, 2.72);
       const sx = (w.x - cam.x) * z + vw / 2, sy = (w.y - cam.y) * z + vh / 2;
       const ang = t * 0.9, len = 420 * z;
@@ -306,7 +366,7 @@
       }
     }
     for (const f of AL.screenFx) { try { f(ctx, vw, vh, t, night); } catch (e) { console.error(e); } }
-    AL.stats = { fps: Math.round(fpsAvg), sprites: AL.spriteCacheSize(), agents: AL.agents.length };
+    AL.stats = { fps: Math.round(fpsAvg), sprites: AL.spriteCacheSize(), agents: AL.agents.length, quality: AL.quality, qualityName: Q.name, dpr };
   }
   AL.renderOnce = function () { update(0.016); draw(); return AL.stats; };
 

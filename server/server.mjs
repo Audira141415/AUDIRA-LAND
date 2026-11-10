@@ -26,6 +26,7 @@ import { createRumah } from './rumah.mjs';
 import { createSurat } from './surat.mjs';
 import { createVoting } from './voting.mjs';
 import { createPantai } from './pantai.mjs';
+import { createDamkar } from './damkar.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
@@ -149,6 +150,7 @@ const MODS = [
   createRumah(db, { ekonomi, kabarku, world }),
   createSurat(db, { kabarku }),
   createVoting(db, { kabar }),
+  createDamkar(db, { world, ekonomi, kabarku, kabar, cfg }),
 ];
 const sessionUser = req => { const mt = (req.headers.authorization || '').match(/^Bearer (.+)$/); const s = mt ? store.session(mt[1]) : null; return s ? s.username : null; };
 const bad = (msg, code = 400) => Object.assign(new Error(msg), { code });

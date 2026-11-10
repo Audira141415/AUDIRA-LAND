@@ -46,9 +46,12 @@ export function createDamkar(db, { world, ekonomi, kabarku, kabar = null, cfg = 
     );
   `);
   const { AL } = world;
-  const everyMin = Math.max(0, +(cfg.everyMin ?? process.env.DAMKAR_EVERY_MIN ?? 180) || 0); // 0 = jadwal mati
+  // cfg boleh fungsi env server.mjs (cfg('DAMKAR_EVERY_MIN')) atau objek { everyMin, durMs } (uji)
+  const fromFn = typeof cfg === 'function' ? cfg('DAMKAR_EVERY_MIN') : undefined;
+  const rawEvery = typeof cfg === 'function' ? fromFn : (cfg.everyMin ?? process.env.DAMKAR_EVERY_MIN);
+  const everyMin = Math.max(0, Number(rawEvery ?? 180) || 0); // 0 = jadwal mati
   const everyMs = everyMin * 60e3;
-  const durMs = +cfg.durMs || DUR_MS;
+  const durMs = (typeof cfg === 'object' && +cfg.durMs) || DUR_MS;
 
   const q = {
     aktif: db.prepare("SELECT * FROM damkar WHERE status = 'aktif' ORDER BY id DESC LIMIT 1"),

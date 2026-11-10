@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
   const esc = AL.esc;
   let cardRes = null, cardTimer = 0;
-  const KERJA_NAMA = { nelayan: 'Nelayan', petani: 'Petani', kurir: 'Kurir' }, MEDAL = ['🥇', '🥈', '🥉'];
+  const KERJA_NAMA = { nelayan: 'Nelayan', petani: 'Petani', kurir: 'Kurir', koki: 'Koki', polisi: 'Polisi' }, MEDAL = ['🥇', '🥈', '🥉'];
   // lencana juara kerja minggu lalu (dari /api/city)
   function juaraBadge(u) {
     const list = (AL.net && AL.net.juara && AL.net.juara[u]) || [];
@@ -83,6 +83,7 @@
       <div class="chips">
         ${lot.residents.length ? `<span>${lot.residents.length} penghuni</span>` : ''}
         ${lot.workers.length ? `<span>${lot.workers.length} pekerja</span>` : ''}
+        ${AL.buildProgress && AL.isBuilt(lot) && AL.buildProgress(lot) < 1 ? `<span>Sedang dibangun · ${Math.floor(AL.buildProgress(lot) * 100)}%</span>` : ''}
       </div>
       ${people.length ? `<p class="sub">${isHome ? 'Penghuni' : 'Pekerja'}</p><ul class="people">${people.map(r => `<li><button data-u="${esc(r.u)}"><canvas width="56" height="56"></canvas>@${esc(r.u)}</button></li>`).join('')}</ul>` : '<p class="since">Belum ada warga di sini.</p>'}
       ${lot.type === 'park' ? '<div class="acts"><a class="btn" href="/taman.html">Masuk Taman</a></div>' : ''}
@@ -103,6 +104,7 @@
     c.querySelector('.close').addEventListener('click', closeCard);
   }
   function closeCard() { $('card').hidden = true; cardRes = null; AL.focus = null; clearInterval(cardTimer); }
+  AL.focusLot = i => focusLot(i);
   function focusLot(i) {
     const lot = AL.lots[i];
     if (!lot) return;

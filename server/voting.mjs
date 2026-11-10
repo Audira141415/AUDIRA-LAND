@@ -4,7 +4,6 @@
 // Saat selesai, hasilnya otomatis diumumkan di Koran (kabar.simpanPost).
 const str = (v, max) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f\u007f​-‏‪-‮⁦-⁩]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max) : '');
 const MIN_DUR = 5 * 60e3, MAX_DUR = 90 * 86400e3;
-const fmtWib = ms => new Date(ms + 7 * 3600e3).toISOString().slice(0, 16).replace('T', ' ') + ' WIB';
 
 export function createVoting(db, { kabar } = {}) {
   db.exec(`

@@ -330,7 +330,7 @@ window.AL = window.AL || {};
   // Skor maks = jumlah motor melanggar ≤ jumlah motor terjadwal (tetap).
   const LANES = [{ y: 214, dir: 1 }, { y: 292, dir: -1 }, { y: 370, dir: 1 }];
   function polisi(rng) {
-    const g = { score: 0, hint: 'Ketuk motor yang pengendaranya TANPA helm (+1). Yang pakai helm jangan (−1).' };
+    const g = { score: 0, hint: 'Ketuk motor yang ada orang TANPA helm, pembonceng juga (+1). Semua berhelm? Jangan diketuk (−1).' };
     const PAL = [C.salem, C.tealDim, C.blueDim, C.gold, '#8a8f99'];
     const motors = [];
     for (let t = 0.4, gap = 0.95; t < DUR - 0.5; t += gap, gap = Math.max(0.4, gap * 0.972)) {
@@ -368,12 +368,15 @@ window.AL = window.AL || {};
       c.fillStyle = shirt; c.beginPath(); c.roundRect(x - 8, y - 30, 16, 24, 6); c.fill();
       c.fillStyle = SKIN[skin]; c.beginPath(); c.arc(x, y - 40, 9, 0, 7); c.fill();
       if (helm) {
-        c.fillStyle = hc; c.beginPath(); c.arc(x, y - 42, 12, Math.PI * 0.95, Math.PI * 0.05 + Math.PI * 2); c.closePath(); c.fill();
-        c.fillStyle = 'rgba(20,50,74,.75)'; c.fillRect(x - 3, y - 44, 15, 4);
-        c.strokeStyle = C.ink; c.lineWidth = 1.5; c.beginPath(); c.arc(x, y - 42, 12, Math.PI, 0); c.stroke();
+        // helm: kubah lebih besar dari kepala + kaca + tali dagu (beda bentuk, bukan hanya warna)
+        c.fillStyle = hc; c.beginPath(); c.arc(x, y - 42, 13, Math.PI * 0.92, Math.PI * 0.08 + Math.PI * 2); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(20,50,74,.8)'; c.fillRect(x - 2, y - 45, 16, 5);
+        c.strokeStyle = C.ink; c.lineWidth = 1.5; c.beginPath(); c.arc(x, y - 42, 13, Math.PI, 0); c.stroke();
+        c.beginPath(); c.moveTo(x - 8, y - 38); c.lineTo(x - 2, y - 32); c.stroke();
       } else {
-        c.fillStyle = C.ink; c.beginPath(); c.arc(x, y - 43, 9.5, Math.PI * 1.05, Math.PI * 1.95); c.fill();
-        c.fillRect(x - 9, y - 47, 6, 9);
+        // tanpa helm: rambut tipis, kepala kecil terlihat jelas
+        c.fillStyle = C.ink; c.beginPath(); c.ellipse(x - 1, y - 47, 9, 4, 0, Math.PI, 0); c.fill();
+        c.beginPath(); c.moveTo(x - 9, y - 47); c.lineTo(x - 13, y - 43); c.lineTo(x - 7, y - 44); c.fill();
       }
     };
     g.draw = (c, t) => {

@@ -485,7 +485,7 @@
 
     // alamat situs
     const host = location.host || 'audira land';
-    drawText(c, host + '/balai.html', W / 2, y + 40, W - 2 * M, 34, 800, C.sun, 22, 'center');
+    drawText(c, host + '/balai.html?u=' + u, W / 2, y + 40, W - 2 * M, 34, 800, C.sun, 20, 'center');
     drawText(c, 'Cari namamu di Buku Warga', W / 2, y + 82, W - 2 * M, 26, 600, 'rgba(255,250,240,.75)', 18, 'center');
     return cv;
   }

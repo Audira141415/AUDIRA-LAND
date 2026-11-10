@@ -98,13 +98,15 @@ Tombol dompet (paling atas di kolom kanan peta). Masuk dengan username + kode KT
 
 ## Mini-game kerja
 
-Pill **Kerja** di kiri bawah peta → `/kerja`. Tiga pekerjaan, ronde 30 detik (+3 dtk hitung mundur), sentuh atau klik:
+Pill **Kerja** di kiri bawah peta → `/kerja`. Lima pekerjaan, ronde 30 detik (+3 dtk hitung mundur), sentuh atau klik:
 
 | Game | Cara main | Skor | Koin/poin | Bonus profesi ×1,5 |
 |---|---|---|---|---|
 | Nelayan · Pancing Teluk | kail berayun, ketuk untuk menjatuhkan | ikan +1, ikan emas +3, sepatu 0 (maks 40) | 6 | kerja di pelabuhan |
 | Petani · Panen Kilat | sawah 4×4, padi matang 1,2 dtk | matang +1, masih hijau −1 (maks 90) | 3 | sawah/taman |
 | Kurir Pasar · Sortir Paket | paket turun makin cepat, pilih gerobak sewarna | benar +1, salah −1 (maks 80) | 3,5 | pasar/toko |
+| Koki Warung · Dapur Warung | 24 pesanan, ketuk bahan sesuai urutan nota | selesai +1 (+2 bila cepat), salah −1 (maks 48) | 6 | warung/mal |
+| Polisi · Razia Helm | 55 motor di 3 lajur, ketuk yang tanpa helm | pelanggar +1, berhelm −1 (maks 55) | 6 | polsek/balai/camat/lurah |
 
 - Tanpa login = **Latihan** (tanpa koin). Warga KTW: ronde dibuka server (`seed` + waktu mulai), lalu skor dikirim di akhir.
 - **Skor diputar ulang di server.** Logika game ada di `js/kerja-sim.js` (langkah tetap 1/60 dtk) dan dipakai peramban maupun server. Klien hanya mengirim daftar ketukan `[langkah, x, y]`; server menjalankan ulang ronde dari seed yang sama dan memakai skor hasilnya. Skor kiriman klien diabaikan.
@@ -225,13 +227,20 @@ Semua modul di bawah didaftarkan di `server/server.mjs` (`MODS`) dan bisa dibuka
 | Lomba & Event | `server/lomba.mjs` | `/event`, `js/event.js`, `css/event.css` | Jelajah |
 | Pantai Nyiur (room realtime, maks 60) | `server/pantai.mjs` | `/pantai`, `js/pantai-config.js` | Jelajah |
 | Cetak biru bangunan | `server/cetak.mjs` | `js/cetak.js` (validator), `js/cetak-gambar.js` (gambar) | admin › Cetak biru |
-| Musim & intro harian | — | `js/musim.js`, `js/intro.js` | otomatis (uji: `?musim=hujan|agustus|tahunbaru|ramadan|lebaran`) |
+| Musim & intro harian | — | `js/musim.js`, `js/intro.js`, `css/kota-fx.css` | otomatis (uji: `?musim=hujan|agustus|tahunbaru|ramadan|lebaran`) |
+| Kebakaran bersama (Damkar) | `server/damkar.mjs` | `js/damkar.js`, `css/kota-fx.css` | banner di atas peta, admin › Kebakaran kota |
+| Hewan pendamping | `server/ekonomi.mjs` (slot `hewan`) | `js/aksesori.js` | Dompet › Butik |
+| Progres pembangunan & kualitas adaptif | — | `js/render.js`, `js/main.js` | otomatis |
 
 Konfigurasi opsional di `server/.env`: `SAWERIA_URL` (tautan donasi Corong) dan `CORONG_HARGA` (teks harga, mis. `Rp10.000`).
 
 Cetak biru: daftar primitif JSON per kavling (`kotak`, `jendela`, `atap`, `limas`, `kubah`, `tiang`, `bidang`, `pohon`, `teks`; format di kepala `js/cetak.js`). Kavling bercetak biru dianggap sudah berdiri walau belum ada warga. `GET /api/cetak` di-cache 60 dtk.
 
-Belum tersambung: **Damkar** (`server/damkar.mjs`, event kebakaran bersama). Servernya ada, tetapi belum ada klien untuk menampilkan api dan tombol Siram, jadi sengaja tidak didaftarkan.
+**Kebakaran**: tiap `DAMKAR_EVERY_MIN` menit (default 180, `0` = mati), hanya 08.00–22.00 WIB, satu bangunan berdiri terbakar selama 3 menit. Warga KTW menekan **Siram** (server membatasi 8/dtk per warga); target = 150 + 80 × penolong unik di 30 dtk pertama (maks 4.000). Padam: tiap penolong dapat koin sebanding siramannya (maks 120, pegawai Damkar ×2) dan kabar. Gagal: kavling gosong 2 jam. Admin bisa memicu atau membatalkan.
+
+**Progres pembangunan**: kavling yang baru berdiri melewati 3 tahap (pondasi, rangka, hampir jadi) selama 10 menit sejak warga pertamanya tiba, sama di semua perangkat. **Kualitas adaptif**: 4 tingkat grafis (hemat–tinggi) turun bila FPS < 40 selama 3 dtk dan naik bila > 55 stabil 8 dtk.
+
+Tanggal Ramadan/Lebaran di `js/musim.js` (tabel `RAMADAN`) masih perkiraan; cocokkan dengan sidang isbat Kemenag tiap tahun.
 
 ## API
 

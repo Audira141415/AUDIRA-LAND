@@ -1,0 +1,53 @@
+/* AUDIRA LAND · suasana & event kota: intro harian (js/intro.js) dan banner kebakaran (js/damkar.js). */
+
+/* ---------- intro: penangkap ketukan transparan di atas peta ---------- */
+.intro-skip {
+  position: fixed; inset: 0; z-index: 60; border: 0; margin: 0; padding: 0 0 calc(28px + var(--safe-b));
+  background: transparent; cursor: pointer; display: flex; align-items: flex-end; justify-content: center;
+  font: 600 12px "Plus Jakarta Sans", system-ui, sans-serif; color: rgba(255, 250, 240, .72); letter-spacing: .04em;
+}
+.intro-skip:focus-visible { outline: 3px solid var(--sun); outline-offset: -6px; }
+
+/* ---------- banner kebakaran ---------- */
+.dmk {
+  position: fixed; z-index: 40; top: calc(70px + var(--safe-t)); left: 50%; transform: translateX(-50%);
+  width: min(380px, calc(100% - 32px)); display: grid; gap: 8px; padding: 10px 12px 12px;
+  background: var(--paper); color: var(--ink); border-radius: var(--r-lg); box-shadow: var(--shadow);
+  border: 2px solid #e8402a;
+}
+.dmk[hidden], .dmk [hidden] { display: none !important; }
+.dmk.ok { border-color: var(--teal-dim); }
+.dmk.gagal { border-color: var(--ink-2); }
+.dmk-go {
+  display: flex; align-items: center; gap: 8px; width: 100%; padding: 2px 26px 2px 0; border: 0; background: none;
+  color: inherit; text-align: left; font: 600 14px/1.35 "Plus Jakarta Sans", system-ui, sans-serif; cursor: pointer;
+}
+.dmk-go b { font-weight: 800; }
+.dmk-ico { font-size: 20px; flex: none; }
+.dmk.on .dmk-ico { animation: dmk-pulse 1s ease-in-out infinite; }
+.dmk-txt { flex: 1; }
+.dmk-time { flex: none; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--coral-ink); }
+.dmk-bar { height: 8px; border-radius: var(--r-pill); background: var(--paper-2); overflow: hidden; }
+.dmk-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #5fb3c9, #177a7a); border-radius: inherit; transition: width .3s ease; }
+.dmk-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dmk-count { font-size: 12.5px; color: var(--ink-2); font-weight: 600; }
+.dmk-count.warn { color: var(--err-ink); }
+.dmk-siram { background: #2f8fc4; color: #fff; font-weight: 800; touch-action: manipulation; user-select: none; }
+.dmk-siram:active { transform: scale(.94); }
+.dmk-x {
+  position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border: 0; border-radius: var(--r-pill);
+  background: var(--paper-2); color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer;
+}
+@keyframes dmk-pulse { 50% { transform: scale(1.18); } }
+@media (max-width: 640px) {
+  /* di HP kolom .tools pindah ke kanan atas: banner bergeser ke kiri */
+  .dmk { left: 16px; right: 68px; width: auto; transform: none; top: calc(72px + var(--safe-t)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dmk.on .dmk-ico { animation: none; }
+  .dmk-bar i { transition: none; }
+}
+
+/* banner Corong sedang tayang: banner kebakaran turun ke bawahnya supaya tidak menumpuk */
+body:has(.corong-banner.in) .dmk { top: calc(140px + var(--safe-t)); }
+@media (max-width: 640px) { body:has(.corong-banner.in) .dmk { top: calc(134px + var(--safe-t)); } }
