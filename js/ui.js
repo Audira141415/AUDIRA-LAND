@@ -254,7 +254,11 @@
           $('card').innerHTML = AL.landmarkCard(); openCard();
         }
         else if (o && o.kind === 'mercusuar') { closeCard(); }
-        else closeCard();
+        else {
+          const m = !o && AL.lembahAt ? AL.lembahAt(sx, sy, AL.cam, innerWidth, innerHeight) : 0;
+          if (m) { cardRes = null; clearInterval(cardTimer); AL.focus = null; $('card').innerHTML = AL.lembahCard(m); openCard(); }
+          else closeCard();
+        }
       };
       // feed awal: 5 warga terbaru
       AL.residents.slice().sort((a, b) => a.joined - b.joined).slice(-5).forEach(r => AL.onArrive(r));

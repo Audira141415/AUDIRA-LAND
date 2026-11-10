@@ -150,7 +150,8 @@
   (function placeSigns() {
     const { W, H, T } = AL;
     const occ = new Set(AL.statics.filter(o => o.kind !== 'tree' && o.kind !== 'palm').map(o => o.x + ',' + o.y));
-    const free = (x, y) => { const t = AL.tileAt(x, y); return (t === T.GRASS || t === T.SAND) && !occ.has(x + ',' + y); };
+    // bukan di lereng gunung / tanah calon sawah (AL.lembah dari js/world.js)
+    const free = (x, y) => { const t = AL.tileAt(x, y); return (t === T.GRASS || t === T.SAND) && !occ.has(x + ',' + y) && !(AL.lembah && AL.lembah[y * W + x]); };
     for (const s of SIGNS) {
       const len = s.text.length, c = AL.CENTER[s.district];
       let best = null;

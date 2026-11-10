@@ -202,6 +202,54 @@
   }
   AL.dock = dock;
 
+  // ---------- 6b. GUNUNG & LEMBAH di barat Kampung Nyiur (City Have Not) ----------
+  // Dibentuk SETELAH jalan & kavling, dan hanya mengubah petak air/pasir/rumput (bukan jalan/kavling),
+  // jadi rumah, kerja & gaji warga tidak bergeser. AL.lembah per petak: 1 = lereng gunung, 2 = tanah calon sawah.
+  const lembah = new Uint8Array(W * H), gH = new Float32Array(W * H);
+  AL.lembah = lembah; AL.gunungH = gH;
+  const PEAKS = [
+    { x: 7.5, y: 21.0, r: 6.0, h: 6.2 },   // Puncak Lembayung (utara)
+    { x: 6.5, y: 43.0, r: 5.4, h: 5.0 },   // Puncak Sari (selatan)
+    { x: 3.5, y: 32.0, r: 3.6, h: 3.0 },   // punggung bukit di kepala lembah
+  ];
+  AL.PEAKS = PEAKS;
+  const LAND = { x: 12.5, y: 32, rx: 11.5, ry: 21 };
+  const fixed = t => t === T.ROAD || t === T.LOT || t === T.DOCK;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    if (AL.district(x, y) !== 'kampung') continue;
+    const i = idx(x, y), t = tiles[i];
+    if (fixed(t)) continue;
+    const k = Math.hypot((x + 0.5 - LAND.x) / LAND.rx, (y + 0.5 - LAND.y) / LAND.ry) + (AL.fbm(x / 5, y / 5, SEED + 61) - 0.5) * 0.18;
+    if (k < 0.9) { if (t !== T.GRASS) tiles[i] = T.GRASS; }
+    else if (k < 1.0) { if (t <= T.SHALLOW) tiles[i] = T.SAND; }
+    else if (k < 1.12) { if (t === T.DEEP) tiles[i] = T.SHALLOW; }
+    if (tiles[i] !== T.GRASS) continue;
+    let h = 0;
+    for (const p of PEAKS) h = Math.max(h, p.h * Math.exp(-(((x + 0.5 - p.x) / p.r) ** 2 + ((y + 0.5 - p.y) / p.r) ** 2) * 2.4));
+    h += (AL.fbm(x / 3, y / 3, SEED + 62) - 0.5) * 0.6 * Math.min(1, h / 2);
+    h = Math.round(h / 0.35) * 0.35;                    // undak-undak (terasering), sesuai gaya isometrik
+    if (h >= 0.35) { lembah[i] = 1; gH[i] = h; }
+  }
+  // tanah calon sawah: rumput datar di kaki gunung, dari tepi lereng sampai batas kampung
+  const SAWAH = { x0: 4, x1: 22, y0: 24, y1: 41 };
+  for (let y = SAWAH.y0; y <= SAWAH.y1; y++) for (let x = SAWAH.x0; x <= SAWAH.x1; x++) {
+    const i = idx(x, y);
+    if (tiles[i] !== T.GRASS || lembah[i]) continue;
+    // jangan menempel jalan kampung (biar ada sisa rumput sebagai pembatas)
+    if ([[1, 0], [-1, 0], [0, 1], [0, -1]].some(([a, b]) => fixed(AL.tileAt(x + a, y + b)))) continue;
+    lembah[i] = 2;
+  }
+  AL.SAWAH = SAWAH;
+  // benda di belakang lereng (lebih jauh dari kamera) akan tergambar menimpa gunung: jangan taruh benda di situ
+  const diBelakangGunung = (x, y) => {
+    for (let a = 0; a <= 4; a++) for (let b = 0; b <= 4; b++) {
+      if (!a && !b) continue;
+      const j = idx(Math.min(W - 1, x + a), Math.min(H - 1, y + b));
+      if (lembah[j] === 1 && gH[j] >= (a + b) * 0.45) return true;
+    }
+    return false;
+  };
+
   // ---------- 7. MERCUSUAR & POHON ----------
   const statics = []; // objek non-kavling (pohon, mercusuar)
   AL.statics = statics;
@@ -219,6 +267,7 @@
   const rondas = [];
   for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
     if (AL.district(x, y) !== 'kampung') continue;
+    if (diBelakangGunung(x, y)) continue;
     const t = tiles[idx(x, y)], h = AL.ihash(x, y, SEED + 41);
     const wet = (a, b) => tiles[idx(a, b)] <= T.SHALLOW;
     if (t === T.SAND && h < 0.2 && (wet(x + 1, y) || wet(x - 1, y) || wet(x, y + 1) || wet(x, y - 1))) {
@@ -234,6 +283,7 @@
     const t = tiles[idx(x, y)];
     if (light && x === light.x && y === light.y) continue;
     if (taken.has(x + ',' + y)) continue;
+    if (lembah[idx(x, y)] || diBelakangGunung(x, y)) continue; // gunung punya hutan sendiri; calon sawah dibiarkan kosong
     if (dock && Math.abs(x - dock.x) <= 1 && y >= dock.y0 - 1) continue;
     const h = AL.ihash(x, y, SEED + 13);
     if (t === T.GRASS) {

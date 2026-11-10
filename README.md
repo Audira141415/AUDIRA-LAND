@@ -49,6 +49,14 @@ Dua tulisan besar ala huruf di bukit (`js/landmark.js`), satu huruf per petak, l
 - **CITY HAVE** di Kota Cakrawala (utara pusat kota, dekat pantai): huruf putih mengilap berpunggung baja di atas kaki beton; malam hari bercahaya putih hangat.
 - **CITY HAVE NOT** di Kampung Nyiur (dekat pantai barat daya): huruf anyaman daun kelapa disangga dua tiang bambu dan diikat ijuk; malam hari diterangi pelita kecil.
 
+## Gunung Lembayung & Lembah Padi
+
+Di barat Kampung Nyiur (City Have Not) ada dua puncak, yaitu **Puncak Lembayung** (utara) dan **Puncak Sari** (selatan), dengan **Lembah Padi** di antaranya.
+- **Lembah Padi** adalah tanah kosong luas (94 petak) yang sudah dibersihkan dan dibagi pematang, dengan papan "CALON SAWAH". Lahan ini disiapkan untuk sawah nanti.
+- **Bentuk** dibuat di `js/world.js` (langkah 6b): `AL.lembah` per petak (1 = lereng, 2 = calon sawah), `AL.gunungH` (tinggi undak), `AL.PEAKS`, `AL.SAWAH`. Langkah ini berjalan setelah jalan dan kavling, dan hanya mengubah petak air, pasir, atau rumput, sehingga rumah, kerja, dan gaji warga tidak bergeser (sidik jari peta tetap sama).
+- **Gambar** ada di `js/lembah.js`: lereng bertingkat, hutan, kabut di puncak, tanah calon sawah, dan kartu info saat gunung atau lembah diketuk.
+- **Benda lain menghindar:** huruf raksasa, pohon, dan perahu tidak ditempatkan di lereng, di calon sawah, atau tepat di belakang gunung.
+
 ## Flyover penyeberang sungai
 
 Tiga jembatan datar diganti flyover (`js/flyover.js`): dek aspal setinggi 0,8 di atas sungai dengan tanjakan 2 petak di tiap ujung, pilar beton, pagar dua sisi, dan tiang lampu. Warga dan kendaraan yang lewat ikut naik mengikuti tanjakan (`AL.groundZ`). Malam hari untaian LED warna-warni di pagar berkelip berkejaran, kepala lampu berdenyut, dan cahayanya memantul di air.
