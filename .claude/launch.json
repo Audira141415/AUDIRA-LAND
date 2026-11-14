@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "audira-land",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["tools/devserver.py", "5500", "web"],
+      "port": 5500
+    }
+  ]
+}

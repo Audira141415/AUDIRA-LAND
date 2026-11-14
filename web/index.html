@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2E2117">
+    <meta name="description" content="AUDIRA-LAND: Kota Digital 3D Desa Have &amp; Desa Have-Not">
+    <title>AUDIRA-LAND — Kota Have &amp; Have-Not 3D</title>
+    
+    <!-- CSS UI Neo-Brutalisme & Tinta Hangat -->
+    <link rel="stylesheet" href="./src/ui/styles.css?v=3.6">
+    <link rel="stylesheet" href="./src/ui/landing.css?v=1">
+
+    <!-- Versi data kota. Naikkan nilainya untuk mereset data warga di semua browser
+         (profil, daftar warga, bangunan warga, kas, berita). Preferensi (cuaca, jam, suara) tidak disentuh.
+         Harus jalan SEBELUM modul game (player_state membaca localStorage saat diimpor). -->
+    <script>
+        (function () {
+            var CITY_DATA_VERSION = 'produksi-1';
+            var WARGA_KEYS = [
+                'audira_land_player_profile', 'audira_land_registered_citizens',
+                'audira_user_buildings', 'audira_land_city_treasury', 'audira_land_city_news'
+            ];
+            try {
+                if (localStorage.getItem('audira_land_data_version') !== CITY_DATA_VERSION) {
+                    WARGA_KEYS.forEach(function (k) { localStorage.removeItem(k); });
+                    localStorage.setItem('audira_land_data_version', CITY_DATA_VERSION);
+                }
+            } catch (e) { /* localStorage diblokir: tidak ada data lama untuk direset */ }
+        })();
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏙️</text></svg>">
+
+    <!-- Three.js r128 (Lokal Vendor dengan CDN Fallback) -->
+    <script src="./public/vendor/three.min.js"></script>
+    <script>
+        if (typeof THREE === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+        }
+    </script>
+</head>
+<body>
+    <!-- Canvas 3D WebGL Utama -->
+    <canvas id="canvas-3d"></canvas>
+
+    <!-- Overlay Antarmuka HUD Pengguna -->
+    <div id="hud-container"></div>
+
+    <!-- Landing / Gerbang Kota (tampil instan; tombol diaktifkan src/ui/landing.js saat kota siap) -->
+    <section class="landing" id="landing" role="dialog" aria-labelledby="landing-title">
+        <div class="landing-card">
+            <span class="landing-pill" id="landing-pill">🎉 Kota baru dibuka · jadilah warga pertama</span>
+            <h1 class="landing-title" id="landing-title">AUDIRA<span>-LAND</span></h1>
+            <p class="landing-lead">Kota 3D si kaya dan si miskin. Punya rumah sendiri, kerja dapat koin, dan ikut voting membangun kota bareng warga lain.</p>
+
+            <ol class="landing-steps">
+                <li>
+                    <span class="landing-step-no">1</span>
+                    <div><b>Masukkan username Instagram</b><small>Jadi nama wargamu di kota. Tanpa password.</small></div>
+                </li>
+                <li>
+                    <span class="landing-step-no">2</span>
+                    <div><b>Pilih desa &amp; profesi</b><small>Desa Have yang ramai atau Desa Have-Not yang asri. Desa &amp; profesi menentukan rumah, kendaraan, dan bonus upahmu.</small></div>
+                </li>
+                <li>
+                    <span class="landing-step-no">3</span>
+                    <div><b>Rumahmu langsung dibangun</b><small>Selesai 5 menit. Lalu kerja, klaim kavling, dan voting fasilitas kota.</small></div>
+                </li>
+            </ol>
+
+            <div class="landing-actions">
+                <button class="landing-btn landing-btn-primary" id="landing-enter" disabled>⏳ Menyiapkan kota…</button>
+                <button class="landing-btn landing-btn-ghost" id="landing-look" disabled>👀 Lihat-lihat kota dulu</button>
+            </div>
+            <p class="landing-note">Gratis. Bisa dimainkan di HP dan laptop.</p>
+            <a class="landing-admin" id="landing-admin" href="#admin">🏛️ Masuk Pengelola</a>
+
+            <div class="landing-foot">
+                <span>Created by Agus Dwi R.</span>
+                <a href="https://audira.my.id" target="_blank" rel="noopener">audira.my.id</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Utama Logika Game (Cache-Busted) -->
+    <script type="module" src="./src/main.js?v=3.5"></script>
+</body>
+</html>

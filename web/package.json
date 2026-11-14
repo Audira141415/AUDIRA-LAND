@@ -1,0 +1,13 @@
+{
+  "name": "audira-land-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:check": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2",
+    "terser": "^5.36.0"
+  }
+}

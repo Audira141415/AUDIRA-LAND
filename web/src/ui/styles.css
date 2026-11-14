@@ -1,0 +1,3470 @@
+/* =============================================================================
+   AUDIRA-LAND: Neo-Brutalism & Tinta Hangat UI Stylesheet
+   Responsif Mobile-First (Baseline 390px), Tanpa Slop, Kontras Tinggi.
+   ============================================================================= */
+
+:root {
+    --ink: #2E2117;
+    --paper: #FFF9EC;
+    --paper-card: #FFFFFF;
+    --wood: #5B3A24;
+    --terracotta: #C8553D;
+    --gold: #E9A91E;
+    --gold-hover: #D89610;
+    --grass: #7FA062;
+    --shadow-solid: 2px 2px 0px var(--ink);
+    --shadow-solid-lg: 3px 3px 0px var(--ink);
+    --border-ink: 2px solid var(--ink);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-full: 9999px;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #EFE6D5;
+    font-family: var(--font-stack);
+    color: var(--ink);
+    touch-action: none;
+}
+
+#canvas-3d {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: block;
+}
+
+/* =============================================================================
+   HUD CONTAINER & OVERLAYS
+   ============================================================================= */
+#hud-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
+}
+
+/* 1. Header Bar Atas */
+.hud-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    flex-wrap: wrap;
+}
+
+/* Profil Warga Pill */
+.hud-profile-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 4px 10px 4px 5px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: transform 0.08s ease;
+}
+
+.hud-profile-pill:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--ink);
+    color: #FFFFFF;
+    font-weight: 900;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--wood);
+    line-height: 1.1;
+}
+
+.profile-profession {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--terracotta);
+}
+
+/* Saldo Koin Badge */
+.hud-coins-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-weight: 900;
+    font-size: 13px;
+    color: var(--ink);
+}
+
+.hud-coins-badge .coin-amount.pulse {
+    animation: coinPulse 0.3s ease;
+}
+
+@keyframes coinPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); color: #B35400; }
+    100% { transform: scale(1); }
+}
+
+.hud-district-badge {
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Kas Perbendaharaan Kota (FASE B) */
+.hud-treasury-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.hud-treasury-badge .treasury-amount {
+    color: var(--terracotta);
+    font-weight: 900;
+}
+
+.hud-treasury-badge .treasury-amount.pulse {
+    animation: treasuryPulse 0.35s ease;
+}
+
+@keyframes treasuryPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); color: #B35400; }
+    100% { transform: scale(1); }
+}
+
+.hud-clock-badge {
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+/* 2. Panel Presets Kamera (Kiri Atas) */
+.hud-cam-presets {
+    position: absolute;
+    top: 60px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: auto;
+}
+
+.btn-preset {
+    background: var(--gold);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.08s ease;
+}
+
+.btn-preset:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.preset-group {
+    display: flex;
+    gap: 4px;
+    background: var(--paper);
+    padding: 4px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-md);
+    flex-wrap: wrap;
+    max-width: 270px;
+}
+
+.btn-view {
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    background: none;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.btn-view:hover, .btn-view.active {
+    background: var(--wood);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+.zone-nav-group {
+    background: #FFF9EC;
+    border-top: 1px dashed rgba(46, 33, 23, 0.25);
+    padding-top: 4px;
+}
+
+.btn-zone-have {
+    background: #E8F5E9;
+    color: #1B5E20;
+    border: 1px solid #A5D6A7;
+}
+.btn-zone-have:hover, .btn-zone-have.active {
+    background: #2E7D32 !important;
+    color: #FFFFFF !important;
+    border-color: #1B5E20 !important;
+}
+
+.btn-zone-river {
+    background: #E0F2FE;
+    color: #0369A1;
+    border: 1px solid #7DD3FC;
+}
+.btn-zone-river:hover, .btn-zone-river.active {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+    border-color: #0369A1 !important;
+}
+
+.btn-zone-havenot {
+    background: #FFF3E0;
+    color: #C2410C;
+    border: 1px solid #FDBA74;
+}
+.btn-zone-havenot:hover, .btn-zone-havenot.active {
+    background: #EA580C !important;
+    color: #FFFFFF !important;
+    border-color: #9A3412 !important;
+}
+
+/* 3. Badge Telemetri (Kanan Atas) */
+.hud-telemetry {
+    position: absolute;
+    top: 60px;
+    right: 12px;
+    background: rgba(46, 33, 23, 0.85);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+}
+
+.tel-divider {
+    opacity: 0.4;
+}
+
+/* 2. Running News Ticker Bar (FASE B) */
+.hud-ticker-wrap {
+    position: absolute;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-full);
+    padding: 3px 14px 3px 5px;
+    max-width: calc(100% - 24px);
+    width: 580px;
+    z-index: 12;
+    pointer-events: auto;
+    overflow: hidden;
+}
+
+.hud-ticker-label {
+    background: var(--gold);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-full);
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 900;
+    white-space: nowrap;
+    margin-right: 8px;
+    letter-spacing: 0.3px;
+}
+
+.hud-ticker-content {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ticker-text {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--wood);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* 4. Kartu Tooltip Kavling & Bangunan */
+.hud-plot-card {
+    position: absolute;
+    left: 50%;
+    bottom: 110px;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 380px;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid-lg);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    pointer-events: auto;
+    animation: slideUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 15px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.plot-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.plot-card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.plot-card-icon {
+    font-size: 18px;
+}
+
+.plot-card-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.plot-card-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.plot-card-desc {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #3B2E24;
+    margin-bottom: 10px;
+}
+
+.building-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.owner-pill {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--ink);
+}
+
+.owner-pill.public {
+    background: #E8F0FE;
+    color: #1A73E8;
+}
+
+.owner-pill.private {
+    background: #FEF3D6;
+    color: #B06000;
+}
+
+.owner-name {
+    font-size: 11px;
+    color: #554A3E;
+}
+
+.work-opportunity-box {
+    background: #FAF3E3;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 12px;
+    border-bottom: 1px solid #D8CDBB;
+    padding-bottom: 4px;
+}
+
+.work-reward {
+    background: #E6F4EA;
+    color: #137333;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #137333;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.work-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 10px;
+    color: #5A4E42;
+}
+
+.plot-cost-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FDF7EA;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.cost-tag {
+    background: var(--gold);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--ink);
+    font-weight: 900;
+}
+
+.plot-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-action {
+    flex: 1;
+    padding: 10px 14px;
+    border: var(--border-ink);
+    border-radius: var(--radius-sm);
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: var(--shadow-solid);
+    transition: transform 0.08s ease;
+}
+
+.btn-action.primary {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+.btn-action.success {
+    background: #7FA062;
+    color: #FFFFFF;
+}
+
+.btn-action.success:hover {
+    background: #6D8E50;
+}
+
+.btn-dev-reset {
+    background: #FDF4E1;
+    border: 1.5px dashed var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--wood);
+    cursor: pointer;
+    transition: background 0.1s;
+    white-space: nowrap;
+}
+
+.btn-dev-reset:hover {
+    background: #FCE8B2;
+}
+
+.btn-action:disabled {
+    background: #C4BAA8;
+    color: #6E6457;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-action:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* Toast Notifikasi Mengambang */
+.hud-toast-container {
+    position: fixed;
+    top: 92px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+    pointer-events: none;
+    max-width: 320px;
+}
+
+.hud-toast {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+    animation: toastIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@keyframes toastIn {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.hud-toast.toast-fadeout {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.toast-icon {
+    font-size: 24px;
+}
+
+.toast-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.toast-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.toast-msg {
+    font-size: 10px;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+/* 5. Petunjuk Pintasan Keyboard (Desktop) */
+.hud-shortcuts-bar {
+    position: absolute;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(46, 33, 23, 0.78);
+    color: var(--paper);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 249, 236, 0.2);
+}
+
+/* 6. Footer Bar Kontrol (Bawah) */
+.hud-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: auto;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.hud-time-controls {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    background: var(--paper);
+    padding: 4px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-full);
+    overflow-x: auto;
+}
+
+.btn-time {
+    padding: 6px 10px;
+    border: none;
+    background: none;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+}
+
+.btn-time.active {
+    background: var(--wood);
+    color: var(--paper);
+}
+
+.hud-camera-controls {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.btn-cam {
+    min-width: 52px;
+    height: 42px;
+    padding: 0 10px;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: transform 0.08s ease;
+}
+
+.btn-cam.highlight {
+    background: var(--gold);
+}
+
+.btn-cam:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* =============================================================================
+   MODAL DIALOG SISTEM (AUTH & KLAIM KAVLING)
+   ============================================================================= */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(46, 33, 23, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.modal-backdrop.active,
+.modal-backdrop.visible {
+    display: flex !important;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-card {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-solid-lg);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--ink);
+    background: #FDF4E1;
+}
+
+.modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-icon {
+    font-size: 28px;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--wood);
+}
+
+.modal-subtitle {
+    font-size: 11px;
+    color: var(--ink);
+    opacity: 0.75;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.modal-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.modal-footer {
+    padding: 14px 16px;
+    border-top: 2px solid var(--ink);
+    background: #FDF4E1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: var(--border-ink);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 700;
+    background: #FFFFFF;
+    color: var(--ink);
+    outline: none;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 2px var(--gold);
+}
+
+.form-hint {
+    font-size: 10px;
+    color: #7A6F62;
+}
+
+/* Grid Profesi */
+.profession-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.profession-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    border: 2px solid var(--ink);
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.profession-card.selected {
+    background: var(--gold);
+    box-shadow: 2px 2px 0px var(--ink);
+    transform: translate(-1px, -1px);
+}
+
+.prof-icon {
+    font-size: 22px;
+}
+
+.prof-title {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.prof-desc {
+    font-size: 9px;
+    line-height: 1.2;
+    opacity: 0.8;
+}
+
+/* Rumah + kendaraan per Desa × Profesi (core/home_catalog.js) */
+.prof-kit {
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.kit-preview {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: #FFFFFF;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.kit-preview-title {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.kit-preview-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.kit-item {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.kit-item img {
+    width: 64px;
+    height: 64px;
+    flex: none;
+    object-fit: contain;
+    background: #F4EEDF;
+    border-radius: var(--radius-sm);
+}
+
+.kit-item figcaption {
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.kit-item figcaption small {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+/* Palette Warna Avatar */
+.color-palette-row {
+    display: flex;
+    gap: 10px;
+}
+
+.color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.color-circle.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px var(--ink);
+}
+
+/* Banner Koin */
+.welcome-coin-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFF2CC;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+}
+
+.coin-badge-icon {
+    font-size: 28px;
+}
+
+.coin-banner-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.coin-banner-desc {
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+/* Tombol Modal Umum */
+.btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.08s ease;
+}
+
+.btn-primary.full-width {
+    width: 100%;
+}
+
+.btn-primary:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.btn-primary:disabled {
+    background: #C4BAA8;
+    color: #6E6457;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Bar Biaya Klaim */
+.claim-cost-bar {
+    display: flex;
+    justify-content: space-between;
+    background: #F4EDE2;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+}
+
+.cost-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.cost-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6B5E50;
+}
+
+.cost-val {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.cost-val.positive {
+    color: #2D6A28;
+}
+
+.cost-val.negative {
+    color: var(--terracotta);
+}
+
+/* Grid Katalog Bangunan */
+.catalog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.catalog-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #FFFFFF;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.catalog-card.selected {
+    background: #FFF5E1;
+    border-color: var(--wood);
+    box-shadow: 2px 2px 0px var(--ink);
+    transform: translate(-1px, -1px);
+}
+
+.bld-icon {
+    font-size: 30px;
+}
+
+.bld-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.bld-desc {
+    font-size: 10px;
+    color: #615546;
+    margin: 2px 0 4px 0;
+}
+
+.bld-meta {
+    display: flex;
+    gap: 6px;
+}
+
+.meta-tag {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--ink);
+}
+
+.meta-tag.time {
+    background: #E8F0F8;
+    color: #1A365D;
+}
+
+.meta-tag.reward {
+    background: #E6F4EA;
+    color: #137333;
+}
+
+.alert-box {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--ink);
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.alert-box.warning {
+    background: #FDEDEC;
+    color: #922B21;
+}
+
+/* =============================================================================
+   MOBILE 390px ADAPTATION
+   ============================================================================= */
+@media (max-width: 600px) {
+    .hud-shortcuts-bar {
+        display: none;
+    }
+    .hud-ticker-wrap {
+        top: 48px;
+        width: calc(100% - 16px);
+        padding: 2px 10px 2px 4px;
+    }
+    .hud-cam-presets {
+        top: 84px;
+    }
+    .hud-toast-container {
+        top: 86px;
+        right: 8px;
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 440px) {
+    #hud-container {
+        padding: 6px;
+    }
+    .hud-profile-pill {
+        padding: 3px 8px 3px 4px;
+    }
+    .profile-avatar {
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
+    }
+    .profile-name {
+        font-size: 11px;
+    }
+    .profile-profession {
+        font-size: 9px;
+    }
+    .hud-coins-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+    .hud-treasury-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+    .treasury-label {
+        display: none;
+    }
+    .hud-district-badge {
+        display: none; /* Hemat ruang di layar HP sempit */
+    }
+    .hud-clock-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    .hud-ticker-wrap {
+        top: 44px;
+        font-size: 10px;
+    }
+    .hud-cam-presets {
+        top: 78px;
+    }
+    .profession-grid {
+        grid-template-columns: 1fr;
+    }
+    .btn-cam {
+        min-width: 44px;
+        height: 38px;
+        font-size: 11px;
+        padding: 0 6px;
+    }
+    .preset-group {
+        max-width: 210px;
+    }
+    .btn-view {
+        font-size: 10px;
+        padding: 3px 5px;
+    }
+}
+
+
+/* =============================================================================
+   TAMBAHAN KATALOG LENGKAP 36 BANGUNAN NETIZENIA & NUSANTARA
+   ============================================================================= */
+.modal-card.modal-large {
+    max-width: 580px;
+    width: 100%;
+}
+
+.category-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    scrollbar-width: thin;
+}
+
+.category-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.category-tabs::-webkit-scrollbar-thumb {
+    background: var(--ink);
+    border-radius: var(--radius-full);
+}
+
+.cat-tab {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    box-shadow: 1.5px 1.5px 0px var(--ink);
+    border-radius: var(--radius-full);
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+}
+
+.cat-tab:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+.cat-tab.active {
+    background: var(--wood);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.catalog-grid-scroll {
+    max-height: 330px;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+}
+
+.catalog-grid-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.catalog-grid-scroll::-webkit-scrollbar-thumb {
+    background: var(--wood);
+    border-radius: var(--radius-full);
+}
+
+.meta-tag.cost {
+    background: #FFF1D2;
+    color: #9C5200;
+    border-color: #D49428;
+    font-weight: 900;
+}
+
+.cost-val.highlight {
+    color: var(--wood);
+    font-weight: 900;
+    font-size: 14px;
+}
+
+/* =============================================================================
+   HUD NETIZENIA ENHANCEMENTS (STATS, SHOUTS & GUEST BANNER)
+   ============================================================================= */
+.hud-stats-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hud-stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.hud-stat-pill.kepuasan-pill {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-color: #2E7D32;
+}
+
+.hud-stat-pill.btn-village-status {
+    background: #FFF3E0;
+    color: #E65100;
+    border: 2px solid #E65100;
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease;
+    pointer-events: auto;
+}
+
+.hud-stat-pill.btn-village-status:hover {
+    background: #FFE0B2;
+    transform: translate(-1px, -1px);
+}
+
+.hud-stat-pill.btn-village-status:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+/* Status Badges Have vs Have-Not */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+    border: 1.5px solid;
+}
+
+.status-badge.have {
+    background: #E8F5E9;
+    color: #1B5E20;
+    border-color: #2E7D32;
+}
+
+.status-badge.havenot {
+    background: #FFF3E0;
+    color: #BF360C;
+    border-color: #E65100;
+}
+
+/* Category Tabs in Village Status Modal */
+.category-tabs {
+    display: flex;
+    gap: 6px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 6px;
+}
+
+.cat-tab {
+    padding: 6px 12px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--wood);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.cat-tab.active {
+    background: var(--wood);
+    color: #FFF;
+    border-color: var(--ink);
+}
+
+.cat-tab:hover:not(.active) {
+    background: #FDF4E1;
+}
+
+/* Floating Live Shouts */
+.hud-floating-shouts {
+    position: absolute;
+    top: 92px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+    pointer-events: none;
+    max-width: 90vw;
+}
+
+.shout-bubble {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0px rgba(46, 33, 23, 0.4);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    animation: fadeInDown 0.3s ease;
+}
+
+.donation-bubble {
+    background: #FFFBEB;
+    border-color: #F59E0B;
+    color: #92400E;
+}
+
+.donation-bubble .heart-icon {
+    font-size: 14px;
+}
+
+.activity-bubble {
+    background: #F1F5F9;
+    border-color: #64748B;
+    color: #334155;
+    font-size: 11.5px;
+}
+
+/* Welcome / Guest Floating Card */
+.hud-guest-card {
+    position: absolute;
+    bottom: 105px;
+    right: 14px;
+    left: auto;
+    transform: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #FFFBEB;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-solid-lg);
+    z-index: 10;
+    pointer-events: auto;
+    max-width: 380px;
+    animation: fadeInUp 0.4s ease;
+}
+
+.guest-card-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.btn-guest-login {
+    background: #FDE047;
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 0px var(--ink);
+    padding: 6px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.1s ease;
+}
+
+.btn-guest-login:hover {
+    background: #FACC15;
+    transform: translate(-1px, -1px);
+}
+
+.btn-guest-close {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 2px 4px;
+    opacity: 0.6;
+}
+
+.btn-guest-close:hover {
+    opacity: 1;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* =============================================================================
+   HUD SUPER ADMIN & ROLE SYSTEM ENHANCEMENTS (TINTA HANGAT + NEO-BRUTALISME)
+   ============================================================================= */
+
+/* Profile Top Line with Role Tag */
+.profile-top-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hud-role-tag {
+    font-size: 9px;
+    font-weight: 900;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--ink);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.hud-role-tag.tag-super {
+    background: #FEF08A;
+    color: #854D0E;
+    border-color: #CA8A04;
+    box-shadow: 1px 1px 0px var(--ink);
+}
+
+.hud-role-tag.tag-warga {
+    background: #E0E7FF;
+    color: #3730A3;
+    border-color: #6366F1;
+}
+
+/* Quick Role Switcher Button in Header */
+.hud-role-switch-btn {
+    background: var(--paper);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.08s ease, background 0.12s ease;
+    white-space: nowrap;
+}
+
+.hud-role-switch-btn:hover {
+    background: #FEF3D6;
+    transform: translate(-1px, -1px);
+}
+
+.hud-role-switch-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+.hud-role-switch-btn.active-super {
+    background: #FEF08A;
+    border-color: var(--ink);
+    color: #713F12;
+}
+
+/* Admin Panel Button in Header */
+.hud-admin-panel-btn {
+    background: #EF4444;
+    color: #FFFFFF;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.08s ease, background 0.12s ease;
+    white-space: nowrap;
+}
+
+.hud-admin-panel-btn:hover {
+    background: #DC2626;
+    transform: translate(-1px, -1px);
+}
+
+.hud-admin-panel-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+/* Otoritas Super Admin di Plot Card */
+.admin-plot-action-box {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: #FEF2F2;
+    border: 2px dashed #EF4444;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-plot-title {
+    font-size: 11px;
+    font-weight: 900;
+    color: #991B1B;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.admin-plot-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.btn-admin-plot {
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--ink);
+    box-shadow: 1.5px 1.5px 0px var(--ink);
+    cursor: pointer;
+    transition: transform 0.08s ease;
+    white-space: nowrap;
+}
+
+.btn-admin-plot:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+.btn-admin-plot.btn-demolish {
+    background: #FEE2E2;
+    color: #991B1B;
+    border-color: #B91C1C;
+}
+
+.btn-admin-plot.btn-demolish:hover {
+    background: #FECACA;
+}
+
+.btn-admin-plot.btn-instant-finish {
+    background: #FEF08A;
+    color: #854D0E;
+    border-color: #CA8A04;
+}
+
+.btn-admin-plot.btn-instant-finish:hover {
+    background: #FDE047;
+}
+
+.btn-admin-plot.btn-instant-municipal {
+    background: #DBEAFE;
+    color: #1E40AF;
+    border-color: #3B82F6;
+}
+
+.btn-admin-plot.btn-instant-municipal:hover {
+    background: #BFDBFE;
+}
+
+/* =============================================================================
+   SUPER ADMIN DASHBOARD MODAL STYLES
+   ============================================================================= */
+.admin-modal-card {
+    max-width: 680px;
+    width: 100%;
+}
+
+.admin-modal-header {
+    background: #FEF3C7;
+    border-bottom: 2px solid var(--ink);
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-role-switch {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    box-shadow: 1.5px 1.5px 0px var(--ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-role-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 2px solid var(--ink);
+    font-size: 12px;
+}
+
+.admin-role-status-bar.status-super {
+    background: #FEF08A;
+    color: #713F12;
+}
+
+.admin-role-status-bar.status-warga {
+    background: #E0E7FF;
+    color: #312E81;
+}
+
+.role-pill-badge {
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(0, 0, 0, 0.08);
+    margin-right: 8px;
+}
+
+.admin-tab-nav {
+    display: flex;
+    gap: 4px;
+    background: #FDF4E1;
+    padding: 8px 16px;
+    border-bottom: 2px solid var(--ink);
+    overflow-x: auto;
+}
+
+.admin-tab-btn {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+}
+
+.admin-tab-btn.active {
+    background: var(--wood);
+    color: var(--paper);
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.admin-tab-content {
+    padding: 16px;
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+.admin-panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-stat-banner {
+    background: #FFFBEB;
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+}
+
+.stat-banner-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-banner-item .lbl {
+    font-size: 11px;
+    font-weight: 700;
+    color: #78350F;
+}
+
+.stat-banner-item .val-gold {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--wood);
+}
+
+.stat-banner-item .sub {
+    font-size: 10.5px;
+    color: #92400E;
+}
+
+.admin-form-box {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+}
+
+.form-box-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--wood);
+    margin-bottom: 8px;
+}
+
+.quick-fund-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.btn-quick-fund {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1.5px solid #059669;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 1px 1px 0px var(--ink);
+}
+
+.btn-quick-fund.deduct {
+    background: #FEF2F2;
+    color: #991B1B;
+    border-color: #DC2626;
+}
+
+.custom-fund-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-input {
+    flex: 1;
+    min-width: 140px;
+    padding: 8px 10px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 700;
+    background: #FFF;
+    color: var(--ink);
+}
+
+.admin-textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    background: #FFF;
+    color: var(--ink);
+    resize: vertical;
+}
+
+.btn-primary-action {
+    background: var(--gold);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-primary-action:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+.admin-info-note {
+    background: #EFF6FF;
+    border: 1.5px solid #3B82F6;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: #1E40AF;
+    line-height: 1.3;
+}
+
+/* Citizens Table */
+.citizen-table-container {
+    overflow-x: auto;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+    background: #FFF;
+}
+
+.admin-table th {
+    background: #FDF4E1;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    font-weight: 800;
+    color: var(--wood);
+}
+
+.admin-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #E5E7EB;
+    color: var(--ink);
+}
+
+.admin-table tr.current-user-row {
+    background: #FEF9C3;
+}
+
+.citizen-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mini-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    color: #FFF;
+    font-size: 10px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.you-badge {
+    font-size: 10px;
+    color: #B45309;
+    font-weight: 800;
+}
+
+.role-tag {
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 800;
+    border: 1px solid;
+}
+
+.role-tag.tag-admin {
+    background: #FEF08A;
+    color: #854D0E;
+    border-color: #EAB308;
+}
+
+.role-tag.tag-warga {
+    background: #E0E7FF;
+    color: #3730A3;
+    border-color: #818CF8;
+}
+
+.table-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-tbl-action {
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    background: var(--paper);
+    cursor: pointer;
+}
+
+.btn-tbl-action:hover {
+    background: #FEF3D6;
+}
+
+.btn-admin-power {
+    padding: 10px 14px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: left;
+}
+
+.btn-complete-all {
+    background: #FEF08A;
+    color: #713F12;
+}
+
+.btn-reset-plots {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.city-planning-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.planning-card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 10px;
+    border-radius: var(--radius-sm);
+}
+
+.planning-card h4 {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.planning-desc {
+    font-size: 10.5px;
+    color: #6B5E50;
+    margin-bottom: 6px;
+}
+
+.planning-stat {
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+
+.badge-status-green {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #166534;
+    background: #DCFCE7;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-status-orange {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #9A3412;
+    background: #FFEDD5;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+
+/* Broadcast Form Alignment */
+.broadcast-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-lbl {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--wood);
+    display: block;
+    margin-bottom: 4px;
+}
+
+
+/* ==========================================================================
+   INSTAGRAM CITIZEN INTEGRATION & DIGITAL E-KTP STYLES
+   ========================================================================== */
+
+/* Tombol Header Instagram */
+.hud-ig-btn {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #FFFFFF !important;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px #2B2117;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.3px;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.hud-ig-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px #2B2117;
+}
+
+.hud-ig-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px #2B2117;
+}
+
+.hud-ig-btn .ig-icon {
+    font-size: 15px;
+}
+
+/* Tab Bar di Modal Auth */
+.auth-tabs-row {
+    display: flex;
+    gap: 8px;
+    padding: 10px 18px 0;
+    background: #FDFBF7;
+    border-bottom: 2px solid #2B2117;
+}
+
+.auth-tab-btn {
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #4B5563;
+    background: #E5E7EB;
+    border: 2px solid #2B2117;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.auth-tab-btn.active {
+    background: #FFFFFF;
+    color: #111827;
+    border-bottom: 2px solid #FFFFFF;
+    margin-bottom: -2px;
+}
+
+/* Instagram Hero Banner */
+.ig-hero-banner {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
+    border: 2px solid #B45309;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    box-shadow: 2px 2px 0px #B45309;
+}
+
+.ig-badge-pill {
+    display: inline-block;
+    background: #B45309;
+    color: #FFFFFF;
+    font-size: 10.5px;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.ig-hero-title {
+    font-size: 16px;
+    font-weight: 900;
+    color: #78350F;
+    margin: 0 0 6px 0;
+}
+
+.ig-hero-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #451A03;
+    margin: 0;
+}
+
+/* Steps Form */
+.ig-form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ig-step-box {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #FFFFFF;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    padding: 12px 14px;
+    box-shadow: 2px 2px 0px #2B2117;
+}
+
+.step-num {
+    background: #D97706;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 900;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid #2B2117;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1F2937;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.ig-follow-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #FFFFFF !important;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 8px 16px;
+    border: 2px solid #2B2117;
+    border-radius: 6px;
+    box-shadow: 2px 2px 0px #2B2117;
+    transition: transform 0.1s;
+}
+
+.ig-follow-action-btn:hover {
+    transform: translate(-1px, -1px);
+}
+
+.ig-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 2px solid #2B2117;
+    border-radius: 6px;
+    background: #F9FAFB;
+    overflow: hidden;
+}
+
+.ig-at-symbol {
+    font-weight: 900;
+    color: #6B7280;
+    padding: 8px 12px;
+    background: #E5E7EB;
+    border-right: 2px solid #2B2117;
+    font-size: 14px;
+}
+
+.ig-input-field {
+    flex: 1;
+    border: none;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #111827;
+    background: transparent;
+    outline: none;
+}
+
+.ig-input-hint {
+    font-size: 11px;
+    color: #6B7280;
+    margin-top: 4px;
+    display: block;
+}
+
+.ig-verify-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #374151;
+    background: #F3F4F6;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #D1D5DB;
+}
+
+.btn-submit-ig-register {
+    background: #F59E0B;
+    color: #1F2937;
+    font-size: 14px;
+    font-weight: 900;
+    padding: 12px 18px;
+    border: 2.5px solid #2B2117;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #2B2117;
+    transition: all 0.1s;
+    text-align: center;
+}
+
+.btn-submit-ig-register:hover {
+    background: #FBBF24;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px #2B2117;
+}
+
+.btn-submit-ig-register:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #2B2117;
+}
+
+/* ==========================================================================
+   E-KTP DIGITAL CARD STYLING (OTENTIK INDONESIA)
+   ========================================================================== */
+.ktp-card-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.ktp-card {
+    width: 100%;
+    max-width: 480px;
+    background: linear-gradient(135deg, #CFE2FE 0%, #BAE6FD 50%, #E0F2FE 100%);
+    border: 2.5px solid #1E293B;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0px #1E293B;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.ktp-header-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #1E3A8A;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.ktp-emblem {
+    font-size: 24px;
+}
+
+.ktp-gov-title {
+    text-align: center;
+}
+
+.ktp-gov-title h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #1E3A8A;
+}
+
+.ktp-gov-title h4 {
+    margin: 2px 0 0 0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #1E40AF;
+}
+
+.ktp-hologram {
+    background: linear-gradient(45deg, #FDE047, #F43F5E, #38BDF8);
+    color: #1E293B;
+    font-size: 8.5px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #1E293B;
+}
+
+.ktp-content-body {
+    display: flex;
+    gap: 14px;
+}
+
+.ktp-photo-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.ktp-avatar-box {
+    width: 90px;
+    height: 110px;
+    border: 2px solid #1E293B;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0px #1E293B;
+    background: #C8553D;
+}
+
+.avatar-letter {
+    font-size: 38px;
+    font-weight: 900;
+    color: #FFFFFF;
+}
+
+.ktp-signature {
+    margin-top: 6px;
+    text-align: center;
+    border-top: 1px dashed #1E293B;
+    width: 100%;
+    padding-top: 4px;
+}
+
+.ktp-signature span {
+    font-size: 10.5px;
+    font-weight: 800;
+    font-style: italic;
+    color: #1E293B;
+    display: block;
+}
+
+.ktp-signature small {
+    font-size: 9px;
+    color: #4B5563;
+    display: block;
+}
+
+.ktp-details-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ktp-field-row {
+    display: flex;
+    font-size: 11.5px;
+    line-height: 1.3;
+}
+
+.ktp-label {
+    width: 82px;
+    font-weight: 800;
+    color: #1E3A8A;
+    flex-shrink: 0;
+}
+
+.ktp-val {
+    color: #0F172A;
+    font-weight: 600;
+}
+
+.ktp-val.bold {
+    font-weight: 900;
+}
+
+.ktp-val.gold {
+    color: #B45309;
+    font-weight: 900;
+}
+
+.ktp-ig-link {
+    color: #C13584;
+    text-decoration: underline;
+    font-weight: 900;
+}
+.ktp-ig-link:hover { color: #E1306C; }
+
+/* Form usulan voting & tab distrik (Panel Warga) */
+.pnl-propose { background: #FFF9EC; border: 1px solid #E6E2D8; border-radius: 10px; padding: 10px; margin-bottom: 12px; }
+.pnl-input { width: 100%; box-sizing: border-box; padding: 9px 11px; margin-bottom: 8px; border: 1px solid #D6CFC2; border-radius: 8px; font: inherit; background: #fff; }
+.pnl-badge { font-size: 12px; font-weight: 800; color: #15803D; align-self: center; }
+
+/* Obrolan Warga Kota */
+#chat-widget { position: fixed; left: 14px; bottom: 96px; z-index: 900; }
+.chat-fab { display: inline-flex; align-items: center; gap: 6px; background: #5B3A24; color: #fff; border: none; border-radius: 999px; padding: 10px 14px; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.chat-fab-label { font-size: 13px; }
+.chat-box { position: absolute; left: 0; bottom: 52px; width: 300px; max-width: 78vw; height: 360px; max-height: 56vh; background: #FFFDF7; border: 1px solid #E6E2D8; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.28); display: none; flex-direction: column; overflow: hidden; }
+.chat-box.open { display: flex; }
+.chat-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #FFF4DC; border-bottom: 1px solid #EADFC6; }
+.chat-x { background: none; border: none; font-size: 16px; cursor: pointer; color: #6B5B45; }
+.chat-list { flex: 1; overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
+.chat-empty { color: #9A8E78; font-size: 13px; text-align: center; margin: auto 0; }
+.chat-msg { display: flex; flex-direction: column; background: #F3EEE2; border-radius: 9px; padding: 6px 9px; max-width: 86%; }
+.chat-msg.me { align-self: flex-end; background: #DCF0D8; }
+.chat-name { font-size: 11px; font-weight: 800; color: #5B3A24; }
+.chat-text { font-size: 14px; color: #2B2417; word-break: break-word; }
+.chat-input-row { display: flex; gap: 6px; padding: 9px; border-top: 1px solid #EADFC6; }
+.chat-input { flex: 1; min-width: 0; padding: 9px 11px; border: 1px solid #D6CFC2; border-radius: 8px; font: inherit; }
+.chat-send { background: #5B3A24; color: #fff; border: none; border-radius: 8px; padding: 0 14px; font-weight: 800; cursor: pointer; }
+.chat-send.full { width: 100%; padding: 10px; }
+@media (max-width: 480px) { #chat-widget { bottom: 120px; } .chat-fab-label { display: none; } }
+
+/* Mode Jalan: joystick, emote, tombol alih */
+#walk-controls .walk-toggle { position: fixed; right: 14px; bottom: 214px; z-index: 900; background: #2F6F4F; color: #fff; border: none; border-radius: 999px; padding: 10px 14px; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+#walk-controls .walk-toggle.on { background: #8A4B2A; }
+#walk-controls .walk-pad { position: fixed; left: 24px; bottom: 118px; width: 128px; height: 128px; border-radius: 50%; background: rgba(40,30,20,.28); border: 2px solid rgba(255,255,255,.4); z-index: 901; display: none; touch-action: none; }
+#walk-controls .walk-knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: rgba(255,255,255,.85); box-shadow: 0 2px 8px rgba(0,0,0,.3); pointer-events: none; }
+#walk-controls .walk-emotes { position: fixed; right: 16px; bottom: 118px; z-index: 901; display: none; flex-direction: column; gap: 8px; }
+#walk-controls .walk-emote { width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255,255,255,.92); font-size: 24px; cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,.25); }
+#walk-controls.walking .walk-pad, #walk-controls.walking .walk-emotes { display: flex; }
+body.walking #chat-widget { display: none; }
+
+.ktp-footer-strip {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px solid #93C5FD;
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #1E3A8A;
+}
+
+.ktp-actions-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-ktp-action {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 900;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px #2B2117;
+    transition: transform 0.1s;
+}
+
+.btn-ktp-action.primary {
+    background: #15803D;
+    color: #FFFFFF;
+}
+
+.btn-ktp-action.primary:hover {
+    background: #166534;
+    transform: translate(-1px, -1px);
+}
+
+.btn-ktp-action.secondary {
+    background: #E5E7EB;
+    color: #1F2937;
+}
+
+.btn-ktp-action.secondary:hover {
+    background: #D1D5DB;
+    transform: translate(-1px, -1px);
+}
+
+/* =========================================================================
+   Wizard Onboarding Warga: Instagram -> Desa -> Profesi -> Konfirmasi
+   ========================================================================= */
+.onb-stepper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.onb-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8A7A66;
+}
+.onb-step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #2B2117;
+    background: #FFF9EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: #2B2117;
+}
+.onb-step.current { color: #2B2117; }
+.onb-step.current .onb-step-num { background: #E9A91E; }
+.onb-step.done .onb-step-num { background: #7FA062; color: #FFFFFF; }
+
+.onb-question {
+    font-size: 16px;
+    font-weight: 900;
+    color: #2B2117;
+}
+
+.village-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.village-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    text-align: left;
+    font: inherit;
+    color: #2B2117;
+    background: #FFFFFF;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 44px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #2B2117;
+    transition: transform 0.1s ease, background 0.1s ease;
+}
+.village-card.village-have { border-top: 6px solid #C8553D; }
+.village-card.village-have_not { border-top: 6px solid #7FA062; }
+.village-card.selected {
+    background: #FFF1C9;
+    box-shadow: 4px 4px 0 #2B2117;
+    transform: translate(-2px, -2px);
+}
+.village-icon { font-size: 28px; }
+.village-title { font-size: 15px; font-weight: 900; }
+.village-tagline { font-size: 11px; font-weight: 700; color: #8A5A2B; }
+.village-desc { font-size: 12px; line-height: 1.35; color: #4A3B2C; }
+.village-house {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    background: #FFF9EC;
+    border: 1.5px solid #2B2117;
+    border-radius: 99px;
+    padding: 2px 8px;
+}
+
+button.profession-card {
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    min-height: 44px;
+}
+
+.onb-summary {
+    background: #FFFFFF;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    box-shadow: 2px 2px 0 #2B2117;
+    overflow: hidden;
+}
+.onb-summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 12px;
+    font-size: 13px;
+    border-bottom: 1px dashed #D8CBB5;
+}
+.onb-summary-row:last-child { border-bottom: none; }
+.onb-summary-row span { color: #6B5A46; }
+.onb-summary-row b { text-align: right; }
+.onb-summary-row b.gold { color: #B7791F; }
+
+.onb-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.onb-nav .btn-submit-ig-register { flex: 1; }
+.onb-btn {
+    min-height: 44px;
+    padding: 0 18px;
+    font: inherit;
+    font-weight: 900;
+    border: 2px solid #2B2117;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #2B2117;
+}
+.onb-btn.primary { background: #E9A91E; color: #2B2117; }
+.onb-btn.secondary { background: #FFFFFF; color: #2B2117; }
+.onb-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+.ig-input-hint.error { color: #C8553D; font-weight: 700; }
+
+@media (max-width: 420px) {
+    .village-grid { grid-template-columns: 1fr; }
+    .onb-step-label { font-size: 10px; }
+    .ig-form-card .profession-grid { grid-template-columns: 1fr 1fr; }
+    .ig-form-card .profession-card { flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px; }
+    .ig-form-card .prof-desc { font-size: 10.5px; }
+}
+
+/* =============================================================================
+   HUD HP 360–480px (2026-11-13): satu baris header yang bisa digeser,
+   lalu ticker -> preset kamera ditumpuk dengan jarak tetap. Tidak ada tumpang-tindih.
+   ============================================================================= */
+@media (max-width: 480px) {
+    .hud-header {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 6px;
+        padding-right: 8px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+    }
+    .hud-header::-webkit-scrollbar { display: none; }
+    .hud-header > * { flex: 0 0 auto; }
+    .hud-stats-group { flex-wrap: nowrap; gap: 4px; }
+    .hud-ig-btn .ig-text,
+    .kepuasan-pill,
+    .hud-telemetry { display: none !important; }
+    .hud-ig-btn { padding: 6px 9px; }
+
+    .hud-ticker-wrap {
+        top: 50px;
+        left: 6px;
+        right: 6px;
+        width: auto;
+        transform: none;
+        max-width: none;
+    }
+    .hud-cam-presets {
+        top: 82px;
+        left: 6px;
+        right: 6px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 6px;
+        scrollbar-width: none;
+    }
+    .hud-cam-presets::-webkit-scrollbar { display: none; }
+    .hud-cam-presets .preset-group { flex: 0 0 auto; flex-wrap: nowrap; }
+    .hud-cam-presets .btn-preset,
+    .hud-cam-presets .btn-view { white-space: nowrap; font-size: 11px; }
+
+    .hud-toast-container { top: 126px; left: 8px; right: 8px; max-width: none; }
+
+    .hud-time-controls {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: calc(100vw - 16px);
+        scrollbar-width: none;
+    }
+    .hud-time-controls::-webkit-scrollbar { display: none; }
+    .btn-time { flex: 0 0 auto; white-space: nowrap; }
+
+    .hud-guest-card {
+        left: 8px;
+        right: 8px;
+        bottom: 118px;
+        max-width: none;
+    }
+    .hud-plot-card { left: 8px; right: 8px; max-width: none; }
+}
+
+/* Bonus upah profesi di kartu kerja */
+.work-bonus {
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: #6B5A46;
+}
+.work-bonus.match {
+    font-weight: 800;
+    color: #2B2117;
+    background: #FFF1C9;
+    border: 1.5px solid #E9A91E;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+/* Aturan Desa Have-Not di katalog klaim */
+.havenot-rule-note {
+    margin: 4px 0 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3F5A2A;
+    background: #EEF5E6;
+    border: 1.5px solid #7FA062;
+    border-radius: 6px;
+}
+
+/* Baris aturan desa (kartu klaim & kartu kerja) */
+.village-rule-line {
+    margin: 2px 0 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3A3227;
+    background: #F6F1E6;
+    border-left: 3px solid #C99A3C;
+    border-radius: 6px;
+}
+
+/* =============================================================================
+   MODAL & KARTU HP 360–480px (2026-11-13)
+   Modal KTP/daftar warga, klaim kavling, Status Desa, dashboard admin,
+   kartu kavling & kartu tamu HUD. Header modal menempel (tombol tutup selalu
+   terlihat), satu area scroll per modal, target sentuh >= 44px, teks >= 12px.
+   Tidak mengubah blok HUD atas @media (max-width: 480px) di atas.
+   ============================================================================= */
+@media (max-width: 480px) {
+    /* --- Wadah modal: penuh lebar, tinggi mengikuti layar nyata (dvh) --- */
+    .modal-backdrop {
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+        padding: max(10px, env(safe-area-inset-top)) 8px max(10px, env(safe-area-inset-bottom));
+        align-items: center;
+    }
+    .modal-card,
+    .modal-card.modal-large,
+    .admin-modal-card {
+        max-width: 100%;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    /* Header menempel di atas: judul + tombol tutup tidak ikut ter-scroll */
+    .modal-card > .modal-header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 10px 10px 10px 12px;
+        gap: 8px;
+        align-items: center;
+    }
+    .modal-title-wrap { gap: 8px; min-width: 0; }
+    .modal-title-wrap > div { min-width: 0; }
+    .modal-icon { font-size: 22px; flex: 0 0 auto; }
+    .modal-title { font-size: 15px; line-height: 1.2; overflow-wrap: break-word; }
+    .modal-subtitle { font-size: 12px; line-height: 1.3; overflow-wrap: break-word; }
+    .modal-close {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-sm);
+        box-shadow: 2px 2px 0 var(--ink);
+        font-size: 18px;
+    }
+    .modal-close:active { transform: translate(1px, 1px); box-shadow: none; }
+
+    .modal-body { padding: 12px; gap: 12px; }
+
+    /* Footer menempel di bawah kartu: tombol aksi selalu bisa dijangkau */
+    .modal-card > .modal-footer {
+        position: sticky;
+        bottom: 0;
+        z-index: 4;
+        padding: 10px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .modal-footer button { min-height: 44px; }
+
+    /* Satu area scroll saja: daftar di dalam modal tidak lagi scroll bersarang */
+    .modal-card .catalog-grid-scroll {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    .modal-card .catalog-grid { grid-template-columns: 1fr; }
+
+    /* Tab kategori (klaim & Status Desa) dan tab admin: geser horizontal, 44px */
+    .modal-card .category-tabs,
+    .admin-tab-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+    }
+    .modal-card .category-tabs::-webkit-scrollbar,
+    .admin-tab-nav::-webkit-scrollbar { display: none; }
+    .modal-card .cat-tab,
+    .admin-tab-btn,
+    .auth-tab-btn {
+        flex: 0 0 auto;
+        min-height: 44px;
+        font-size: 12px;
+        scroll-snap-align: start;
+    }
+    .admin-tab-nav { padding: 8px 10px; gap: 6px; }
+
+    /* Teks minimum 12px di dalam modal (termasuk gaya inline 9–11px) */
+    .modal-card :is(.meta-tag, .bld-desc, .cost-label, .onb-step-label, .onb-step-num,
+        .ig-badge-pill, .ig-input-hint, .btn-role-switch, .btn-quick-fund, .admin-info-note,
+        .sub, .lbl, .form-hint, .prof-desc, .status-badge, .role-pill-badge, .status-account-name,
+        .village-tagline, .village-desc, .ktp-label, .form-lbl, .village-house, .planning-desc,
+        .badge-status-green, .badge-status-orange, th, td) {
+        font-size: 12px;
+    }
+    .modal-card .ig-verify-row { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    .modal-card .ig-verify-row input[type="checkbox"] { width: 24px; height: 24px; flex: 0 0 auto; margin: 0; }
+    .modal-card .ig-verify-row label { padding: 6px 0; }
+    .modal-card [style*="font-size: 9"],
+    .modal-card [style*="font-size: 10"],
+    .modal-card [style*="font-size: 11"],
+    .modal-card [style*="font-size:9"],
+    .modal-card [style*="font-size:10"],
+    .modal-card [style*="font-size:11"] {
+        font-size: 12px !important;
+    }
+
+    /* Input & tombol di dalam modal: tinggi sentuh 44px, 16px cegah zoom iOS */
+    .modal-card :is(.form-input, .ig-input-field, .admin-input, .admin-textarea, select) {
+        min-height: 44px;
+        font-size: 16px;
+    }
+    .modal-card :is(.btn-quick-fund, .btn-role-switch, .btn-primary, .btn-primary-action,
+        .btn-mode-tab, .onb-btn, .btn-action) {
+        min-height: 44px;
+    }
+    .modal-card .step-content { min-width: 0; }
+    .modal-card .ig-step-box { padding: 10px 12px; gap: 10px; }
+    .modal-card .ig-input-wrap { width: 100%; min-width: 0; }
+    .modal-card .ig-input-field { width: 100%; min-width: 0; }
+    .modal-card .ig-at-symbol { align-self: stretch; display: flex; align-items: center; }
+    .modal-card .ig-follow-action-btn { min-height: 44px; max-width: 100%; }
+    .modal-card .quick-fund-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .modal-card .custom-fund-row > * { flex: 1 1 100%; min-width: 0; }
+
+    /* Dashboard admin: judul tidak terjepit tombol peran */
+    .admin-modal-header { flex-wrap: wrap; row-gap: 8px; }
+    .admin-modal-header .modal-title-wrap { flex: 1 1 0; order: 1; }
+    .admin-header-actions { display: contents; }
+    .admin-header-actions .modal-close { order: 2; }
+    .admin-header-actions .btn-role-switch { order: 3; flex: 1 1 100%; }
+    .admin-role-status-bar { flex-wrap: wrap; gap: 4px 8px; padding: 8px 12px; }
+    .admin-modal-card table { display: block; overflow-x: auto; max-width: 100%; }
+
+    /* Status Desa */
+    .modal-card .status-comparison-bar { flex-wrap: wrap; gap: 4px; }
+
+    /* --- Kartu kavling HUD: di bawah tumpukan HUD atas, di atas footer --- */
+    .hud-plot-card {
+        left: 8px;
+        right: 8px;
+        width: auto;
+        max-width: none;
+        bottom: 118px;
+        transform: none;
+        z-index: 12;
+        max-height: calc(100vh - 118px - 132px);
+        max-height: calc(100dvh - 118px - 132px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 0 12px 12px;
+        animation: plotCardUpMobile 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hud-plot-card .plot-card-header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--paper);
+        padding-top: 8px;
+        margin: 0 0 8px;
+        gap: 8px;
+    }
+    .hud-plot-card .plot-card-title-group { min-width: 0; }
+    .hud-plot-card .plot-card-title { font-size: 14px; overflow-wrap: anywhere; }
+    .plot-card-close {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-sm);
+        background: var(--paper);
+        box-shadow: 2px 2px 0 var(--ink);
+    }
+    .hud-plot-card :is(.status-badge, .owner-pill, .owner-name, .cost-tag, .work-details,
+        .plot-cost-box, .work-bonus) { font-size: 12px; }
+    .hud-plot-card .plot-card-desc { font-size: 12.5px; }
+    .hud-plot-card .plot-card-actions { flex-wrap: wrap; }
+    .hud-plot-card button:not(.plot-card-close) { min-height: 44px; }
+    /* Saat kartu kavling terbuka, kartu tamu disembunyikan agar tidak menumpuk */
+    .hud-guest-card:has(~ .hud-plot-card[style*="block"]) { display: none !important; }
+
+    /* --- Kartu tamu --- */
+    .hud-guest-card {
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        padding: 10px 52px 10px 12px;
+    }
+    .hud-guest-card .guest-card-text { flex: 1 1 100%; font-size: 13px; }
+    .btn-guest-login { flex: 1 1 auto; min-height: 44px; }
+    .btn-guest-close {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        font-size: 16px;
+        opacity: 0.8;
+    }
+}
+
+@keyframes plotCardUpMobile {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Kredit Aset 3D (asset_credits.js, tab Dashboard Super Admin) --- */
+.credits-note { font-size: 12px; line-height: 1.5; color: var(--ink); margin: 0; }
+.credits-note a, .credits-list a { color: var(--wood); font-weight: 700; }
+.credits-count { font-size: 11px; font-weight: 800; color: var(--wood); }
+.credits-list {
+    margin: 0;
+    padding: 0 0 0 18px;
+    font-size: 12px;
+    line-height: 1.6;
+    columns: 2;
+    column-gap: 18px;
+}
+.credits-list li { break-inside: avoid; }
+.credits-by { opacity: 0.6; font-size: 11px; }
+@media (max-width: 480px) {
+    .credits-list { columns: 1; }
+}
+
+/* =============================================================================
+   HUD LAPTOP/DESKTOP >= 900px (2026-11-13)
+   Zona tetap, tidak ada tumpang-tindih:
+   - Kiri atas   : header (baris pil) -> panel Kamera tunggal (mode, sudut, zona)
+   - Tengah atas : ticker Kabar Kota, diapit ruang panel kiri & kanan (236px)
+   - Kanan atas  : jam -> FPS -> pengatur waktu -> toast
+   - Bawah tengah: dock kamera satu baris (+ suara, azan, cuaca)
+   - Kiri bawah  : petunjuk keyboard (>= 1200px)  | Kanan bawah: kartu tamu
+   ============================================================================= */
+
+/* Tombol cuaca (dibuat weather.js dengan kelas .hud-btn) disamakan dengan .btn-cam */
+.hud-camera-controls .hud-btn {
+    min-width: 52px;
+    height: 42px;
+    padding: 0 10px;
+    background: var(--paper);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-solid);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-family: inherit;
+}
+.hud-camera-controls .hud-btn:active { transform: translate(1px, 1px); box-shadow: none; }
+
+@media (min-width: 900px) {
+    /* --- Panel Kamera kiri: satu kartu --- */
+    .hud-cam-presets {
+        top: 66px;
+        left: 12px;
+        width: 244px;
+        gap: 10px;
+        padding: 10px;
+        background: var(--paper);
+        border: var(--border-ink);
+        box-shadow: var(--shadow-solid-lg);
+        border-radius: var(--radius-md);
+        max-height: calc(100vh - 66px - 120px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    .hud-cam-presets .btn-preset {
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+    .hud-cam-presets .preset-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        max-width: none;
+        padding: 8px 0 0;
+        background: none;
+        border: none;
+        border-top: 2px dashed rgba(46, 33, 23, 0.25);
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .hud-cam-presets .preset-group::before {
+        content: 'SUDUT PANDANG';
+        grid-column: 1 / -1;
+        font-size: 10.5px;
+        font-weight: 900;
+        letter-spacing: 0.8px;
+        color: var(--wood);
+        opacity: 0.8;
+    }
+    .hud-cam-presets .zone-nav-group::before { content: 'ZONA KOTA'; }
+    .hud-cam-presets .btn-view {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-height: 32px;
+        padding: 5px 8px;
+        font-size: 12px;
+        text-align: left;
+        line-height: 1.15;
+        background: #FFFFFF;
+        border: 1.5px solid rgba(46, 33, 23, 0.35);
+        border-radius: var(--radius-sm);
+    }
+    .hud-cam-presets .btn-view.active {
+        border-color: var(--ink);
+        box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    /* --- Ticker: di tengah, tidak menyentuh panel kiri & kolom kanan --- */
+    .hud-ticker-wrap {
+        top: 64px;
+        left: 268px;
+        right: 268px;
+        width: auto;
+        max-width: 640px;
+        margin: 0 auto;
+        transform: none;
+    }
+
+    /* --- Kolom kanan: FPS -> waktu -> toast --- */
+    .hud-telemetry { top: 64px; right: 12px; }
+    .hud-time-controls {
+        position: absolute;
+        top: 98px;
+        right: 12px;
+        overflow: visible;
+    }
+    .hud-time-controls .btn-time { font-size: 12px; padding: 6px 10px; }
+    .hud-toast-container { top: 148px; right: 12px; }
+
+    /* --- Dock kamera bawah: satu baris di tengah --- */
+    .hud-footer {
+        width: auto;
+        max-width: none;
+        align-self: center;
+        margin: 0;
+    }
+    .hud-camera-controls {
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding: 6px;
+        background: rgba(255, 249, 236, 0.92);
+        border: var(--border-ink);
+        box-shadow: var(--shadow-solid-lg);
+        border-radius: var(--radius-md);
+    }
+    .hud-camera-controls #btn-ambience {
+        margin-left: 8px;
+        position: relative;
+    }
+    .hud-camera-controls #btn-ambience::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 6px;
+        bottom: 6px;
+        border-left: 2px dashed rgba(46, 33, 23, 0.3);
+    }
+
+    /* --- Petunjuk keyboard: kiri bawah, tidak menimpa dock --- */
+    .hud-shortcuts-bar {
+        left: 12px;
+        bottom: 12px;
+        transform: none;
+        max-width: calc(50% - 320px);
+        white-space: normal;
+        line-height: 1.45;
+        border-radius: var(--radius-md);
+        padding: 6px 12px;
+    }
+
+    /* --- Kartu tamu kanan bawah, di atas garis dock --- */
+    .hud-guest-card {
+        right: 12px;
+        bottom: 12px;
+        width: min(340px, calc(50% - 320px));
+        max-width: none;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        padding: 10px 44px 10px 14px;
+    }
+    .hud-guest-card .guest-card-text { flex: 1 1 100%; }
+    .hud-guest-card .btn-guest-login { flex: 1 1 auto; min-height: 38px; }
+    .hud-guest-card .btn-guest-close { position: absolute; top: 4px; right: 4px; width: 36px; height: 36px; }
+    .hud-guest-card:has(~ .hud-plot-card[style*="block"]) { display: none !important; }
+
+    /* Kartu kavling tepat di atas dock */
+    .hud-plot-card { bottom: 78px; }
+}
+
+/* Laptop sempit: petunjuk keyboard disembunyikan, kartu tamu naik di atas dock */
+@media (min-width: 900px) and (max-width: 1199px) {
+    .hud-shortcuts-bar { display: none; }
+    .hud-guest-card { bottom: 78px; width: 340px; }
+    /* Header tetap satu baris: tombol IG jadi ikon, pil kepuasan disembunyikan */
+    .hud-header { flex-wrap: nowrap; gap: 6px; }
+    .hud-header > * { flex: 0 0 auto; }
+    .hud-ig-btn .ig-text,
+    .kepuasan-pill { display: none !important; }
+}
+
+/* =============================================================================
+   PIL PROGRES PEMBANGUNAN RUMAH (src/models/construction_fx.js)
+   ============================================================================= */
+.construction-pill {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+    transform: translateX(-50%);
+    z-index: 40;
+    min-height: 44px;
+    max-width: calc(100vw - 32px);
+    padding: 0 16px;
+    border: var(--border-ink);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-solid-lg);
+    background:
+        linear-gradient(90deg, rgba(233, 169, 30, 0.55) var(--p, 0%), transparent var(--p, 0%)),
+        var(--paper);
+    color: var(--ink);
+    font: 800 14px/1 var(--font-stack);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    animation: pill-pulse 2.4s ease-in-out infinite;
+}
+.construction-pill[hidden] { display: none; }
+@keyframes pill-pulse { 50% { box-shadow: 3px 3px 0 var(--terracotta); } }
+@media (prefers-reduced-motion: reduce) { .construction-pill { animation: none; } }
+
+/* =============================================================================
+   PANEL WARGA & PANEL PENGELOLA (citizen_panel.js / admin_modal.js, chunk lazy)
+   Target sentuh >= 44px, teks >= 12px.
+   ============================================================================= */
+.pnl .modal-card { max-width: 560px; }
+.pnl .admin-tab-btn { min-height: 44px; font-size: 13px; }
+.pnl .pnl-close { min-width: 44px; min-height: 44px; }
+.pnl-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.pnl-body[aria-busy="true"] { opacity: 0.6; pointer-events: none; }
+.pnl-h { font-size: 15px; font-weight: 900; margin-top: 4px; }
+.pnl-note { font-size: 13px; line-height: 1.45; color: #5C4636; }
+.pnl-err {
+    font-size: 13px; font-weight: 700; color: #7F1D1D;
+    background: #FEE2E2; border: 2px solid #B91C1C; border-radius: var(--radius-sm); padding: 8px 10px;
+}
+.pnl-form { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; }
+.pnl-body .pnl-form { padding: 0; }
+.pnl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pnl-label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 800; }
+.pnl-input {
+    min-height: 44px; width: 100%; padding: 8px 10px; font: inherit; font-size: 16px; font-weight: 600;
+    color: var(--ink); background: var(--paper-card); border: var(--border-ink); border-radius: var(--radius-sm);
+    user-select: text;
+}
+.pnl-input:focus-visible, .pnl-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.pnl-num { width: 110px; flex: 0 0 auto; }
+.pnl-btn {
+    min-height: 44px; padding: 8px 14px; font: inherit; font-size: 13px; font-weight: 800; color: var(--ink);
+    background: var(--paper-card); border: var(--border-ink); border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-solid); cursor: pointer;
+}
+.pnl-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.pnl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.pnl-primary { background: var(--gold); }
+.pnl-danger { background: #FEE2E2; color: #7F1D1D; }
+.pnl-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.pnl-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.pnl-row {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 10px; background: var(--paper-card); border: 2px solid var(--ink); border-radius: var(--radius-sm);
+}
+.pnl-row-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 160px; font-size: 14px; }
+.pnl-row-main small { font-size: 12px; color: #6B5442; overflow-wrap: anywhere; }
+.pnl-row-act { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pnl-foot { display: flex; gap: 8px; justify-content: flex-end; padding: 10px 16px; border-top: 2px solid var(--ink); }
+.pnl-saldo {
+    display: flex; justify-content: space-between; align-items: center; padding: 10px 16px;
+    background: #FEF3C7; border-bottom: 2px solid var(--ink); font-size: 13px; font-weight: 800;
+}
+.pnl-saldo b { font-size: 18px; }
+.pnl-progress { height: 16px; border: 2px solid var(--ink); border-radius: var(--radius-full); background: var(--paper-card); overflow: hidden; }
+.pnl-progress span { display: block; height: 100%; background: var(--grass); transition: width 0.4s ease; }
+.pnl .admin-role-status-bar { flex-wrap: wrap; gap: 4px; font-size: 13px; }
+
+/* Panel Warga: kartu tidak scroll utuh. Header + saldo + baris tab terkunci (tidak mengecil),
+   hanya .pnl-body yang scroll. Mencegah baris tab terpotong (flex-shrink + overflow-y:hidden). */
+.pnl .modal-card { overflow: hidden; }
+.pnl .modal-header,
+.pnl .pnl-saldo,
+.pnl .admin-tab-nav { flex: 0 0 auto; }
+.pnl .admin-tab-nav { overflow-y: visible; align-items: stretch; }
+.pnl .admin-tab-btn { display: inline-flex; align-items: center; }
+.pnl .admin-tab-btn.active { box-shadow: 2px 2px 0 var(--ink); transform: translateY(-1px); }
+/* Kartu distrik/voting: beri tekanan tombol aksi & jarak konsisten dgn panel lain. */
+.pnl .pnl-row { align-items: stretch; }
+.pnl .pnl-row-main { justify-content: center; }
+.pnl .pnl-badge { padding: 4px 10px; background: #DCFCE7; border: 1.5px solid #15803D; border-radius: var(--radius-full); }
+.pnl .pnl-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+@media (max-width: 480px) {
+    .pnl.modal-backdrop { padding: 8px; align-items: flex-end; }
+    .pnl .modal-card { max-height: 92vh; overflow: hidden; }
+    .pnl-row-act { width: 100%; }
+    .pnl-row-act .pnl-btn { flex: 1 1 auto; }
+    /* Override aturan mobile .admin-tab-nav{overflow-y:hidden} yang memotong tombol tab. */
+    .pnl .admin-tab-nav { overflow-y: visible; }
+}
+
+/* Pilihan tanaman sawah petani (hud.js cropPickerHtml) */
+.crop-picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.crop-chip {
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+    min-width: 62px; padding: 6px 4px; border-radius: 10px; cursor: pointer;
+    border: 2px solid #E6E2D8; background: #FFF; line-height: 1.1;
+    font-family: inherit; transition: transform .08s ease, border-color .12s ease, background .12s ease;
+}
+.crop-chip:hover { transform: translateY(-1px); border-color: #C8A24A; }
+.crop-chip.active { border-color: #4C7F34; background: #EDF7E4; box-shadow: 0 0 0 1px #4C7F34 inset; }
+.crop-chip .crop-ic { font-size: 20px; }
+.crop-chip .crop-nm { font-size: 12px; font-weight: 700; color: #3A2E26; }
+.crop-chip .crop-yl { font-size: 10px; color: #78716C; }
+
+/* Login @username lokal (auth_modal.js renderLoginTab + ig-login-link) */
+.ig-login-link {
+    margin-top: 10px; background: transparent; border: 1px dashed #C8A24A;
+    color: #8A5A1E; font-family: inherit; font-weight: 700; font-size: 13px;
+    padding: 8px 12px; border-radius: 10px; cursor: pointer; width: 100%;
+    transition: background .12s ease, color .12s ease;
+}
+.ig-login-link:hover { background: #FBF3DF; color: #5B3A24; }
+.login-known { margin: 12px 0 4px; }
+.login-known-title { font-size: 12px; font-weight: 700; color: #78716C; margin-bottom: 6px; }
+.login-known-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.login-chip {
+    padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    border: 2px solid #E6E2D8; background: #FFF; font-family: inherit;
+    font-weight: 700; font-size: 13px; color: #3A2E26;
+    transition: transform .08s ease, border-color .12s ease, background .12s ease;
+}
+.login-chip:hover { transform: translateY(-1px); border-color: #C8A24A; background: #FBF3DF; }
+.login-empty { font-size: 13px; color: #78716C; margin: 12px 0; line-height: 1.5; }
+
+/* Profil Rumah di kartu kavling (hud.houseProfileHtml) */
+.house-profile { background: #FFFDF6; border: 1px solid #E7D9B8; border-radius: 12px; padding: 10px 12px; margin: 8px 0; display: grid; gap: 4px; }
+.hp-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.hp-avatar { width: 36px; height: 36px; flex: 0 0 36px; border-radius: 50%; color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 16px; }
+.hp-id { display: grid; min-width: 0; font-size: 14px; color: #3A2E26; }
+.hp-id a { font-size: 12px; color: #A0522D; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 24px; line-height: 24px; }
+.hp-id a:hover { text-decoration: underline; }
+.hp-me { font-size: 12px; background: #FDE68A; color: #78350F; border-radius: 999px; padding: 1px 8px; font-weight: 700; }
+.hp-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: #6B5B4B; }
+.hp-row b { color: #3A2E26; text-align: right; }
+.hp-progress { display: grid; gap: 4px; margin-top: 4px; font-size: 12px; color: #6B5B4B; }
+.hp-bar { height: 8px; background: #EFE4CC; border-radius: 999px; overflow: hidden; }
+.hp-bar i { display: block; height: 100%; background: #E9A91E; border-radius: 999px; }
+
+/* ===== Foto profil warga (unggahan sendiri) ===== */
+/* Foto mengisi penuh kotak avatar yang sudah ada; inisial tetap dipakai bila tak ada foto. */
+.profile-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full); display: block; }
+.hp-avatar { overflow: hidden; }
+.hp-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.ktp-avatar-box { overflow: hidden; }
+.ktp-avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Pemilih foto di wizard pendaftaran (langkah 1) */
+.ig-optional { font-weight: 600; color: #9A8B78; font-size: 0.85em; }
+.avatar-pick-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.avatar-pick-preview { width: 56px; height: 56px; flex: 0 0 56px; border-radius: 50%; border: 2px solid var(--ink, #2E2117); background: #EFE4CC; color: #6B5B4B; font-weight: 900; font-size: 22px; display: grid; place-items: center; overflow: hidden; }
+.avatar-pick-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.avatar-pick-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.avatar-pick-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #2E2117; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; }
+.avatar-pick-clear { min-height: 44px; padding: 0 14px; border: 1px solid #C8553D; background: transparent; color: #C8553D; border-radius: 999px; font-weight: 700; cursor: pointer; }
+
+/* Avatar di Panel Warga (tab Profil) */
+.pnl-profil-head { display: flex; justify-content: center; margin-bottom: 12px; }
+.pnl-avatar { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--ink, #2E2117); color: #fff; font-weight: 900; font-size: 30px; display: grid; place-items: center; overflow: hidden; }
+.pnl-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }

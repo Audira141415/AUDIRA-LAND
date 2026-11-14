@@ -1,0 +1,3352 @@
+{
+ "source": "https://polyfork.dev",
+ "license": "CC BY 4.0",
+ "models": {
+  "apple-tree-ef0ba0": {
+   "title": "Apple Tree",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 679,
+   "size": [
+    2.734,
+    3.393,
+    2.67
+   ],
+   "file": "apple-tree-ef0ba0.glb",
+   "page": "https://polyfork.dev/asset/apple-tree-ef0ba0",
+   "credit": "Apple Tree by Polyfork (https://polyfork.dev/asset/apple-tree-ef0ba0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "basket-of-produce-7420cf": {
+   "title": "Basket of Produce",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 766,
+   "size": [
+    0.5,
+    0.53,
+    0.5
+   ],
+   "file": "basket-of-produce-7420cf.glb",
+   "page": "https://polyfork.dev/asset/basket-of-produce-7420cf",
+   "credit": "Basket of Produce by Polyfork (https://polyfork.dev/asset/basket-of-produce-7420cf), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beehive-2e70bf": {
+   "title": "Beehive",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 420,
+   "size": [
+    0.468,
+    0.9,
+    0.576
+   ],
+   "file": "beehive-2e70bf.glb",
+   "page": "https://polyfork.dev/asset/beehive-2e70bf",
+   "credit": "Beehive by Polyfork (https://polyfork.dev/asset/beehive-2e70bf), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "berry-bush-ee4812": {
+   "title": "Berry Bush",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 720,
+   "size": [
+    0.732,
+    0.975,
+    0.649
+   ],
+   "file": "berry-bush-ee4812.glb",
+   "page": "https://polyfork.dev/asset/berry-bush-ee4812",
+   "credit": "Berry Bush by Polyfork (https://polyfork.dev/asset/berry-bush-ee4812), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "chicken-coop-371f97": {
+   "title": "Chicken Coop",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 1052,
+   "size": [
+    3.0,
+    2.15,
+    3.0
+   ],
+   "file": "chicken-coop-371f97.glb",
+   "page": "https://polyfork.dev/asset/chicken-coop-371f97",
+   "credit": "Chicken Coop by Polyfork (https://polyfork.dev/asset/chicken-coop-371f97), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "clothes-line-ee47e4": {
+   "title": "Clothes Line",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 616,
+   "size": [
+    3.358,
+    1.814,
+    0.521
+   ],
+   "file": "clothes-line-ee47e4.glb",
+   "page": "https://polyfork.dev/asset/clothes-line-ee47e4",
+   "credit": "Clothes Line by Polyfork (https://polyfork.dev/asset/clothes-line-ee47e4), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "compact-tractor-35b84b": {
+   "title": "Compact Tractor",
+   "type": "vehicle",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 3034,
+   "size": [
+    1.71,
+    1.998,
+    2.83
+   ],
+   "file": "compact-tractor-35b84b.glb",
+   "page": "https://polyfork.dev/asset/compact-tractor-35b84b",
+   "credit": "Compact Tractor by Polyfork (https://polyfork.dev/asset/compact-tractor-35b84b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "compost-heap-dfec38": {
+   "title": "Compost Heap",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 668,
+   "size": [
+    0.88,
+    0.769,
+    0.964
+   ],
+   "file": "compost-heap-dfec38.glb",
+   "page": "https://polyfork.dev/asset/compost-heap-dfec38",
+   "credit": "Compost Heap by Polyfork (https://polyfork.dev/asset/compost-heap-dfec38), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "corn-crop-b71f2f": {
+   "title": "Corn Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 690,
+   "size": [
+    0.854,
+    1.807,
+    0.881
+   ],
+   "file": "corn-crop-b71f2f.glb",
+   "page": "https://polyfork.dev/asset/corn-crop-b71f2f",
+   "credit": "Corn Crop by Polyfork (https://polyfork.dev/asset/corn-crop-b71f2f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dirt-tile-6f4470": {
+   "title": "Dirt Tile",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 518,
+   "size": [
+    1.0,
+    0.071,
+    1.0
+   ],
+   "file": "dirt-tile-6f4470.glb",
+   "page": "https://polyfork.dev/asset/dirt-tile-6f4470",
+   "credit": "Dirt Tile by Polyfork (https://polyfork.dev/asset/dirt-tile-6f4470), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "farm-dog-723730": {
+   "title": "Farm Dog",
+   "type": "animal",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 2204,
+   "size": [
+    0.327,
+    0.787,
+    1.199
+   ],
+   "file": "farm-dog-723730.glb",
+   "page": "https://polyfork.dev/asset/farm-dog-723730",
+   "credit": "Farm Dog by Polyfork (https://polyfork.dev/asset/farm-dog-723730), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "farm-gate-8ab320": {
+   "title": "Farm Gate",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 542,
+   "size": [
+    2.0,
+    1.2,
+    0.284
+   ],
+   "file": "farm-gate-8ab320.glb",
+   "page": "https://polyfork.dev/asset/farm-gate-8ab320",
+   "credit": "Farm Gate by Polyfork (https://polyfork.dev/asset/farm-gate-8ab320), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "farm-lantern-747dc8": {
+   "title": "Farm Lantern",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 644,
+   "size": [
+    0.152,
+    0.354,
+    0.152
+   ],
+   "file": "farm-lantern-747dc8.glb",
+   "page": "https://polyfork.dev/asset/farm-lantern-747dc8",
+   "credit": "Farm Lantern by Polyfork (https://polyfork.dev/asset/farm-lantern-747dc8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "feed-sack-c84641": {
+   "title": "Feed Sack",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 604,
+   "size": [
+    0.523,
+    0.697,
+    0.386
+   ],
+   "file": "feed-sack-c84641.glb",
+   "page": "https://polyfork.dev/asset/feed-sack-c84641",
+   "credit": "Feed Sack by Polyfork (https://polyfork.dev/asset/feed-sack-c84641), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "firewood-stack-810f49": {
+   "title": "Firewood Stack",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 580,
+   "size": [
+    2.002,
+    1.101,
+    0.982
+   ],
+   "file": "firewood-stack-810f49.glb",
+   "page": "https://polyfork.dev/asset/firewood-stack-810f49",
+   "credit": "Firewood Stack by Polyfork (https://polyfork.dev/asset/firewood-stack-810f49), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "flower-bed-708e73": {
+   "title": "Flower Bed",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 752,
+   "size": [
+    1.0,
+    0.402,
+    1.0
+   ],
+   "file": "flower-bed-708e73.glb",
+   "page": "https://polyfork.dev/asset/flower-bed-708e73",
+   "credit": "Flower Bed by Polyfork (https://polyfork.dev/asset/flower-bed-708e73), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "gabled-farmhouse-c7534f": {
+   "title": "Gabled Farmhouse",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 908,
+   "size": [
+    6.0,
+    6.227,
+    5.0
+   ],
+   "file": "gabled-farmhouse-c7534f.glb",
+   "page": "https://polyfork.dev/asset/gabled-farmhouse-c7534f",
+   "credit": "Gabled Farmhouse by Polyfork (https://polyfork.dev/asset/gabled-farmhouse-c7534f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "garden-hoe-3974ad": {
+   "title": "Garden Hoe",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 358,
+   "size": [
+    0.4,
+    1.499,
+    0.256
+   ],
+   "file": "garden-hoe-3974ad.glb",
+   "page": "https://polyfork.dev/asset/garden-hoe-3974ad",
+   "credit": "Garden Hoe by Polyfork (https://polyfork.dev/asset/garden-hoe-3974ad), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "garden-rock-7f5d60": {
+   "title": "Garden Rock",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 140,
+   "size": [
+    0.72,
+    0.42,
+    0.64
+   ],
+   "file": "garden-rock-7f5d60.glb",
+   "page": "https://polyfork.dev/asset/garden-rock-7f5d60",
+   "credit": "Garden Rock by Polyfork (https://polyfork.dev/asset/garden-rock-7f5d60), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "grain-silo-58ca67": {
+   "title": "Grain Silo",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 1290,
+   "size": [
+    3.0,
+    7.31,
+    3.0
+   ],
+   "file": "grain-silo-58ca67.glb",
+   "page": "https://polyfork.dev/asset/grain-silo-58ca67",
+   "credit": "Grain Silo by Polyfork (https://polyfork.dev/asset/grain-silo-58ca67), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "grass-tile-37e1a7": {
+   "title": "Grass Tile",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 663,
+   "size": [
+    1.0,
+    0.101,
+    1.0
+   ],
+   "file": "grass-tile-37e1a7.glb",
+   "page": "https://polyfork.dev/asset/grass-tile-37e1a7",
+   "credit": "Grass Tile by Polyfork (https://polyfork.dev/asset/grass-tile-37e1a7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "greenhouse-53ab6d": {
+   "title": "Greenhouse",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 800,
+   "size": [
+    4.0,
+    4.45,
+    6.0
+   ],
+   "file": "greenhouse-53ab6d.glb",
+   "page": "https://polyfork.dev/asset/greenhouse-53ab6d",
+   "credit": "Greenhouse by Polyfork (https://polyfork.dev/asset/greenhouse-53ab6d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "hand-water-pump-448037": {
+   "title": "Hand Water Pump",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 626,
+   "size": [
+    0.941,
+    1.211,
+    0.896
+   ],
+   "file": "hand-water-pump-448037.glb",
+   "page": "https://polyfork.dev/asset/hand-water-pump-448037",
+   "credit": "Hand Water Pump by Polyfork (https://polyfork.dev/asset/hand-water-pump-448037), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "hay-bale-079e8c": {
+   "title": "Hay Bale",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 582,
+   "size": [
+    0.94,
+    0.516,
+    0.46
+   ],
+   "file": "hay-bale-079e8c.glb",
+   "page": "https://polyfork.dev/asset/hay-bale-079e8c",
+   "credit": "Hay Bale by Polyfork (https://polyfork.dev/asset/hay-bale-079e8c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "log-stump-1d65a5": {
+   "title": "Log Stump",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 531,
+   "size": [
+    0.607,
+    0.485,
+    0.598
+   ],
+   "file": "log-stump-1d65a5.glb",
+   "page": "https://polyfork.dev/asset/log-stump-1d65a5",
+   "credit": "Log Stump by Polyfork (https://polyfork.dev/asset/log-stump-1d65a5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "milk-churn-895735": {
+   "title": "Milk Churn",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 536,
+   "size": [
+    0.419,
+    0.8,
+    0.419
+   ],
+   "file": "milk-churn-895735.glb",
+   "page": "https://polyfork.dev/asset/milk-churn-895735",
+   "credit": "Milk Churn by Polyfork (https://polyfork.dev/asset/milk-churn-895735), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "mushroom-cluster-f2e3ba": {
+   "title": "Mushroom Cluster",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 531,
+   "size": [
+    0.265,
+    0.23,
+    0.264
+   ],
+   "file": "mushroom-cluster-f2e3ba.glb",
+   "page": "https://polyfork.dev/asset/mushroom-cluster-f2e3ba",
+   "credit": "Mushroom Cluster by Polyfork (https://polyfork.dev/asset/mushroom-cluster-f2e3ba), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "open-stable-dbf2d5": {
+   "title": "Open Stable",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 1112,
+   "size": [
+    4.0,
+    2.497,
+    3.0
+   ],
+   "file": "open-stable-dbf2d5.glb",
+   "page": "https://polyfork.dev/asset/open-stable-dbf2d5",
+   "credit": "Open Stable by Polyfork (https://polyfork.dev/asset/open-stable-dbf2d5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "plank-walkway-tile-667ff1": {
+   "title": "Plank Walkway Tile",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 182,
+   "size": [
+    1.0,
+    0.053,
+    1.0
+   ],
+   "file": "plank-walkway-tile-667ff1.glb",
+   "page": "https://polyfork.dev/asset/plank-walkway-tile-667ff1",
+   "credit": "Plank Walkway Tile by Polyfork (https://polyfork.dev/asset/plank-walkway-tile-667ff1), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "plum-tree-565179": {
+   "title": "Plum Tree",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 608,
+   "size": [
+    1.454,
+    3.005,
+    1.256
+   ],
+   "file": "plum-tree-565179.glb",
+   "page": "https://polyfork.dev/asset/plum-tree-565179",
+   "credit": "Plum Tree by Polyfork (https://polyfork.dev/asset/plum-tree-565179), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "potting-bench-3a85ec": {
+   "title": "Potting Bench",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 394,
+   "size": [
+    1.5,
+    0.9,
+    0.597
+   ],
+   "file": "potting-bench-3a85ec.glb",
+   "page": "https://polyfork.dev/asset/potting-bench-3a85ec",
+   "credit": "Potting Bench by Polyfork (https://polyfork.dev/asset/potting-bench-3a85ec), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "pumpkin-crop-7de137": {
+   "title": "Pumpkin Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 552,
+   "size": [
+    0.758,
+    0.399,
+    0.759
+   ],
+   "file": "pumpkin-crop-7de137.glb",
+   "page": "https://polyfork.dev/asset/pumpkin-crop-7de137",
+   "credit": "Pumpkin Crop by Polyfork (https://polyfork.dev/asset/pumpkin-crop-7de137), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "red-barn-d41683": {
+   "title": "Red Barn",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 652,
+   "size": [
+    6.0,
+    7.26,
+    7.0
+   ],
+   "file": "red-barn-d41683.glb",
+   "page": "https://polyfork.dev/asset/red-barn-d41683",
+   "credit": "Red Barn by Polyfork (https://polyfork.dev/asset/red-barn-d41683), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "roadside-farm-stand-e218ca": {
+   "title": "Roadside Farm Stand",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 630,
+   "size": [
+    2.0,
+    2.46,
+    2.0
+   ],
+   "file": "roadside-farm-stand-e218ca.glb",
+   "page": "https://polyfork.dev/asset/roadside-farm-stand-e218ca",
+   "credit": "Roadside Farm Stand by Polyfork (https://polyfork.dev/asset/roadside-farm-stand-e218ca), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "scarecrow-334079": {
+   "title": "Scarecrow",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 697,
+   "size": [
+    1.363,
+    1.9,
+    0.582
+   ],
+   "file": "scarecrow-334079.glb",
+   "page": "https://polyfork.dev/asset/scarecrow-334079",
+   "credit": "Scarecrow by Polyfork (https://polyfork.dev/asset/scarecrow-334079), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "seedling-tray-116925": {
+   "title": "Seedling Tray",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 708,
+   "size": [
+    0.6,
+    0.151,
+    0.4
+   ],
+   "file": "seedling-tray-116925.glb",
+   "page": "https://polyfork.dev/asset/seedling-tray-116925",
+   "credit": "Seedling Tray by Polyfork (https://polyfork.dev/asset/seedling-tray-116925), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "signpost-0bf523": {
+   "title": "Signpost",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 540,
+   "size": [
+    0.989,
+    1.825,
+    0.797
+   ],
+   "file": "signpost-0bf523.glb",
+   "page": "https://polyfork.dev/asset/signpost-0bf523",
+   "credit": "Signpost by Polyfork (https://polyfork.dev/asset/signpost-0bf523), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "staked-tomato-crop-588b3d": {
+   "title": "Staked Tomato Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 789,
+   "size": [
+    0.708,
+    1.405,
+    0.72
+   ],
+   "file": "staked-tomato-crop-588b3d.glb",
+   "page": "https://polyfork.dev/asset/staked-tomato-crop-588b3d",
+   "credit": "Staked Tomato Crop by Polyfork (https://polyfork.dev/asset/staked-tomato-crop-588b3d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "stone-path-tile-f77e6e": {
+   "title": "Stone Path Tile",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 532,
+   "size": [
+    1.0,
+    0.05,
+    1.0
+   ],
+   "file": "stone-path-tile-f77e6e.glb",
+   "page": "https://polyfork.dev/asset/stone-path-tile-f77e6e",
+   "credit": "Stone Path Tile by Polyfork (https://polyfork.dev/asset/stone-path-tile-f77e6e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "stone-well-b2dfcd": {
+   "title": "Stone Well",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 600,
+   "size": [
+    0.968,
+    1.747,
+    0.879
+   ],
+   "file": "stone-well-b2dfcd.glb",
+   "page": "https://polyfork.dev/asset/stone-well-b2dfcd",
+   "credit": "Stone Well by Polyfork (https://polyfork.dev/asset/stone-well-b2dfcd), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "strawberry-crop-6bec33": {
+   "title": "Strawberry Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 619,
+   "size": [
+    0.589,
+    0.322,
+    0.5
+   ],
+   "file": "strawberry-crop-6bec33.glb",
+   "page": "https://polyfork.dev/asset/strawberry-crop-6bec33",
+   "credit": "Strawberry Crop by Polyfork (https://polyfork.dev/asset/strawberry-crop-6bec33), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sunflower-80ce15": {
+   "title": "Sunflower",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 578,
+   "size": [
+    0.807,
+    1.795,
+    0.294
+   ],
+   "file": "sunflower-80ce15.glb",
+   "page": "https://polyfork.dev/asset/sunflower-80ce15",
+   "credit": "Sunflower by Polyfork (https://polyfork.dev/asset/sunflower-80ce15), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tilled-soil-tile-d9152e": {
+   "title": "Tilled Soil Tile",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 426,
+   "size": [
+    1.0,
+    0.05,
+    1.0
+   ],
+   "file": "tilled-soil-tile-d9152e.glb",
+   "page": "https://polyfork.dev/asset/tilled-soil-tile-d9152e",
+   "credit": "Tilled Soil Tile by Polyfork (https://polyfork.dev/asset/tilled-soil-tile-d9152e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tipping-trailer-061095": {
+   "title": "Tipping Trailer",
+   "type": "vehicle",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 1386,
+   "size": [
+    1.454,
+    1.542,
+    3.467
+   ],
+   "file": "tipping-trailer-061095.glb",
+   "page": "https://polyfork.dev/asset/tipping-trailer-061095",
+   "credit": "Tipping Trailer by Polyfork (https://polyfork.dev/asset/tipping-trailer-061095), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tool-shed-f61f49": {
+   "title": "Tool Shed",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 462,
+   "size": [
+    2.0,
+    2.646,
+    2.0
+   ],
+   "file": "tool-shed-f61f49.glb",
+   "page": "https://polyfork.dev/asset/tool-shed-f61f49",
+   "credit": "Tool Shed by Polyfork (https://polyfork.dev/asset/tool-shed-f61f49), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "turnip-crop-a5b3b7": {
+   "title": "Turnip Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 365,
+   "size": [
+    0.536,
+    0.632,
+    0.594
+   ],
+   "file": "turnip-crop-a5b3b7.glb",
+   "page": "https://polyfork.dev/asset/turnip-crop-a5b3b7",
+   "credit": "Turnip Crop by Polyfork (https://polyfork.dev/asset/turnip-crop-a5b3b7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "water-trough-df3ced": {
+   "title": "Water Trough",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 376,
+   "size": [
+    1.6,
+    0.5,
+    0.6
+   ],
+   "file": "water-trough-df3ced.glb",
+   "page": "https://polyfork.dev/asset/water-trough-df3ced",
+   "credit": "Water Trough by Polyfork (https://polyfork.dev/asset/water-trough-df3ced), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "watering-can-b22758": {
+   "title": "Watering Can",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 492,
+   "size": [
+    0.184,
+    0.353,
+    0.462
+   ],
+   "file": "watering-can-b22758.glb",
+   "page": "https://polyfork.dev/asset/watering-can-b22758",
+   "credit": "Watering Can by Polyfork (https://polyfork.dev/asset/watering-can-b22758), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wheat-crop-7e08e6": {
+   "title": "Wheat Crop",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 672,
+   "size": [
+    0.576,
+    0.886,
+    0.477
+   ],
+   "file": "wheat-crop-7e08e6.glb",
+   "page": "https://polyfork.dev/asset/wheat-crop-7e08e6",
+   "credit": "Wheat Crop by Polyfork (https://polyfork.dev/asset/wheat-crop-7e08e6), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wheelbarrow-0f8406": {
+   "title": "Wheelbarrow",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 556,
+   "size": [
+    0.538,
+    0.749,
+    1.3
+   ],
+   "file": "wheelbarrow-0f8406.glb",
+   "page": "https://polyfork.dev/asset/wheelbarrow-0f8406",
+   "credit": "Wheelbarrow by Polyfork (https://polyfork.dev/asset/wheelbarrow-0f8406), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "windpump-tower-1633a9": {
+   "title": "Windpump Tower",
+   "type": "building",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 1290,
+   "size": [
+    2.0,
+    7.93,
+    2.0
+   ],
+   "file": "windpump-tower-1633a9.glb",
+   "page": "https://polyfork.dev/asset/windpump-tower-1633a9",
+   "credit": "Windpump Tower by Polyfork (https://polyfork.dev/asset/windpump-tower-1633a9), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wooden-crate-e46521": {
+   "title": "Wooden Crate",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 308,
+   "size": [
+    0.6,
+    0.6,
+    0.6
+   ],
+   "file": "wooden-crate-e46521.glb",
+   "page": "https://polyfork.dev/asset/wooden-crate-e46521",
+   "credit": "Wooden Crate by Polyfork (https://polyfork.dev/asset/wooden-crate-e46521), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wooden-fence-section-d72055": {
+   "title": "Wooden Fence Section",
+   "type": "prop",
+   "kit": "cozy-farm-cc979f",
+   "triangles": 248,
+   "size": [
+    2.0,
+    1.1,
+    0.23
+   ],
+   "file": "wooden-fence-section-d72055.glb",
+   "page": "https://polyfork.dev/asset/wooden-fence-section-d72055",
+   "credit": "Wooden Fence Section by Polyfork (https://polyfork.dev/asset/wooden-fence-section-d72055), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "banana-plant-978d7f": {
+   "title": "Banana Plant",
+   "type": "prop",
+   "kit": "easter-island-rapa-nui-368e86",
+   "triangles": 779,
+   "size": [
+    3.804,
+    5.898,
+    3.652
+   ],
+   "file": "banana-plant-978d7f.glb",
+   "page": "https://polyfork.dev/asset/banana-plant-978d7f",
+   "credit": "Banana Plant by Polyfork (https://polyfork.dev/asset/banana-plant-978d7f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "boxy-delivery-van-a3ceae": {
+   "title": "Boxy Delivery Van",
+   "type": "vehicle",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 1116,
+   "size": [
+    2.04,
+    2.9,
+    6.0
+   ],
+   "file": "boxy-delivery-van-a3ceae.glb",
+   "page": "https://polyfork.dev/asset/boxy-delivery-van-a3ceae",
+   "credit": "Boxy Delivery Van by Polyfork (https://polyfork.dev/asset/boxy-delivery-van-a3ceae), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "broad-canopy-shade-tree-e7c4a2": {
+   "title": "Broad Canopy Shade Tree",
+   "type": "prop",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 394,
+   "size": [
+    7.341,
+    8.536,
+    6.626
+   ],
+   "file": "broad-canopy-shade-tree-e7c4a2.glb",
+   "page": "https://polyfork.dev/asset/broad-canopy-shade-tree-e7c4a2",
+   "credit": "Broad Canopy Shade Tree by Polyfork (https://polyfork.dev/asset/broad-canopy-shade-tree-e7c4a2), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "city-taxi-eefa91": {
+   "title": "City Taxi",
+   "type": "vehicle",
+   "kit": "japanese-suburban-city-street-baa482",
+   "triangles": 1970,
+   "size": [
+    1.82,
+    1.691,
+    4.4
+   ],
+   "file": "city-taxi-eefa91.glb",
+   "page": "https://polyfork.dev/asset/city-taxi-eefa91",
+   "credit": "City Taxi by Polyfork (https://polyfork.dev/asset/city-taxi-eefa91), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "compact-hatchback-386417": {
+   "title": "Compact Hatchback",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 1876,
+   "size": [
+    1.97,
+    1.6,
+    4.0
+   ],
+   "file": "compact-hatchback-386417.glb",
+   "page": "https://polyfork.dev/asset/compact-hatchback-386417",
+   "credit": "Compact Hatchback by Polyfork (https://polyfork.dev/asset/compact-hatchback-386417), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "delivery-truck-a9537e": {
+   "title": "Delivery Truck",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 1528,
+   "size": [
+    2.62,
+    2.7,
+    6.0
+   ],
+   "file": "delivery-truck-a9537e.glb",
+   "page": "https://polyfork.dev/asset/delivery-truck-a9537e",
+   "credit": "Delivery Truck by Polyfork (https://polyfork.dev/asset/delivery-truck-a9537e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "family-crossover-suv-42027f": {
+   "title": "Family Crossover SUV",
+   "type": "vehicle",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 2565,
+   "size": [
+    2.35,
+    2.28,
+    4.58
+   ],
+   "file": "family-crossover-suv-42027f.glb",
+   "page": "https://polyfork.dev/asset/family-crossover-suv-42027f",
+   "credit": "Family Crossover SUV by Polyfork (https://polyfork.dev/asset/family-crossover-suv-42027f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "family-minivan-924de0": {
+   "title": "Family Minivan",
+   "type": "vehicle",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 2332,
+   "size": [
+    2.414,
+    1.84,
+    4.99
+   ],
+   "file": "family-minivan-924de0.glb",
+   "page": "https://polyfork.dev/asset/family-minivan-924de0",
+   "credit": "Family Minivan by Polyfork (https://polyfork.dev/asset/family-minivan-924de0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "kei-van-211ed5": {
+   "title": "Kei Van",
+   "type": "vehicle",
+   "kit": "japanese-suburban-city-street-baa482",
+   "triangles": 2070,
+   "size": [
+    1.757,
+    1.87,
+    3.234
+   ],
+   "file": "kei-van-211ed5.glb",
+   "page": "https://polyfork.dev/asset/kei-van-211ed5",
+   "credit": "Kei Van by Polyfork (https://polyfork.dev/asset/kei-van-211ed5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "maple-tree-65fa12": {
+   "title": "Maple Tree",
+   "type": "prop",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 422,
+   "size": [
+    3.294,
+    6.43,
+    3.212
+   ],
+   "file": "maple-tree-65fa12.glb",
+   "page": "https://polyfork.dev/asset/maple-tree-65fa12",
+   "credit": "Maple Tree by Polyfork (https://polyfork.dev/asset/maple-tree-65fa12), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "marigold-pickup-f4b6f9": {
+   "title": "Marigold Pickup",
+   "type": "vehicle",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 2770,
+   "size": [
+    2.0,
+    2.2,
+    4.5
+   ],
+   "file": "marigold-pickup-f4b6f9.glb",
+   "page": "https://polyfork.dev/asset/marigold-pickup-f4b6f9",
+   "credit": "Marigold Pickup by Polyfork (https://polyfork.dev/asset/marigold-pickup-f4b6f9), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "ornamental-front-yard-tree-c6781a": {
+   "title": "Ornamental Front-Yard Tree",
+   "type": "prop",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 526,
+   "size": [
+    3.117,
+    4.5,
+    2.712
+   ],
+   "file": "ornamental-front-yard-tree-c6781a.glb",
+   "page": "https://polyfork.dev/asset/ornamental-front-yard-tree-c6781a",
+   "credit": "Ornamental Front-Yard Tree by Polyfork (https://polyfork.dev/asset/ornamental-front-yard-tree-c6781a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "palm-tree-a307da": {
+   "title": "Palm Tree",
+   "type": "prop",
+   "kit": "pirate-cove-2ebea4",
+   "triangles": 645,
+   "size": [
+    4.289,
+    5.969,
+    4.066
+   ],
+   "file": "palm-tree-a307da.glb",
+   "page": "https://polyfork.dev/asset/palm-tree-a307da",
+   "credit": "Palm Tree by Polyfork (https://polyfork.dev/asset/palm-tree-a307da), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "pine-tree-3ea075": {
+   "title": "Pine Tree",
+   "type": "ultra",
+   "kit": "lepas",
+   "triangles": 70,
+   "size": [
+    1.404,
+    2.24,
+    1.369
+   ],
+   "file": "pine-tree-3ea075.glb",
+   "page": "https://polyfork.dev/asset/pine-tree-3ea075",
+   "credit": "Pine Tree by Polyfork (https://polyfork.dev/asset/pine-tree-3ea075), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "street-tree-0d33f3": {
+   "title": "Street Tree",
+   "type": "prop",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 272,
+   "size": [
+    3.05,
+    6.0,
+    3.05
+   ],
+   "file": "street-tree-0d33f3.glb",
+   "page": "https://polyfork.dev/asset/street-tree-0d33f3",
+   "credit": "Street Tree by Polyfork (https://polyfork.dev/asset/street-tree-0d33f3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "suburban-pickup-truck-d15ea2": {
+   "title": "Suburban Pickup Truck",
+   "type": "vehicle",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 2339,
+   "size": [
+    2.0,
+    1.9,
+    5.6
+   ],
+   "file": "suburban-pickup-truck-d15ea2.glb",
+   "page": "https://polyfork.dev/asset/suburban-pickup-truck-d15ea2",
+   "credit": "Suburban Pickup Truck by Polyfork (https://polyfork.dev/asset/suburban-pickup-truck-d15ea2), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tall-pine-tree-ab4108": {
+   "title": "Tall Pine Tree",
+   "type": "prop",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 350,
+   "size": [
+    3.667,
+    9.0,
+    3.564
+   ],
+   "file": "tall-pine-tree-ab4108.glb",
+   "page": "https://polyfork.dev/asset/tall-pine-tree-ab4108",
+   "credit": "Tall Pine Tree by Polyfork (https://polyfork.dev/asset/tall-pine-tree-ab4108), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "town-car-56eeb6": {
+   "title": "Town Car",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 1770,
+   "size": [
+    1.98,
+    1.5,
+    5.0
+   ],
+   "file": "town-car-56eeb6.glb",
+   "page": "https://polyfork.dev/asset/town-car-56eeb6",
+   "credit": "Town Car by Polyfork (https://polyfork.dev/asset/town-car-56eeb6), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cobra-head-street-light-3e25b8": {
+   "title": "Cobra-Head Street Light",
+   "type": "prop",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 464,
+   "size": [
+    1.05,
+    8.012,
+    3.125
+   ],
+   "file": "cobra-head-street-light-3e25b8.glb",
+   "page": "https://polyfork.dev/asset/cobra-head-street-light-3e25b8",
+   "credit": "Cobra-Head Street Light by Polyfork (https://polyfork.dev/asset/cobra-head-street-light-3e25b8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "city-commuter-52a53f": {
+   "title": "City Commuter",
+   "type": "character",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 3375,
+   "size": [
+    1.674,
+    1.866,
+    0.651
+   ],
+   "file": "city-commuter-52a53f.glb",
+   "page": "https://polyfork.dev/asset/city-commuter-52a53f",
+   "credit": "City Commuter by Polyfork (https://polyfork.dev/asset/city-commuter-52a53f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "delivery-courier-327e30": {
+   "title": "Delivery Courier",
+   "type": "character",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3523,
+   "size": [
+    1.948,
+    1.757,
+    0.617
+   ],
+   "file": "delivery-courier-327e30.glb",
+   "page": "https://polyfork.dev/asset/delivery-courier-327e30",
+   "credit": "Delivery Courier by Polyfork (https://polyfork.dev/asset/delivery-courier-327e30), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "kite-kid-0a7d70": {
+   "title": "Kite Kid",
+   "type": "character",
+   "kit": "chile-fiestas-patrias-87e847",
+   "triangles": 3273,
+   "size": [
+    1.341,
+    1.415,
+    0.45
+   ],
+   "file": "kite-kid-0a7d70.glb",
+   "page": "https://polyfork.dev/asset/kite-kid-0a7d70",
+   "credit": "Kite Kid by Polyfork (https://polyfork.dev/asset/kite-kid-0a7d70), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "neighborhood-child-8cc5ac": {
+   "title": "Neighborhood Child",
+   "type": "character",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 2509,
+   "size": [
+    1.036,
+    1.172,
+    0.258
+   ],
+   "file": "neighborhood-child-8cc5ac.glb",
+   "page": "https://polyfork.dev/asset/neighborhood-child-8cc5ac",
+   "credit": "Neighborhood Child by Polyfork (https://polyfork.dev/asset/neighborhood-child-8cc5ac), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "passenger-ac425a": {
+   "title": "Passenger",
+   "type": "character",
+   "kit": "countryside-railway-9b4c57",
+   "triangles": 3393,
+   "size": [
+    2.021,
+    1.786,
+    0.555
+   ],
+   "file": "passenger-ac425a.glb",
+   "page": "https://polyfork.dev/asset/passenger-ac425a",
+   "credit": "Passenger by Polyfork (https://polyfork.dev/asset/passenger-ac425a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "street-vendor-139de3": {
+   "title": "Street Vendor",
+   "type": "character",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3529,
+   "size": [
+    1.796,
+    1.717,
+    0.431
+   ],
+   "file": "street-vendor-139de3.glb",
+   "page": "https://polyfork.dev/asset/street-vendor-139de3",
+   "credit": "Street Vendor by Polyfork (https://polyfork.dev/asset/street-vendor-139de3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "student-in-a-hoodie-7c8223": {
+   "title": "Student in a Hoodie",
+   "type": "character",
+   "kit": "university-959b66",
+   "triangles": 3121,
+   "size": [
+    1.695,
+    1.744,
+    0.371
+   ],
+   "file": "student-in-a-hoodie-7c8223.glb",
+   "page": "https://polyfork.dev/asset/student-in-a-hoodie-7c8223",
+   "credit": "Student in a Hoodie by Polyfork (https://polyfork.dev/asset/student-in-a-hoodie-7c8223), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "suburban-resident-a9db9c": {
+   "title": "Suburban Resident",
+   "type": "character",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 3047,
+   "size": [
+    1.674,
+    1.729,
+    0.354
+   ],
+   "file": "suburban-resident-a9db9c.glb",
+   "page": "https://polyfork.dev/asset/suburban-resident-a9db9c",
+   "credit": "Suburban Resident by Polyfork (https://polyfork.dev/asset/suburban-resident-a9db9c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "bamboo-grove-clump-7c747d": {
+   "title": "Bamboo Grove Clump",
+   "type": "prop",
+   "kit": "three-kingdoms-settlements-a-1e817b",
+   "triangles": 833,
+   "size": [
+    6.406,
+    5.967,
+    5.536
+   ],
+   "file": "bamboo-grove-clump-7c747d.glb",
+   "page": "https://polyfork.dev/asset/bamboo-grove-clump-7c747d",
+   "credit": "Bamboo Grove Clump by Polyfork (https://polyfork.dev/asset/bamboo-grove-clump-7c747d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "city-bus-49fd97": {
+   "title": "City Bus",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 2008,
+   "size": [
+    2.178,
+    3.2,
+    11.0
+   ],
+   "file": "city-bus-49fd97.glb",
+   "page": "https://polyfork.dev/asset/city-bus-49fd97",
+   "credit": "City Bus by Polyfork (https://polyfork.dev/asset/city-bus-49fd97), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "palm-sapling-ef7ae4": {
+   "title": "Palm Sapling",
+   "type": "prop",
+   "kit": "pirate-cove-2ebea4",
+   "triangles": 599,
+   "size": [
+    1.568,
+    1.785,
+    1.62
+   ],
+   "file": "palm-sapling-ef7ae4.glb",
+   "page": "https://polyfork.dev/asset/palm-sapling-ef7ae4",
+   "credit": "Palm Sapling by Polyfork (https://polyfork.dev/asset/palm-sapling-ef7ae4), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "ambulance-van-29919a": {
+   "title": "Ambulance Van",
+   "type": "vehicle",
+   "kit": "hospital-kit-2ebfcb",
+   "triangles": 1656,
+   "size": [
+    2.247,
+    2.725,
+    6.0
+   ],
+   "file": "ambulance-van-29919a.glb",
+   "page": "https://polyfork.dev/asset/ambulance-van-29919a",
+   "credit": "Ambulance Van by Polyfork (https://polyfork.dev/asset/ambulance-van-29919a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cow-base": {
+   "title": "Cow",
+   "type": "animal",
+   "kit": "lepas",
+   "triangles": 2538,
+   "size": [
+    0.842,
+    1.463,
+    2.339
+   ],
+   "file": "cow-base.glb",
+   "page": "https://polyfork.dev/asset/cow-base",
+   "credit": "Cow by Polyfork (https://polyfork.dev/asset/cow-base), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "doctor-d49de0": {
+   "title": "Doctor",
+   "type": "character",
+   "kit": "hospital-kit-2ebfcb",
+   "triangles": 4707,
+   "size": [
+    1.774,
+    1.727,
+    0.435
+   ],
+   "file": "doctor-d49de0.glb",
+   "page": "https://polyfork.dev/asset/doctor-d49de0",
+   "credit": "Doctor by Polyfork (https://polyfork.dev/asset/doctor-d49de0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "farmer-363820": {
+   "title": "Farmer",
+   "type": "character",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 3827,
+   "size": [
+    1.674,
+    1.857,
+    0.911
+   ],
+   "file": "farmer-363820.glb",
+   "page": "https://polyfork.dev/asset/farmer-363820",
+   "credit": "Farmer by Polyfork (https://polyfork.dev/asset/farmer-363820), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "fire-engine-7d476b": {
+   "title": "Fire Engine",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3436,
+   "size": [
+    2.94,
+    3.04,
+    7.86
+   ],
+   "file": "fire-engine-7d476b.glb",
+   "page": "https://polyfork.dev/asset/fire-engine-7d476b",
+   "credit": "Fire Engine by Polyfork (https://polyfork.dev/asset/fire-engine-7d476b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "garbage-truck-a7ffbf": {
+   "title": "Garbage Truck",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 2036,
+   "size": [
+    2.876,
+    3.49,
+    7.995
+   ],
+   "file": "garbage-truck-a7ffbf.glb",
+   "page": "https://polyfork.dev/asset/garbage-truck-a7ffbf",
+   "credit": "Garbage Truck by Polyfork (https://polyfork.dev/asset/garbage-truck-a7ffbf), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "goat-base": {
+   "title": "Goat",
+   "type": "animal",
+   "kit": "lepas",
+   "triangles": 2446,
+   "size": [
+    0.55,
+    1.649,
+    1.307
+   ],
+   "file": "goat-base.glb",
+   "page": "https://polyfork.dev/asset/goat-base",
+   "credit": "Goat by Polyfork (https://polyfork.dev/asset/goat-base), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "hanga-roa-fisherman-e56812": {
+   "title": "Hanga Roa Fisherman",
+   "type": "character",
+   "kit": "easter-island-rapa-nui-368e86",
+   "triangles": 3531,
+   "size": [
+    1.899,
+    1.699,
+    0.372
+   ],
+   "file": "hanga-roa-fisherman-e56812.glb",
+   "page": "https://polyfork.dev/asset/hanga-roa-fisherman-e56812",
+   "credit": "Hanga Roa Fisherman by Polyfork (https://polyfork.dev/asset/hanga-roa-fisherman-e56812), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "police-cruiser-a2d25e": {
+   "title": "Police Cruiser",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 2130,
+   "size": [
+    1.955,
+    1.688,
+    4.809
+   ],
+   "file": "police-cruiser-a2d25e.glb",
+   "page": "https://polyfork.dev/asset/police-cruiser-a2d25e",
+   "credit": "Police Cruiser by Polyfork (https://polyfork.dev/asset/police-cruiser-a2d25e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "police-officer-1cc379": {
+   "title": "Police Officer",
+   "type": "character",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3499,
+   "size": [
+    1.674,
+    1.792,
+    0.373
+   ],
+   "file": "police-officer-1cc379.glb",
+   "page": "https://polyfork.dev/asset/police-officer-1cc379",
+   "credit": "Police Officer by Polyfork (https://polyfork.dev/asset/police-officer-1cc379), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "school-teacher-8b8bfc": {
+   "title": "School Teacher",
+   "type": "character",
+   "kit": "lepas",
+   "triangles": 3777,
+   "size": [
+    1.72,
+    1.713,
+    0.346
+   ],
+   "file": "school-teacher-8b8bfc.glb",
+   "page": "https://polyfork.dev/asset/school-teacher-8b8bfc",
+   "credit": "School Teacher by Polyfork (https://polyfork.dev/asset/school-teacher-8b8bfc), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "boathouse-cf20e6": {
+   "title": "Boathouse",
+   "type": "building",
+   "kit": "mediterranean-island-village-4ac936",
+   "triangles": 823,
+   "size": [
+    4.0,
+    5.3,
+    8.0
+   ],
+   "file": "boathouse-cf20e6.glb",
+   "page": "https://polyfork.dev/asset/boathouse-cf20e6",
+   "credit": "Boathouse by Polyfork (https://polyfork.dev/asset/boathouse-cf20e6), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "brownstone-row-house-1b84fd": {
+   "title": "Brownstone Row House",
+   "type": "building",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3050,
+   "size": [
+    8.0,
+    17.06,
+    8.0
+   ],
+   "file": "brownstone-row-house-1b84fd.glb",
+   "page": "https://polyfork.dev/asset/brownstone-row-house-1b84fd",
+   "credit": "Brownstone Row House by Polyfork (https://polyfork.dev/asset/brownstone-row-house-1b84fd), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cast-iron-loft-b04b5a": {
+   "title": "Cast Iron Loft",
+   "type": "building",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 3212,
+   "size": [
+    12.0,
+    20.06,
+    8.95
+   ],
+   "file": "cast-iron-loft-b04b5a.glb",
+   "page": "https://polyfork.dev/asset/cast-iron-loft-b04b5a",
+   "credit": "Cast Iron Loft by Polyfork (https://polyfork.dev/asset/cast-iron-loft-b04b5a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "city-bicycle-5b67d1": {
+   "title": "City Bicycle",
+   "type": "vehicle",
+   "kit": "japanese-suburban-city-street-baa482",
+   "triangles": 1670,
+   "size": [
+    0.641,
+    1.044,
+    1.693
+   ],
+   "file": "city-bicycle-5b67d1.glb",
+   "page": "https://polyfork.dev/asset/city-bicycle-5b67d1",
+   "credit": "City Bicycle by Polyfork (https://polyfork.dev/asset/city-bicycle-5b67d1), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "colonial-house-d6f8fd": {
+   "title": "Colonial House",
+   "type": "building",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 1193,
+   "size": [
+    6.0,
+    8.49,
+    8.0
+   ],
+   "file": "colonial-house-d6f8fd.glb",
+   "page": "https://polyfork.dev/asset/colonial-house-d6f8fd",
+   "credit": "Colonial House by Polyfork (https://polyfork.dev/asset/colonial-house-d6f8fd), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "concrete-mixer-truck-4a8d94": {
+   "title": "Concrete Mixer Truck",
+   "type": "vehicle",
+   "kit": "construction-site-9e40b0",
+   "triangles": 3090,
+   "size": [
+    2.732,
+    4.169,
+    8.596
+   ],
+   "file": "concrete-mixer-truck-4a8d94.glb",
+   "page": "https://polyfork.dev/asset/concrete-mixer-truck-4a8d94",
+   "credit": "Concrete Mixer Truck by Polyfork (https://polyfork.dev/asset/concrete-mixer-truck-4a8d94), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "corner-restaurant-unit-d85304": {
+   "title": "Corner Restaurant Unit",
+   "type": "building",
+   "kit": "modern-restaurant-cafe-01ea4c",
+   "triangles": 562,
+   "size": [
+    8.0,
+    6.7,
+    8.0
+   ],
+   "file": "corner-restaurant-unit-d85304.glb",
+   "page": "https://polyfork.dev/asset/corner-restaurant-unit-d85304",
+   "credit": "Corner Restaurant Unit by Polyfork (https://polyfork.dev/asset/corner-restaurant-unit-d85304), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "crossing-keeper-s-cottage-de49a4": {
+   "title": "Crossing Keeper's Cottage",
+   "type": "building",
+   "kit": "countryside-railway-9b4c57",
+   "triangles": 2065,
+   "size": [
+    8.0,
+    6.856,
+    3.99
+   ],
+   "file": "crossing-keeper-s-cottage-de49a4.glb",
+   "page": "https://polyfork.dev/asset/crossing-keeper-s-cottage-de49a4",
+   "credit": "Crossing Keeper's Cottage by Polyfork (https://polyfork.dev/asset/crossing-keeper-s-cottage-de49a4), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cube-house-module-a9b8e8": {
+   "title": "Cube House Module",
+   "type": "building",
+   "kit": "mediterranean-island-village-4ac936",
+   "triangles": 1328,
+   "size": [
+    4.0,
+    3.0,
+    4.0
+   ],
+   "file": "cube-house-module-a9b8e8.glb",
+   "page": "https://polyfork.dev/asset/cube-house-module-a9b8e8",
+   "credit": "Cube House Module by Polyfork (https://polyfork.dev/asset/cube-house-module-a9b8e8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "elote-cart-a8fb49": {
+   "title": "Elote Cart",
+   "type": "vehicle",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 2596,
+   "size": [
+    2.0,
+    2.7,
+    0.918
+   ],
+   "file": "elote-cart-a8fb49.glb",
+   "page": "https://polyfork.dev/asset/elote-cart-a8fb49",
+   "credit": "Elote Cart by Polyfork (https://polyfork.dev/asset/elote-cart-a8fb49), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "fisherman-shack-ea9b2b": {
+   "title": "Fisherman Shack",
+   "type": "building",
+   "kit": "pirate-cove-2ebea4",
+   "triangles": 1638,
+   "size": [
+    4.72,
+    5.454,
+    4.262
+   ],
+   "file": "fisherman-shack-ea9b2b.glb",
+   "page": "https://polyfork.dev/asset/fisherman-shack-ea9b2b",
+   "credit": "Fisherman Shack by Polyfork (https://polyfork.dev/asset/fisherman-shack-ea9b2b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "flower-bicycle-284d0e": {
+   "title": "Flower Bicycle",
+   "type": "vehicle",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 2892,
+   "size": [
+    0.609,
+    1.167,
+    1.829
+   ],
+   "file": "flower-bicycle-284d0e.glb",
+   "page": "https://polyfork.dev/asset/flower-bicycle-284d0e",
+   "credit": "Flower Bicycle by Polyfork (https://polyfork.dev/asset/flower-bicycle-284d0e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "food-truck-3c4e0e": {
+   "title": "Food Truck",
+   "type": "vehicle",
+   "kit": "nyc-city-kit-fbca88",
+   "triangles": 2566,
+   "size": [
+    3.76,
+    3.28,
+    6.53
+   ],
+   "file": "food-truck-3c4e0e.glb",
+   "page": "https://polyfork.dev/asset/food-truck-3c4e0e",
+   "credit": "Food Truck by Polyfork (https://polyfork.dev/asset/food-truck-3c4e0e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "gantry-loft-8da389": {
+   "title": "Gantry loft",
+   "type": "building",
+   "kit": "salvage-commons-d0be9f",
+   "triangles": 1706,
+   "size": [
+    4.0,
+    6.0,
+    4.0
+   ],
+   "file": "gantry-loft-8da389.glb",
+   "page": "https://polyfork.dev/asset/gantry-loft-8da389",
+   "credit": "Gantry loft by Polyfork (https://polyfork.dev/asset/gantry-loft-8da389), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wheeled-city-coupe-5c381e": {
+   "title": "Hover City Coupe",
+   "type": "vehicle",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 2582,
+   "size": [
+    2.0,
+    1.49,
+    4.5
+   ],
+   "file": "wheeled-city-coupe-5c381e.glb",
+   "page": "https://polyfork.dev/asset/wheeled-city-coupe-5c381e",
+   "credit": "Hover City Coupe by Polyfork (https://polyfork.dev/asset/wheeled-city-coupe-5c381e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "hover-scooter-c9d027": {
+   "title": "Hover Scooter",
+   "type": "vehicle",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 994,
+   "size": [
+    0.8,
+    1.4,
+    2.0
+   ],
+   "file": "hover-scooter-c9d027.glb",
+   "page": "https://polyfork.dev/asset/hover-scooter-c9d027",
+   "credit": "Hover Scooter by Polyfork (https://polyfork.dev/asset/hover-scooter-c9d027), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "log-cabin-4fac3b": {
+   "title": "Log Cabin",
+   "type": "building",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 1326,
+   "size": [
+    6.0,
+    5.471,
+    6.96
+   ],
+   "file": "log-cabin-4fac3b.glb",
+   "page": "https://polyfork.dev/asset/log-cabin-4fac3b",
+   "credit": "Log Cabin by Polyfork (https://polyfork.dev/asset/log-cabin-4fac3b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "motorcycle-and-sidecar-7d39b8": {
+   "title": "Motorcycle And Sidecar",
+   "type": "vehicle",
+   "kit": "lepas",
+   "triangles": 2396,
+   "size": [
+    1.417,
+    1.046,
+    2.153
+   ],
+   "file": "motorcycle-and-sidecar-7d39b8.glb",
+   "page": "https://polyfork.dev/asset/motorcycle-and-sidecar-7d39b8",
+   "credit": "Motorcycle And Sidecar by Polyfork (https://polyfork.dev/asset/motorcycle-and-sidecar-7d39b8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "mushroom-cottage-1135d1": {
+   "title": "Mushroom Cottage",
+   "type": "building",
+   "kit": "lepas",
+   "triangles": 609,
+   "size": [
+    1.4,
+    1.345,
+    1.4
+   ],
+   "file": "mushroom-cottage-1135d1.glb",
+   "page": "https://polyfork.dev/asset/mushroom-cottage-1135d1",
+   "credit": "Mushroom Cottage by Polyfork (https://polyfork.dev/asset/mushroom-cottage-1135d1), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "one-room-schoolhouse-107ec9": {
+   "title": "One-Room Schoolhouse",
+   "type": "building",
+   "kit": "frontier-town-a0085b",
+   "triangles": 1338,
+   "size": [
+    6.0,
+    8.112,
+    8.0
+   ],
+   "file": "one-room-schoolhouse-107ec9.glb",
+   "page": "https://polyfork.dev/asset/one-room-schoolhouse-107ec9",
+   "credit": "One-Room Schoolhouse by Polyfork (https://polyfork.dev/asset/one-room-schoolhouse-107ec9), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "open-front-teahouse-c7dd18": {
+   "title": "Open-Front Teahouse",
+   "type": "building",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 1094,
+   "size": [
+    4.0,
+    3.825,
+    4.0
+   ],
+   "file": "open-front-teahouse-c7dd18.glb",
+   "page": "https://polyfork.dev/asset/open-front-teahouse-c7dd18",
+   "credit": "Open-Front Teahouse by Polyfork (https://polyfork.dev/asset/open-front-teahouse-c7dd18), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "ox-cart-9c857f": {
+   "title": "Ox Cart",
+   "type": "vehicle",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 1296,
+   "size": [
+    2.0,
+    1.562,
+    4.0
+   ],
+   "file": "ox-cart-9c857f.glb",
+   "page": "https://polyfork.dev/asset/ox-cart-9c857f",
+   "credit": "Ox Cart by Polyfork (https://polyfork.dev/asset/ox-cart-9c857f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "plate-cottage-9b52be": {
+   "title": "Plate cottage",
+   "type": "building",
+   "kit": "salvage-commons-d0be9f",
+   "triangles": 1115,
+   "size": [
+    4.0,
+    4.925,
+    4.0
+   ],
+   "file": "plate-cottage-9b52be.glb",
+   "page": "https://polyfork.dev/asset/plate-cottage-9b52be",
+   "credit": "Plate cottage by Polyfork (https://polyfork.dev/asset/plate-cottage-9b52be), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "porch-front-cottage-620c29": {
+   "title": "Porch-Front Cottage",
+   "type": "building",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 1560,
+   "size": [
+    8.0,
+    7.72,
+    8.0
+   ],
+   "file": "porch-front-cottage-620c29.glb",
+   "page": "https://polyfork.dev/asset/porch-front-cottage-620c29",
+   "credit": "Porch-Front Cottage by Polyfork (https://polyfork.dev/asset/porch-front-cottage-620c29), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "shopfront-house-43d94d": {
+   "title": "Shopfront House",
+   "type": "building",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 1912,
+   "size": [
+    8.0,
+    7.44,
+    8.0
+   ],
+   "file": "shopfront-house-43d94d.glb",
+   "page": "https://polyfork.dev/asset/shopfront-house-43d94d",
+   "credit": "Shopfront House by Polyfork (https://polyfork.dev/asset/shopfront-house-43d94d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "single-storey-ranch-house-3880ea": {
+   "title": "Single-Storey Ranch House",
+   "type": "building",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 1160,
+   "size": [
+    12.0,
+    5.9,
+    8.0
+   ],
+   "file": "single-storey-ranch-house-3880ea.glb",
+   "page": "https://polyfork.dev/asset/single-storey-ranch-house-3880ea",
+   "credit": "Single-Storey Ranch House by Polyfork (https://polyfork.dev/asset/single-storey-ranch-house-3880ea), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "site-cabin-e9ee10": {
+   "title": "Site Cabin",
+   "type": "building",
+   "kit": "construction-site-9e40b0",
+   "triangles": 1056,
+   "size": [
+    4.0,
+    3.39,
+    7.98
+   ],
+   "file": "site-cabin-e9ee10.glb",
+   "page": "https://polyfork.dev/asset/site-cabin-e9ee10",
+   "credit": "Site Cabin by Polyfork (https://polyfork.dev/asset/site-cabin-e9ee10), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "six-wheel-utility-truck-c8f599": {
+   "title": "Six-Wheel Utility Truck",
+   "type": "vehicle",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 2162,
+   "size": [
+    2.5,
+    3.89,
+    8.0
+   ],
+   "file": "six-wheel-utility-truck-c8f599.glb",
+   "page": "https://polyfork.dev/asset/six-wheel-utility-truck-c8f599",
+   "credit": "Six-Wheel Utility Truck by Polyfork (https://polyfork.dev/asset/six-wheel-utility-truck-c8f599), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "skate-team-tour-van-fb3c89": {
+   "title": "Skate Team Tour Van",
+   "type": "vehicle",
+   "kit": "skatepark-0922a9",
+   "triangles": 2736,
+   "size": [
+    2.33,
+    2.245,
+    5.39
+   ],
+   "file": "skate-team-tour-van-fb3c89.glb",
+   "page": "https://polyfork.dev/asset/skate-team-tour-van-fb3c89",
+   "credit": "Skate Team Tour Van by Polyfork (https://polyfork.dev/asset/skate-team-tour-van-fb3c89), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "small-fishing-boat-4ac0e3": {
+   "title": "Small Fishing Boat",
+   "type": "vehicle",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 2999,
+   "size": [
+    2.364,
+    2.854,
+    6.843
+   ],
+   "file": "small-fishing-boat-4ac0e3.glb",
+   "page": "https://polyfork.dev/asset/small-fishing-boat-4ac0e3",
+   "credit": "Small Fishing Boat by Polyfork (https://polyfork.dev/asset/small-fishing-boat-4ac0e3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "split-level-house-40fe1a": {
+   "title": "Split-Level House",
+   "type": "building",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 1754,
+   "size": [
+    12.0,
+    7.277,
+    8.0
+   ],
+   "file": "split-level-house-40fe1a.glb",
+   "page": "https://polyfork.dev/asset/split-level-house-40fe1a",
+   "credit": "Split-Level House by Polyfork (https://polyfork.dev/asset/split-level-house-40fe1a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "stone-farmhouse-billet-2dbbf2": {
+   "title": "Stone Farmhouse Billet",
+   "type": "building",
+   "kit": "lepas",
+   "triangles": 1844,
+   "size": [
+    8.0,
+    11.69,
+    8.0
+   ],
+   "file": "stone-farmhouse-billet-2dbbf2.glb",
+   "page": "https://polyfork.dev/asset/stone-farmhouse-billet-2dbbf2",
+   "credit": "Stone Farmhouse Billet by Polyfork (https://polyfork.dev/asset/stone-farmhouse-billet-2dbbf2), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "stunt-scooter-d98af3": {
+   "title": "Stunt Scooter",
+   "type": "vehicle",
+   "kit": "skatepark-0922a9",
+   "triangles": 1850,
+   "size": [
+    0.545,
+    0.857,
+    0.806
+   ],
+   "file": "stunt-scooter-d98af3.glb",
+   "page": "https://polyfork.dev/asset/stunt-scooter-d98af3",
+   "credit": "Stunt Scooter by Polyfork (https://polyfork.dev/asset/stunt-scooter-d98af3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "thatched-cottage-0e63f5": {
+   "title": "Thatched Cottage",
+   "type": "building",
+   "kit": "medieval-village-kit-ca0b43",
+   "triangles": 1764,
+   "size": [
+    6.0,
+    5.06,
+    3.965
+   ],
+   "file": "thatched-cottage-0e63f5.glb",
+   "page": "https://polyfork.dev/asset/thatched-cottage-0e63f5",
+   "credit": "Thatched Cottage by Polyfork (https://polyfork.dev/asset/thatched-cottage-0e63f5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "three-storey-shophouse-2f6378": {
+   "title": "Three-Storey Shophouse",
+   "type": "building",
+   "kit": "japanese-suburban-city-street-baa482",
+   "triangles": 1146,
+   "size": [
+    4.0,
+    9.4,
+    4.0
+   ],
+   "file": "three-storey-shophouse-2f6378.glb",
+   "page": "https://polyfork.dev/asset/three-storey-shophouse-2f6378",
+   "credit": "Three-Storey Shophouse by Polyfork (https://polyfork.dev/asset/three-storey-shophouse-2f6378), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "three-wheeled-delivery-mini-744094": {
+   "title": "Three-Wheeled Delivery Mini Truck",
+   "type": "vehicle",
+   "kit": "mediterranean-island-village-4ac936",
+   "triangles": 3266,
+   "size": [
+    1.436,
+    2.035,
+    3.01
+   ],
+   "file": "three-wheeled-delivery-mini-744094.glb",
+   "page": "https://polyfork.dev/asset/three-wheeled-delivery-mini-744094",
+   "credit": "Three-Wheeled Delivery Mini Truck by Polyfork (https://polyfork.dev/asset/three-wheeled-delivery-mini-744094), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "touring-motorcycle-3b1ad3": {
+   "title": "Touring Motorcycle",
+   "type": "vehicle",
+   "kit": "roadside-americana-50d40c",
+   "triangles": 3340,
+   "size": [
+    0.945,
+    1.182,
+    2.341
+   ],
+   "file": "touring-motorcycle-3b1ad3.glb",
+   "page": "https://polyfork.dev/asset/touring-motorcycle-3b1ad3",
+   "credit": "Touring Motorcycle by Polyfork (https://polyfork.dev/asset/touring-motorcycle-3b1ad3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "two-storey-family-house-c63c4a": {
+   "title": "Two-Storey Family House",
+   "type": "building",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 1027,
+   "size": [
+    8.0,
+    11.2,
+    8.0
+   ],
+   "file": "two-storey-family-house-c63c4a.glb",
+   "page": "https://polyfork.dev/asset/two-storey-family-house-c63c4a",
+   "credit": "Two-Storey Family House by Polyfork (https://polyfork.dev/asset/two-storey-family-house-c63c4a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "two-story-house-40f6dc": {
+   "title": "Two-Story House",
+   "type": "building",
+   "kit": "medieval-village-kit-ca0b43",
+   "triangles": 1554,
+   "size": [
+    5.696,
+    8.37,
+    7.66
+   ],
+   "file": "two-story-house-40f6dc.glb",
+   "page": "https://polyfork.dev/asset/two-story-house-40f6dc",
+   "credit": "Two-Story House by Polyfork (https://polyfork.dev/asset/two-story-house-40f6dc), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wooden-hand-cart-3ae5b5": {
+   "title": "Wooden Hand Cart",
+   "type": "vehicle",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 1416,
+   "size": [
+    1.455,
+    0.963,
+    2.406
+   ],
+   "file": "wooden-hand-cart-3ae5b5.glb",
+   "page": "https://polyfork.dev/asset/wooden-hand-cart-3ae5b5",
+   "credit": "Wooden Hand Cart by Polyfork (https://polyfork.dev/asset/wooden-hand-cart-3ae5b5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wooden-rowboat-916981": {
+   "title": "Wooden Rowboat",
+   "type": "vehicle",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 1262,
+   "size": [
+    1.198,
+    0.818,
+    3.4
+   ],
+   "file": "wooden-rowboat-916981.glb",
+   "page": "https://polyfork.dev/asset/wooden-rowboat-916981",
+   "credit": "Wooden Rowboat by Polyfork (https://polyfork.dev/asset/wooden-rowboat-916981), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "araucaria-monkey-puzzle-7c109d": {
+   "title": "Araucaria Monkey Puzzle",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 1626,
+   "size": [
+    13.444,
+    30.0,
+    14.017
+   ],
+   "file": "araucaria-monkey-puzzle-7c109d.glb",
+   "page": "https://polyfork.dev/asset/araucaria-monkey-puzzle-7c109d",
+   "credit": "Araucaria Monkey Puzzle by Polyfork (https://polyfork.dev/asset/araucaria-monkey-puzzle-7c109d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "birch-tree-181b33": {
+   "title": "Birch Tree",
+   "type": "prop",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 619,
+   "size": [
+    3.007,
+    6.49,
+    2.1
+   ],
+   "file": "birch-tree-181b33.glb",
+   "page": "https://polyfork.dev/asset/birch-tree-181b33",
+   "credit": "Birch Tree by Polyfork (https://polyfork.dev/asset/birch-tree-181b33), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "campground-pine-stand-0bf4f2": {
+   "title": "Campground Pine Stand",
+   "type": "prop",
+   "kit": "campground-lake-ad32b0",
+   "triangles": 628,
+   "size": [
+    4.566,
+    8.993,
+    4.153
+   ],
+   "file": "campground-pine-stand-0bf4f2.glb",
+   "page": "https://polyfork.dev/asset/campground-pine-stand-0bf4f2",
+   "credit": "Campground Pine Stand by Polyfork (https://polyfork.dev/asset/campground-pine-stand-0bf4f2), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cherry-blossom-tree-3f7ab7": {
+   "title": "Cherry Blossom Tree",
+   "type": "prop",
+   "kit": "japanese-suburban-city-street-baa482",
+   "triangles": 619,
+   "size": [
+    3.53,
+    4.502,
+    3.314
+   ],
+   "file": "cherry-blossom-tree-3f7ab7.glb",
+   "page": "https://polyfork.dev/asset/cherry-blossom-tree-3f7ab7",
+   "credit": "Cherry Blossom Tree by Polyfork (https://polyfork.dev/asset/cherry-blossom-tree-3f7ab7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cherry-tree-a710a9": {
+   "title": "Cherry Tree",
+   "type": "prop",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 1448,
+   "size": [
+    5.995,
+    5.501,
+    5.995
+   ],
+   "file": "cherry-tree-a710a9.glb",
+   "page": "https://polyfork.dev/asset/cherry-tree-a710a9",
+   "credit": "Cherry Tree by Polyfork (https://polyfork.dev/asset/cherry-tree-a710a9), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "chilean-palm-45fef5": {
+   "title": "Chilean Palm",
+   "type": "prop",
+   "kit": "chile-fiestas-patrias-87e847",
+   "triangles": 910,
+   "size": [
+    8.354,
+    12.0,
+    7.261
+   ],
+   "file": "chilean-palm-45fef5.glb",
+   "page": "https://polyfork.dev/asset/chilean-palm-45fef5",
+   "credit": "Chilean Palm by Polyfork (https://polyfork.dev/asset/chilean-palm-45fef5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dawn-redwood-001c29": {
+   "title": "Dawn Redwood",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 892,
+   "size": [
+    7.594,
+    20.0,
+    7.344
+   ],
+   "file": "dawn-redwood-001c29.glb",
+   "page": "https://polyfork.dev/asset/dawn-redwood-001c29",
+   "credit": "Dawn Redwood by Polyfork (https://polyfork.dev/asset/dawn-redwood-001c29), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dead-tree-6795fa": {
+   "title": "Dead Tree",
+   "type": "prop",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 536,
+   "size": [
+    3.187,
+    5.0,
+    1.872
+   ],
+   "file": "dead-tree-6795fa.glb",
+   "page": "https://polyfork.dev/asset/dead-tree-6795fa",
+   "credit": "Dead Tree by Polyfork (https://polyfork.dev/asset/dead-tree-6795fa), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dwarf-pine-mat-faee77": {
+   "title": "Dwarf Pine Mat",
+   "type": "prop",
+   "kit": "alpine-and-snow-092f66",
+   "triangles": 798,
+   "size": [
+    2.5,
+    1.292,
+    2.5
+   ],
+   "file": "dwarf-pine-mat-faee77.glb",
+   "page": "https://polyfork.dev/asset/dwarf-pine-mat-faee77",
+   "credit": "Dwarf Pine Mat by Polyfork (https://polyfork.dev/asset/dwarf-pine-mat-faee77), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "flowering-magnolia-dd76cb": {
+   "title": "Flowering Magnolia",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 934,
+   "size": [
+    4.898,
+    6.096,
+    5.092
+   ],
+   "file": "flowering-magnolia-dd76cb.glb",
+   "page": "https://polyfork.dev/asset/flowering-magnolia-dd76cb",
+   "credit": "Flowering Magnolia by Polyfork (https://polyfork.dev/asset/flowering-magnolia-dd76cb), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "front-yard-fir-tree-0a278d": {
+   "title": "Front-Yard Fir Tree",
+   "type": "prop",
+   "kit": "christmas-village-fbc27a",
+   "triangles": 896,
+   "size": [
+    1.296,
+    2.793,
+    1.296
+   ],
+   "file": "front-yard-fir-tree-0a278d.glb",
+   "page": "https://polyfork.dev/asset/front-yard-fir-tree-0a278d",
+   "credit": "Front-Yard Fir Tree by Polyfork (https://polyfork.dev/asset/front-yard-fir-tree-0a278d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "fruit-tree-4bb1af": {
+   "title": "Fruit tree",
+   "type": "prop",
+   "kit": "salvage-commons-d0be9f",
+   "triangles": 742,
+   "size": [
+    3.223,
+    3.999,
+    2.373
+   ],
+   "file": "fruit-tree-4bb1af.glb",
+   "page": "https://polyfork.dev/asset/fruit-tree-4bb1af",
+   "credit": "Fruit tree by Polyfork (https://polyfork.dev/asset/fruit-tree-4bb1af), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "ginkgo-tree-baa895": {
+   "title": "Ginkgo Tree",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 1080,
+   "size": [
+    5.847,
+    11.737,
+    6.138
+   ],
+   "file": "ginkgo-tree-baa895.glb",
+   "page": "https://polyfork.dev/asset/ginkgo-tree-baa895",
+   "credit": "Ginkgo Tree by Polyfork (https://polyfork.dev/asset/ginkgo-tree-baa895), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "japanese-maple-d2fb29": {
+   "title": "Japanese Maple",
+   "type": "prop",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 1167,
+   "size": [
+    4.471,
+    2.994,
+    3.987
+   ],
+   "file": "japanese-maple-d2fb29.glb",
+   "page": "https://polyfork.dev/asset/japanese-maple-d2fb29",
+   "credit": "Japanese Maple by Polyfork (https://polyfork.dev/asset/japanese-maple-d2fb29), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "joshua-tree-867a2c": {
+   "title": "Joshua Tree",
+   "type": "prop",
+   "kit": "roadside-americana-50d40c",
+   "triangles": 819,
+   "size": [
+    5.506,
+    6.003,
+    2.161
+   ],
+   "file": "joshua-tree-867a2c.glb",
+   "page": "https://polyfork.dev/asset/joshua-tree-867a2c",
+   "credit": "Joshua Tree by Polyfork (https://polyfork.dev/asset/joshua-tree-867a2c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "lakeside-swing-tree-02c084": {
+   "title": "Lakeside Swing Tree",
+   "type": "prop",
+   "kit": "campground-lake-ad32b0",
+   "triangles": 728,
+   "size": [
+    7.615,
+    9.009,
+    4.101
+   ],
+   "file": "lakeside-swing-tree-02c084.glb",
+   "page": "https://polyfork.dev/asset/lakeside-swing-tree-02c084",
+   "credit": "Lakeside Swing Tree by Polyfork (https://polyfork.dev/asset/lakeside-swing-tree-02c084), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "lineside-tree-97e02a": {
+   "title": "Lineside Tree",
+   "type": "prop",
+   "kit": "countryside-railway-9b4c57",
+   "triangles": 469,
+   "size": [
+    6.035,
+    9.228,
+    5.04
+   ],
+   "file": "lineside-tree-97e02a.glb",
+   "page": "https://polyfork.dev/asset/lineside-tree-97e02a",
+   "credit": "Lineside Tree by Polyfork (https://polyfork.dev/asset/lineside-tree-97e02a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "mesquite-tree-bc5141": {
+   "title": "Mesquite Tree",
+   "type": "prop",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 653,
+   "size": [
+    4.998,
+    4.5,
+    4.511
+   ],
+   "file": "mesquite-tree-bc5141.glb",
+   "page": "https://polyfork.dev/asset/mesquite-tree-bc5141",
+   "credit": "Mesquite Tree by Polyfork (https://polyfork.dev/asset/mesquite-tree-bc5141), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "oak-tree-50ee7c": {
+   "title": "Oak Tree",
+   "type": "prop",
+   "kit": "medieval-village-kit-ca0b43",
+   "triangles": 686,
+   "size": [
+    5.14,
+    6.175,
+    4.221
+   ],
+   "file": "oak-tree-50ee7c.glb",
+   "page": "https://polyfork.dev/asset/oak-tree-50ee7c",
+   "credit": "Oak Tree by Polyfork (https://polyfork.dev/asset/oak-tree-50ee7c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "orchard-apple-tree-b21f85": {
+   "title": "Orchard Apple Tree",
+   "type": "prop",
+   "kit": "medieval-village-kit-ca0b43",
+   "triangles": 736,
+   "size": [
+    4.757,
+    3.644,
+    4.707
+   ],
+   "file": "orchard-apple-tree-b21f85.glb",
+   "page": "https://polyfork.dev/asset/orchard-apple-tree-b21f85",
+   "credit": "Orchard Apple Tree by Polyfork (https://polyfork.dev/asset/orchard-apple-tree-b21f85), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "pante-n-cypress-a667ad": {
+   "title": "Panteón Cypress",
+   "type": "prop",
+   "kit": "dia-de-muertos-f2f8f8",
+   "triangles": 749,
+   "size": [
+    1.938,
+    7.0,
+    1.991
+   ],
+   "file": "pante-n-cypress-a667ad.glb",
+   "page": "https://polyfork.dev/asset/pante-n-cypress-a667ad",
+   "credit": "Panteón Cypress by Polyfork (https://polyfork.dev/asset/pante-n-cypress-a667ad), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "poplar-row-run-cdc69f": {
+   "title": "Poplar Row Run",
+   "type": "prop",
+   "kit": "chile-fiestas-patrias-87e847",
+   "triangles": 339,
+   "size": [
+    2.375,
+    16.0,
+    2.288
+   ],
+   "file": "poplar-row-run-cdc69f.glb",
+   "page": "https://polyfork.dev/asset/poplar-row-run-cdc69f",
+   "credit": "Poplar Row Run by Polyfork (https://polyfork.dev/asset/poplar-row-run-cdc69f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "saguaro-cactus-6b27eb": {
+   "title": "Saguaro Cactus",
+   "type": "prop",
+   "kit": "frontier-town-a0085b",
+   "triangles": 525,
+   "size": [
+    1.147,
+    4.0,
+    1.094
+   ],
+   "file": "saguaro-cactus-6b27eb.glb",
+   "page": "https://polyfork.dev/asset/saguaro-cactus-6b27eb",
+   "credit": "Saguaro Cactus by Polyfork (https://polyfork.dev/asset/saguaro-cactus-6b27eb), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "saguaro-cactus-8b588d": {
+   "title": "Saguaro Cactus",
+   "type": "prop",
+   "kit": "roadside-americana-50d40c",
+   "triangles": 720,
+   "size": [
+    2.625,
+    5.0,
+    0.956
+   ],
+   "file": "saguaro-cactus-8b588d.glb",
+   "page": "https://polyfork.dev/asset/saguaro-cactus-8b588d",
+   "credit": "Saguaro Cactus by Polyfork (https://polyfork.dev/asset/saguaro-cactus-8b588d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "scorched-tree-e927a3": {
+   "title": "Scorched Tree",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 1810,
+   "size": [
+    7.062,
+    9.035,
+    5.271
+   ],
+   "file": "scorched-tree-e927a3.glb",
+   "page": "https://polyfork.dev/asset/scorched-tree-e927a3",
+   "credit": "Scorched Tree by Polyfork (https://polyfork.dev/asset/scorched-tree-e927a3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sculpted-pine-e45d4f": {
+   "title": "Sculpted Pine",
+   "type": "prop",
+   "kit": "medieval-japan-cb01ad",
+   "triangles": 510,
+   "size": [
+    3.337,
+    3.171,
+    2.931
+   ],
+   "file": "sculpted-pine-e45d4f.glb",
+   "page": "https://polyfork.dev/asset/sculpted-pine-e45d4f",
+   "credit": "Sculpted Pine by Polyfork (https://polyfork.dev/asset/sculpted-pine-e45d4f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sculptural-canopy-tree-681c3d": {
+   "title": "Sculptural Canopy Tree",
+   "type": "prop",
+   "kit": "chrome-arcology-transit-kit-87a0e1",
+   "triangles": 492,
+   "size": [
+    3.865,
+    6.001,
+    3.581
+   ],
+   "file": "sculptural-canopy-tree-681c3d.glb",
+   "page": "https://polyfork.dev/asset/sculptural-canopy-tree-681c3d",
+   "credit": "Sculptural Canopy Tree by Polyfork (https://polyfork.dev/asset/sculptural-canopy-tree-681c3d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "snow-laden-spruce-36716e": {
+   "title": "Snow-Laden Spruce",
+   "type": "prop",
+   "kit": "alpine-and-snow-092f66",
+   "triangles": 765,
+   "size": [
+    3.0,
+    6.056,
+    3.0
+   ],
+   "file": "snow-laden-spruce-36716e.glb",
+   "page": "https://polyfork.dev/asset/snow-laden-spruce-36716e",
+   "credit": "Snow-Laden Spruce by Polyfork (https://polyfork.dev/asset/snow-laden-spruce-36716e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "splintered-roadside-poplar-5859d8": {
+   "title": "Splintered Roadside Poplar",
+   "type": "prop",
+   "kit": "lepas",
+   "triangles": 360,
+   "size": [
+    2.258,
+    9.0,
+    2.09
+   ],
+   "file": "splintered-roadside-poplar-5859d8.glb",
+   "page": "https://polyfork.dev/asset/splintered-roadside-poplar-5859d8",
+   "credit": "Splintered Roadside Poplar by Polyfork (https://polyfork.dev/asset/splintered-roadside-poplar-5859d8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "staked-street-sapling-51ffb4": {
+   "title": "Staked Street Sapling",
+   "type": "prop",
+   "kit": "skatepark-0922a9",
+   "triangles": 827,
+   "size": [
+    1.7,
+    3.47,
+    1.617
+   ],
+   "file": "staked-street-sapling-51ffb4.glb",
+   "page": "https://polyfork.dev/asset/staked-street-sapling-51ffb4",
+   "credit": "Staked Street Sapling by Polyfork (https://polyfork.dev/asset/staked-street-sapling-51ffb4), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "toromiro-tree-a50794": {
+   "title": "Toromiro Tree",
+   "type": "prop",
+   "kit": "easter-island-rapa-nui-368e86",
+   "triangles": 906,
+   "size": [
+    2.286,
+    2.965,
+    2.592
+   ],
+   "file": "toromiro-tree-a50794.glb",
+   "page": "https://polyfork.dev/asset/toromiro-tree-a50794",
+   "credit": "Toromiro Tree by Polyfork (https://polyfork.dev/asset/toromiro-tree-a50794), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tree-fern-78320e": {
+   "title": "Tree Fern",
+   "type": "prop",
+   "kit": "prehistoric-valley-8638dc",
+   "triangles": 794,
+   "size": [
+    4.439,
+    8.0,
+    4.027
+   ],
+   "file": "tree-fern-78320e.glb",
+   "page": "https://polyfork.dev/asset/tree-fern-78320e",
+   "credit": "Tree Fern by Polyfork (https://polyfork.dev/asset/tree-fern-78320e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tree-in-pit-grate-ea8010": {
+   "title": "Tree in Pit Grate",
+   "type": "prop",
+   "kit": "university-959b66",
+   "triangles": 736,
+   "size": [
+    4.745,
+    7.979,
+    3.659
+   ],
+   "file": "tree-in-pit-grate-ea8010.glb",
+   "page": "https://polyfork.dev/asset/tree-in-pit-grate-ea8010",
+   "credit": "Tree in Pit Grate by Polyfork (https://polyfork.dev/asset/tree-in-pit-grate-ea8010), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "twisted-dead-oak-49457b": {
+   "title": "Twisted Dead Oak",
+   "type": "prop",
+   "kit": "halloween-night-46ade4",
+   "triangles": 861,
+   "size": [
+    8.041,
+    6.97,
+    4.527
+   ],
+   "file": "twisted-dead-oak-49457b.glb",
+   "page": "https://polyfork.dev/asset/twisted-dead-oak-49457b",
+   "credit": "Twisted Dead Oak by Polyfork (https://polyfork.dev/asset/twisted-dead-oak-49457b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "twisted-pine-on-a-525dc7": {
+   "title": "Twisted Pine on a Rock",
+   "type": "prop",
+   "kit": "three-kingdoms-settlements-a-1e817b",
+   "triangles": 668,
+   "size": [
+    4.016,
+    5.025,
+    2.703
+   ],
+   "file": "twisted-pine-on-a-525dc7.glb",
+   "page": "https://polyfork.dev/asset/twisted-pine-on-a-525dc7",
+   "credit": "Twisted Pine on a Rock by Polyfork (https://polyfork.dev/asset/twisted-pine-on-a-525dc7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "windblown-larch-abb99c": {
+   "title": "Windblown Larch",
+   "type": "prop",
+   "kit": "alpine-and-snow-092f66",
+   "triangles": 874,
+   "size": [
+    7.953,
+    7.0,
+    3.578
+   ],
+   "file": "windblown-larch-abb99c.glb",
+   "page": "https://polyfork.dev/asset/windblown-larch-abb99c",
+   "credit": "Windblown Larch by Polyfork (https://polyfork.dev/asset/windblown-larch-abb99c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "young-pine-0d7695": {
+   "title": "Young Pine",
+   "type": "prop",
+   "kit": "nature-forest-kit-f29d6a",
+   "triangles": 270,
+   "size": [
+    1.838,
+    3.0,
+    1.865
+   ],
+   "file": "young-pine-0d7695.glb",
+   "page": "https://polyfork.dev/asset/young-pine-0d7695",
+   "credit": "Young Pine by Polyfork (https://polyfork.dev/asset/young-pine-0d7695), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "amusement-arcade-front-e1caee": {
+   "title": "Amusement Arcade Front",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1768,
+   "size": [
+    8.0,
+    4.5,
+    4.0
+   ],
+   "file": "amusement-arcade-front-e1caee.glb",
+   "page": "https://polyfork.dev/asset/amusement-arcade-front-e1caee",
+   "credit": "Amusement Arcade Front by Polyfork (https://polyfork.dev/asset/amusement-arcade-front-e1caee), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "back-to-back-promenade-8c153b": {
+   "title": "Back-to-Back Promenade Bench",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 786,
+   "size": [
+    2.0,
+    0.95,
+    1.0
+   ],
+   "file": "back-to-back-promenade-8c153b.glb",
+   "page": "https://polyfork.dev/asset/back-to-back-promenade-8c153b",
+   "credit": "Back-to-Back Promenade Bench by Polyfork (https://polyfork.dev/asset/back-to-back-promenade-8c153b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-ball-4b2a9b": {
+   "title": "Beach Ball",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 450,
+   "size": [
+    0.344,
+    0.344,
+    0.35
+   ],
+   "file": "beach-ball-4b2a9b.glb",
+   "page": "https://polyfork.dev/asset/beach-ball-4b2a9b",
+   "credit": "Beach Ball by Polyfork (https://polyfork.dev/asset/beach-ball-4b2a9b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-bucket-dc52dd": {
+   "title": "Beach Bucket",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 816,
+   "size": [
+    0.391,
+    0.273,
+    0.254
+   ],
+   "file": "beach-bucket-dc52dd.glb",
+   "page": "https://polyfork.dev/asset/beach-bucket-dc52dd",
+   "credit": "Beach Bucket by Polyfork (https://polyfork.dev/asset/beach-bucket-dc52dd), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-cafe-kiosk-9e8f6d": {
+   "title": "Beach Cafe Kiosk",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1198,
+   "size": [
+    4.0,
+    3.46,
+    4.0
+   ],
+   "file": "beach-cafe-kiosk-9e8f6d.glb",
+   "page": "https://polyfork.dev/asset/beach-cafe-kiosk-9e8f6d",
+   "credit": "Beach Cafe Kiosk by Polyfork (https://polyfork.dev/asset/beach-cafe-kiosk-9e8f6d), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-flag-pole-2bf334": {
+   "title": "Beach Flag Pole",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 648,
+   "size": [
+    2.23,
+    6.0,
+    0.88
+   ],
+   "file": "beach-flag-pole-2bf334.glb",
+   "page": "https://polyfork.dev/asset/beach-flag-pole-2bf334",
+   "credit": "Beach Flag Pole by Polyfork (https://polyfork.dev/asset/beach-flag-pole-2bf334), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-hut-fc7649": {
+   "title": "Beach Hut",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 652,
+   "size": [
+    4.0,
+    4.932,
+    4.91
+   ],
+   "file": "beach-hut-fc7649.glb",
+   "page": "https://polyfork.dev/asset/beach-hut-fc7649",
+   "credit": "Beach Hut by Polyfork (https://polyfork.dev/asset/beach-hut-fc7649), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-parasol-fd4530": {
+   "title": "Beach Parasol",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 728,
+   "size": [
+    2.201,
+    2.1,
+    2.201
+   ],
+   "file": "beach-parasol-fd4530.glb",
+   "page": "https://polyfork.dev/asset/beach-parasol-fd4530",
+   "credit": "Beach Parasol by Polyfork (https://polyfork.dev/asset/beach-parasol-fd4530), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-shower-post-719ac6": {
+   "title": "Beach Shower Post",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 792,
+   "size": [
+    1.0,
+    2.4,
+    1.0
+   ],
+   "file": "beach-shower-post-719ac6.glb",
+   "page": "https://polyfork.dev/asset/beach-shower-post-719ac6",
+   "credit": "Beach Shower Post by Polyfork (https://polyfork.dev/asset/beach-shower-post-719ac6), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-towel-adb6c0": {
+   "title": "Beach Towel",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 752,
+   "size": [
+    0.935,
+    0.212,
+    1.924
+   ],
+   "file": "beach-towel-adb6c0.glb",
+   "page": "https://polyfork.dev/asset/beach-towel-adb6c0",
+   "credit": "Beach Towel by Polyfork (https://polyfork.dev/asset/beach-towel-adb6c0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "beach-windbreak-090d8c": {
+   "title": "Beach Windbreak",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 724,
+   "size": [
+    2.0,
+    1.2,
+    2.0
+   ],
+   "file": "beach-windbreak-090d8c.glb",
+   "page": "https://polyfork.dev/asset/beach-windbreak-090d8c",
+   "credit": "Beach Windbreak by Polyfork (https://polyfork.dev/asset/beach-windbreak-090d8c), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "boardwalk-deck-run-c1f678": {
+   "title": "Boardwalk Deck Run",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 840,
+   "size": [
+    4.0,
+    1.96,
+    4.0
+   ],
+   "file": "boardwalk-deck-run-c1f678.glb",
+   "page": "https://polyfork.dev/asset/boardwalk-deck-run-c1f678",
+   "credit": "Boardwalk Deck Run by Polyfork (https://polyfork.dev/asset/boardwalk-deck-run-c1f678), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "boardwalk-railing-run-4851f1": {
+   "title": "Boardwalk Railing Run",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 568,
+   "size": [
+    4.0,
+    1.3,
+    0.368
+   ],
+   "file": "boardwalk-railing-run-4851f1.glb",
+   "page": "https://polyfork.dev/asset/boardwalk-railing-run-4851f1",
+   "credit": "Boardwalk Railing Run by Polyfork (https://polyfork.dev/asset/boardwalk-railing-run-4851f1), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "boat-shed-74c94f": {
+   "title": "Boat Shed",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1408,
+   "size": [
+    8.0,
+    7.316,
+    8.0
+   ],
+   "file": "boat-shed-74c94f.glb",
+   "page": "https://polyfork.dev/asset/boat-shed-74c94f",
+   "credit": "Boat Shed by Polyfork (https://polyfork.dev/asset/boat-shed-74c94f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "bunting-run-2ac207": {
+   "title": "Bunting Run",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 488,
+   "size": [
+    3.985,
+    1.025,
+    0.146
+   ],
+   "file": "bunting-run-2ac207.glb",
+   "page": "https://polyfork.dev/asset/bunting-run-2ac207",
+   "credit": "Bunting Run by Polyfork (https://polyfork.dev/asset/bunting-run-2ac207), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "changing-cubicle-row-5bac7f": {
+   "title": "Changing Cubicle Row",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1826,
+   "size": [
+    8.0,
+    2.2,
+    1.844
+   ],
+   "file": "changing-cubicle-row-5bac7f.glb",
+   "page": "https://polyfork.dev/asset/changing-cubicle-row-5bac7f",
+   "credit": "Changing Cubicle Row by Polyfork (https://polyfork.dev/asset/changing-cubicle-row-5bac7f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "driftwood-log-89a68f": {
+   "title": "Driftwood Log",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 770,
+   "size": [
+    1.307,
+    0.823,
+    2.644
+   ],
+   "file": "driftwood-log-89a68f.glb",
+   "page": "https://polyfork.dev/asset/driftwood-log-89a68f",
+   "credit": "Driftwood Log by Polyfork (https://polyfork.dev/asset/driftwood-log-89a68f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dry-soft-sand-tile-4a1df7": {
+   "title": "Dry Soft Sand Tile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 520,
+   "size": [
+    4.0,
+    0.089,
+    4.0
+   ],
+   "file": "dry-soft-sand-tile-4a1df7.glb",
+   "page": "https://polyfork.dev/asset/dry-soft-sand-tile-4a1df7",
+   "credit": "Dry Soft Sand Tile by Polyfork (https://polyfork.dev/asset/dry-soft-sand-tile-4a1df7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dune-fence-run-120153": {
+   "title": "Dune Fence Run",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 636,
+   "size": [
+    4.0,
+    1.302,
+    1.09
+   ],
+   "file": "dune-fence-run-120153.glb",
+   "page": "https://polyfork.dev/asset/dune-fence-run-120153",
+   "credit": "Dune Fence Run by Polyfork (https://polyfork.dev/asset/dune-fence-run-120153), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "dune-walkover-afa2c0": {
+   "title": "Dune Walkover",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 924,
+   "size": [
+    1.94,
+    1.32,
+    4.0
+   ],
+   "file": "dune-walkover-afa2c0.glb",
+   "page": "https://polyfork.dev/asset/dune-walkover-afa2c0",
+   "credit": "Dune Walkover by Polyfork (https://polyfork.dev/asset/dune-walkover-afa2c0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "groyne-run-971623": {
+   "title": "Groyne Run",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1501,
+   "size": [
+    4.0,
+    1.639,
+    1.276
+   ],
+   "file": "groyne-run-971623.glb",
+   "page": "https://polyfork.dev/asset/groyne-run-971623",
+   "credit": "Groyne Run by Polyfork (https://polyfork.dev/asset/groyne-run-971623), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "ice-cream-kiosk-on-40a568": {
+   "title": "Ice Cream Kiosk on Wheels",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1934,
+   "size": [
+    1.986,
+    2.84,
+    4.0
+   ],
+   "file": "ice-cream-kiosk-on-40a568.glb",
+   "page": "https://polyfork.dev/asset/ice-cream-kiosk-on-40a568",
+   "credit": "Ice Cream Kiosk on Wheels by Polyfork (https://polyfork.dev/asset/ice-cream-kiosk-on-40a568), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "lifebuoy-on-a-post-57421b": {
+   "title": "Lifebuoy on a Post",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 837,
+   "size": [
+    1.013,
+    1.553,
+    1.0
+   ],
+   "file": "lifebuoy-on-a-post-57421b.glb",
+   "page": "https://polyfork.dev/asset/lifebuoy-on-a-post-57421b",
+   "credit": "Lifebuoy on a Post by Polyfork (https://polyfork.dev/asset/lifebuoy-on-a-post-57421b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "lifeguard-tower-183c37": {
+   "title": "Lifeguard Tower",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1175,
+   "size": [
+    4.0,
+    6.16,
+    4.0
+   ],
+   "file": "lifeguard-tower-183c37.glb",
+   "page": "https://polyfork.dev/asset/lifeguard-tower-183c37",
+   "credit": "Lifeguard Tower by Polyfork (https://polyfork.dev/asset/lifeguard-tower-183c37), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "lobster-pot-stack-d870f0": {
+   "title": "Lobster Pot Stack",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 600,
+   "size": [
+    0.818,
+    0.866,
+    0.5
+   ],
+   "file": "lobster-pot-stack-d870f0.glb",
+   "page": "https://polyfork.dev/asset/lobster-pot-stack-d870f0",
+   "credit": "Lobster Pot Stack by Polyfork (https://polyfork.dev/asset/lobster-pot-stack-d870f0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "marram-dune-tile-56cdf8": {
+   "title": "Marram Dune Tile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 741,
+   "size": [
+    4.0,
+    0.116,
+    4.0
+   ],
+   "file": "marram-dune-tile-56cdf8.glb",
+   "page": "https://polyfork.dev/asset/marram-dune-tile-56cdf8",
+   "credit": "Marram Dune Tile by Polyfork (https://polyfork.dev/asset/marram-dune-tile-56cdf8), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "marram-grass-tuft-8c7a99": {
+   "title": "Marram Grass Tuft",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 574,
+   "size": [
+    1.163,
+    0.928,
+    1.076
+   ],
+   "file": "marram-grass-tuft-8c7a99.glb",
+   "page": "https://polyfork.dev/asset/marram-grass-tuft-8c7a99",
+   "credit": "Marram Grass Tuft by Polyfork (https://polyfork.dev/asset/marram-grass-tuft-8c7a99), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "mooring-bollard-2d4bc9": {
+   "title": "Mooring Bollard",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 770,
+   "size": [
+    0.817,
+    0.64,
+    0.6
+   ],
+   "file": "mooring-bollard-2d4bc9.glb",
+   "page": "https://polyfork.dev/asset/mooring-bollard-2d4bc9",
+   "credit": "Mooring Bollard by Polyfork (https://polyfork.dev/asset/mooring-bollard-2d4bc9), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "net-pile-0bd489": {
+   "title": "Net Pile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 959,
+   "size": [
+    2.496,
+    0.633,
+    1.159
+   ],
+   "file": "net-pile-0bd489.glb",
+   "page": "https://polyfork.dev/asset/net-pile-0bd489",
+   "credit": "Net Pile by Polyfork (https://polyfork.dev/asset/net-pile-0bd489), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "pier-head-platform-63662b": {
+   "title": "Pier Head Platform",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1868,
+   "size": [
+    4.0,
+    2.48,
+    3.995
+   ],
+   "file": "pier-head-platform-63662b.glb",
+   "page": "https://polyfork.dev/asset/pier-head-platform-63662b",
+   "credit": "Pier Head Platform by Polyfork (https://polyfork.dev/asset/pier-head-platform-63662b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "promenade-bandstand-1a71b5": {
+   "title": "Promenade Bandstand",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 2140,
+   "size": [
+    8.0,
+    6.47,
+    8.0
+   ],
+   "file": "promenade-bandstand-1a71b5.glb",
+   "page": "https://polyfork.dev/asset/promenade-bandstand-1a71b5",
+   "credit": "Promenade Bandstand by Polyfork (https://polyfork.dev/asset/promenade-bandstand-1a71b5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "promenade-paving-tile-5656ce": {
+   "title": "Promenade Paving Tile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 260,
+   "size": [
+    4.0,
+    0.05,
+    4.0
+   ],
+   "file": "promenade-paving-tile-5656ce.glb",
+   "page": "https://polyfork.dev/asset/promenade-paving-tile-5656ce",
+   "credit": "Promenade Paving Tile by Polyfork (https://polyfork.dev/asset/promenade-paving-tile-5656ce), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "promenade-shelter-788f46": {
+   "title": "Promenade Shelter",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1440,
+   "size": [
+    4.0,
+    2.399,
+    1.98
+   ],
+   "file": "promenade-shelter-788f46.glb",
+   "page": "https://polyfork.dev/asset/promenade-shelter-788f46",
+   "credit": "Promenade Shelter by Polyfork (https://polyfork.dev/asset/promenade-shelter-788f46), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "rescue-and-paddle-board-79a2a0": {
+   "title": "Rescue and Paddle Board",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 548,
+   "size": [
+    0.65,
+    0.203,
+    3.2
+   ],
+   "file": "rescue-and-paddle-board-79a2a0.glb",
+   "page": "https://polyfork.dev/asset/rescue-and-paddle-board-79a2a0",
+   "credit": "Rescue and Paddle Board by Polyfork (https://polyfork.dev/asset/rescue-and-paddle-board-79a2a0), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "rock-armour-revetment-aea1ca": {
+   "title": "Rock Armour Revetment",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1931,
+   "size": [
+    4.0,
+    1.193,
+    1.931
+   ],
+   "file": "rock-armour-revetment-aea1ca.glb",
+   "page": "https://polyfork.dev/asset/rock-armour-revetment-aea1ca",
+   "credit": "Rock Armour Revetment by Polyfork (https://polyfork.dev/asset/rock-armour-revetment-aea1ca), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "rock-pool-937f01": {
+   "title": "Rock Pool",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 860,
+   "size": [
+    1.4,
+    0.35,
+    1.2
+   ],
+   "file": "rock-pool-937f01.glb",
+   "page": "https://polyfork.dev/asset/rock-pool-937f01",
+   "credit": "Rock Pool by Polyfork (https://polyfork.dev/asset/rock-pool-937f01), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "rowing-dinghy-022673": {
+   "title": "Rowing Dinghy",
+   "type": "vehicle",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 2265,
+   "size": [
+    1.454,
+    0.895,
+    3.581
+   ],
+   "file": "rowing-dinghy-022673.glb",
+   "page": "https://polyfork.dev/asset/rowing-dinghy-022673",
+   "credit": "Rowing Dinghy by Polyfork (https://polyfork.dev/asset/rowing-dinghy-022673), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sandcastle-ddc562": {
+   "title": "Sandcastle",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 738,
+   "size": [
+    1.0,
+    0.64,
+    1.0
+   ],
+   "file": "sandcastle-ddc562.glb",
+   "page": "https://polyfork.dev/asset/sandcastle-ddc562",
+   "credit": "Sandcastle by Polyfork (https://polyfork.dev/asset/sandcastle-ddc562), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sea-holly-clump-ce3bc6": {
+   "title": "Sea Holly Clump",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 778,
+   "size": [
+    0.439,
+    0.351,
+    0.451
+   ],
+   "file": "sea-holly-clump-ce3bc6.glb",
+   "page": "https://polyfork.dev/asset/sea-holly-clump-ce3bc6",
+   "credit": "Sea Holly Clump by Polyfork (https://polyfork.dev/asset/sea-holly-clump-ce3bc6), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sea-kayak-97b592": {
+   "title": "Sea Kayak",
+   "type": "vehicle",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 2159,
+   "size": [
+    1.947,
+    0.485,
+    4.823
+   ],
+   "file": "sea-kayak-97b592.glb",
+   "page": "https://polyfork.dev/asset/sea-kayak-97b592",
+   "credit": "Sea Kayak by Polyfork (https://polyfork.dev/asset/sea-kayak-97b592), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sea-wall-run-91e459": {
+   "title": "Sea Wall Run",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1246,
+   "size": [
+    4.0,
+    1.85,
+    2.322
+   ],
+   "file": "sea-wall-run-91e459.glb",
+   "page": "https://polyfork.dev/asset/sea-wall-run-91e459",
+   "credit": "Sea Wall Run by Polyfork (https://polyfork.dev/asset/sea-wall-run-91e459), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "seafront-lamp-post-28bada": {
+   "title": "Seafront Lamp Post",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 758,
+   "size": [
+    0.651,
+    4.0,
+    0.6
+   ],
+   "file": "seafront-lamp-post-28bada.glb",
+   "page": "https://polyfork.dev/asset/seafront-lamp-post-28bada",
+   "credit": "Seafront Lamp Post by Polyfork (https://polyfork.dev/asset/seafront-lamp-post-28bada), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "seafront-toilet-block-c3f643": {
+   "title": "Seafront Toilet Block",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1414,
+   "size": [
+    4.0,
+    3.212,
+    4.0
+   ],
+   "file": "seafront-toilet-block-c3f643.glb",
+   "page": "https://polyfork.dev/asset/seafront-toilet-block-c3f643",
+   "credit": "Seafront Toilet Block by Polyfork (https://polyfork.dev/asset/seafront-toilet-block-c3f643), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "seafront-wayfinding-post-67fc84": {
+   "title": "Seafront Wayfinding Post",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 658,
+   "size": [
+    1.0,
+    2.6,
+    0.193
+   ],
+   "file": "seafront-wayfinding-post-67fc84.glb",
+   "page": "https://polyfork.dev/asset/seafront-wayfinding-post-67fc84",
+   "credit": "Seafront Wayfinding Post by Polyfork (https://polyfork.dev/asset/seafront-wayfinding-post-67fc84), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "seaweed-drift-line-6566c3": {
+   "title": "Seaweed Drift Line",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 369,
+   "size": [
+    1.952,
+    0.1,
+    0.491
+   ],
+   "file": "seaweed-drift-line-6566c3.glb",
+   "page": "https://polyfork.dev/asset/seaweed-drift-line-6566c3",
+   "credit": "Seaweed Drift Line by Polyfork (https://polyfork.dev/asset/seaweed-drift-line-6566c3), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "shell-scatter-6d36b7": {
+   "title": "Shell Scatter",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 560,
+   "size": [
+    1.082,
+    0.078,
+    1.09
+   ],
+   "file": "shell-scatter-6d36b7.glb",
+   "page": "https://polyfork.dev/asset/shell-scatter-6d36b7",
+   "credit": "Shell Scatter by Polyfork (https://polyfork.dev/asset/shell-scatter-6d36b7), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "shingle-tile-fa005e": {
+   "title": "Shingle Tile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 905,
+   "size": [
+    4.0,
+    0.079,
+    4.0
+   ],
+   "file": "shingle-tile-fa005e.glb",
+   "page": "https://polyfork.dev/asset/shingle-tile-fa005e",
+   "credit": "Shingle Tile by Polyfork (https://polyfork.dev/asset/shingle-tile-fa005e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "slipway-ramp-1e595f": {
+   "title": "Slipway Ramp",
+   "type": "building",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 1340,
+   "size": [
+    4.0,
+    1.664,
+    8.0
+   ],
+   "file": "slipway-ramp-1e595f.glb",
+   "page": "https://polyfork.dev/asset/slipway-ramp-1e595f",
+   "credit": "Slipway Ramp by Polyfork (https://polyfork.dev/asset/slipway-ramp-1e595f), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "striped-deck-chair-70b506": {
+   "title": "Striped Deck Chair",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 760,
+   "size": [
+    0.608,
+    0.899,
+    0.884
+   ],
+   "file": "striped-deck-chair-70b506.glb",
+   "page": "https://polyfork.dev/asset/striped-deck-chair-70b506",
+   "credit": "Striped Deck Chair by Polyfork (https://polyfork.dev/asset/striped-deck-chair-70b506), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "sun-lounger-2b2603": {
+   "title": "Sun Lounger",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 864,
+   "size": [
+    0.996,
+    0.952,
+    1.9
+   ],
+   "file": "sun-lounger-2b2603.glb",
+   "page": "https://polyfork.dev/asset/sun-lounger-2b2603",
+   "credit": "Sun Lounger by Polyfork (https://polyfork.dev/asset/sun-lounger-2b2603), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tamarisk-bush-ba4337": {
+   "title": "Tamarisk Bush",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 748,
+   "size": [
+    1.805,
+    1.81,
+    1.84
+   ],
+   "file": "tamarisk-bush-ba4337.glb",
+   "page": "https://polyfork.dev/asset/tamarisk-bush-ba4337",
+   "credit": "Tamarisk Bush by Polyfork (https://polyfork.dev/asset/tamarisk-bush-ba4337), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "tide-post-11a866": {
+   "title": "Tide Post",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 745,
+   "size": [
+    0.479,
+    2.4,
+    0.366
+   ],
+   "file": "tide-post-11a866.glb",
+   "page": "https://polyfork.dev/asset/tide-post-11a866",
+   "credit": "Tide Post by Polyfork (https://polyfork.dev/asset/tide-post-11a866), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "wet-packed-sand-tile-913ddb": {
+   "title": "Wet Packed Sand Tile",
+   "type": "prop",
+   "kit": "coast-and-boardwalk-d883fd",
+   "triangles": 727,
+   "size": [
+    4.0,
+    0.061,
+    4.0
+   ],
+   "file": "wet-packed-sand-tile-913ddb.glb",
+   "page": "https://polyfork.dev/asset/wet-packed-sand-tile-913ddb",
+   "credit": "Wet Packed Sand Tile by Polyfork (https://polyfork.dev/asset/wet-packed-sand-tile-913ddb), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "drying-net-rack-93ec3b": {
+   "title": "Drying Net Rack",
+   "type": "prop",
+   "kit": "pirate-cove-2ebea4",
+   "triangles": 576,
+   "size": [
+    2.2,
+    1.655,
+    0.822
+   ],
+   "file": "drying-net-rack-93ec3b.glb",
+   "page": "https://polyfork.dev/asset/drying-net-rack-93ec3b",
+   "credit": "Drying Net Rack by Polyfork (https://polyfork.dev/asset/drying-net-rack-93ec3b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "picket-fence-run-9310c1": {
+   "title": "Picket Fence Run",
+   "type": "prop",
+   "kit": "neighborhood-pathways-kit-a992cf",
+   "triangles": 514,
+   "size": [
+    4.0,
+    1.1,
+    0.162
+   ],
+   "file": "picket-fence-run-9310c1.glb",
+   "page": "https://polyfork.dev/asset/picket-fence-run-9310c1",
+   "credit": "Picket Fence Run by Polyfork (https://polyfork.dev/asset/picket-fence-run-9310c1), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "rowboat-c42d85": {
+   "title": "Rowboat",
+   "type": "vehicle",
+   "kit": "pirate-cove-2ebea4",
+   "triangles": 694,
+   "size": [
+    1.337,
+    0.715,
+    3.0
+   ],
+   "file": "rowboat-c42d85.glb",
+   "page": "https://polyfork.dev/asset/rowboat-c42d85",
+   "credit": "Rowboat by Polyfork (https://polyfork.dev/asset/rowboat-c42d85), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "vaka-ama-outrigger-canoe-2fc79a": {
+   "title": "Vaka Ama Outrigger Canoe",
+   "type": "vehicle",
+   "kit": "easter-island-rapa-nui-368e86",
+   "triangles": 1654,
+   "size": [
+    4.959,
+    1.27,
+    2.07
+   ],
+   "file": "vaka-ama-outrigger-canoe-2fc79a.glb",
+   "page": "https://polyfork.dev/asset/vaka-ama-outrigger-canoe-2fc79a",
+   "credit": "Vaka Ama Outrigger Canoe by Polyfork (https://polyfork.dev/asset/vaka-ama-outrigger-canoe-2fc79a), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "builder-s-dumpy-bag-89fd1b": {
+   "title": "Builder's Dumpy Bag",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 660,
+   "size": [
+    0.98,
+    1.165,
+    0.98
+   ],
+   "file": "builder-s-dumpy-bag-89fd1b.glb",
+   "page": "https://polyfork.dev/asset/builder-s-dumpy-bag-89fd1b",
+   "credit": "Builder's Dumpy Bag by Polyfork (https://polyfork.dev/asset/builder-s-dumpy-bag-89fd1b), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cement-mixer-on-a-8fb979": {
+   "title": "Cement Mixer on a Stand",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 976,
+   "size": [
+    1.0,
+    1.299,
+    0.998
+   ],
+   "file": "cement-mixer-on-a-8fb979.glb",
+   "page": "https://polyfork.dev/asset/cement-mixer-on-a-8fb979",
+   "credit": "Cement Mixer on a Stand by Polyfork (https://polyfork.dev/asset/cement-mixer-on-a-8fb979), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "material-pallet-6af263": {
+   "title": "Material Pallet",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 542,
+   "size": [
+    1.2,
+    1.088,
+    1.0
+   ],
+   "file": "material-pallet-6af263.glb",
+   "page": "https://polyfork.dev/asset/material-pallet-6af263",
+   "credit": "Material Pallet by Polyfork (https://polyfork.dev/asset/material-pallet-6af263), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "mini-excavator-cbe1ae": {
+   "title": "Mini Excavator",
+   "type": "vehicle",
+   "kit": "construction-site-9e40b0",
+   "triangles": 2586,
+   "size": [
+    1.009,
+    2.3,
+    2.461
+   ],
+   "file": "mini-excavator-cbe1ae.glb",
+   "page": "https://polyfork.dev/asset/mini-excavator-cbe1ae",
+   "credit": "Mini Excavator by Polyfork (https://polyfork.dev/asset/mini-excavator-cbe1ae), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "portable-toilet-a3f1a2": {
+   "title": "Portable Toilet",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 836,
+   "size": [
+    1.2,
+    2.48,
+    1.2
+   ],
+   "file": "portable-toilet-a3f1a2.glb",
+   "page": "https://polyfork.dev/asset/portable-toilet-a3f1a2",
+   "credit": "Portable Toilet by Polyfork (https://polyfork.dev/asset/portable-toilet-a3f1a2), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "site-safety-sign-board-5408d5": {
+   "title": "Site Safety Sign Board",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 454,
+   "size": [
+    2.0,
+    2.2,
+    0.5
+   ],
+   "file": "site-safety-sign-board-5408d5.glb",
+   "page": "https://polyfork.dev/asset/site-safety-sign-board-5408d5",
+   "credit": "Site Safety Sign Board by Polyfork (https://polyfork.dev/asset/site-safety-sign-board-5408d5), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "site-traffic-cone-d3ce94": {
+   "title": "Site Traffic Cone",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 122,
+   "size": [
+    0.35,
+    0.75,
+    0.35
+   ],
+   "file": "site-traffic-cone-d3ce94.glb",
+   "page": "https://polyfork.dev/asset/site-traffic-cone-d3ce94",
+   "credit": "Site Traffic Cone by Polyfork (https://polyfork.dev/asset/site-traffic-cone-d3ce94), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "spoil-heap-9aaa11": {
+   "title": "Spoil Heap",
+   "type": "prop",
+   "kit": "construction-site-9e40b0",
+   "triangles": 516,
+   "size": [
+    3.372,
+    1.75,
+    3.193
+   ],
+   "file": "spoil-heap-9aaa11.glb",
+   "page": "https://polyfork.dev/asset/spoil-heap-9aaa11",
+   "credit": "Spoil Heap by Polyfork (https://polyfork.dev/asset/spoil-heap-9aaa11), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "cargo-freighter-b4377e": {
+   "title": "Cargo Freighter",
+   "type": "vehicle",
+   "kit": "airport-43b137",
+   "triangles": 5151,
+   "size": [
+    38.077,
+    13.55,
+    40.06
+   ],
+   "file": "cargo-freighter-b4377e.glb",
+   "page": "https://polyfork.dev/asset/cargo-freighter-b4377e",
+   "credit": "Cargo Freighter by Polyfork (https://polyfork.dev/asset/cargo-freighter-b4377e), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  },
+  "narrow-body-airliner-619183": {
+   "title": "Narrow-Body Airliner",
+   "type": "vehicle",
+   "kit": "airport-43b137",
+   "triangles": 5885,
+   "size": [
+    35.775,
+    11.9,
+    38.008
+   ],
+   "file": "narrow-body-airliner-619183.glb",
+   "page": "https://polyfork.dev/asset/narrow-body-airliner-619183",
+   "credit": "Narrow-Body Airliner by Polyfork (https://polyfork.dev/asset/narrow-body-airliner-619183), CC BY 4.0. Diubah: mesh digabung, dinormalisasi ke dasar y=0, warna disesuaikan."
+  }
+ }
+}

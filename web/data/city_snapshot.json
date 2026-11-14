@@ -1,0 +1,274 @@
+{
+  "kas": 50000,
+  "now": "2026-11-13T08:48:37.662Z",
+  "tax": 10,
+  "chat": [],
+  "news": [
+    {
+      "at": "2026-11-13T08:48:37.662Z",
+      "id": 1,
+      "kind": "kota",
+      "text": "AUDIRA-LAND resmi dibuka! Daftar jadi warga, pilih desa & profesi, rumahmu langsung dibangun.",
+      "actor": null
+    }
+  ],
+  "stats": {
+    "at": "2026-11-13T08:48:37.662Z",
+    "cov": {
+      "rs": 0,
+      "kerja": 0,
+      "taman": 0,
+      "polisi": 0,
+      "sekolah": 0
+    },
+    "pop": 0,
+    "npcs": 0,
+    "happy": 100,
+    "houses": 0,
+    "players": 0,
+    "projects": 0,
+    "buildings": 0,
+    "free_lots": 14786,
+    "building_now": 0
+  },
+  "legacy": [],
+  "morale": 0,
+  "min_yes": 5,
+  "daily_cap": 300,
+  "districts": [
+    {
+      "key": "k00",
+      "cost": 2000,
+      "name": "Desa Barat Laut",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:27:10.768567+00:00"
+    },
+    {
+      "key": "k01",
+      "cost": 2000,
+      "name": "Desa Utara 1",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:38:16.365244+00:00"
+    },
+    {
+      "key": "k02",
+      "cost": 2000,
+      "name": "Desa Utara 2",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:43:08.73694+00:00"
+    },
+    {
+      "key": "k03",
+      "cost": 2000,
+      "name": "Desa Utara 3",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:38:17.333029+00:00"
+    },
+    {
+      "key": "k04",
+      "cost": 2000,
+      "name": "Desa Timur Laut",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:08:03.861341+00:00"
+    },
+    {
+      "key": "k05",
+      "cost": 2000,
+      "name": "Desa Barat 1",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:43:05.815686+00:00"
+    },
+    {
+      "key": "k06",
+      "cost": 0,
+      "name": "Kampung Barat Laut",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k07",
+      "cost": 0,
+      "name": "Kampung Utara",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k08",
+      "cost": 0,
+      "name": "Kampung Timur Laut",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k09",
+      "cost": 2000,
+      "name": "Desa Timur 1",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:43:04.79793+00:00"
+    },
+    {
+      "key": "k10",
+      "cost": 2000,
+      "name": "Desa Barat 2",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:43:02.511341+00:00"
+    },
+    {
+      "key": "k11",
+      "cost": 0,
+      "name": "Kampung Barat",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k12",
+      "cost": 0,
+      "name": "Kampung Pusat",
+      "open": true,
+      "ring": 0,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k13",
+      "cost": 0,
+      "name": "Kampung Timur",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k14",
+      "cost": 2000,
+      "name": "Desa Timur 2",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:43:07.898955+00:00"
+    },
+    {
+      "key": "k15",
+      "cost": 2000,
+      "name": "Desa Barat 3",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:08:02.891209+00:00"
+    },
+    {
+      "key": "k16",
+      "cost": 0,
+      "name": "Kampung Barat Daya",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k17",
+      "cost": 0,
+      "name": "Kampung Selatan",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k18",
+      "cost": 0,
+      "name": "Kampung Tenggara",
+      "open": true,
+      "ring": 1,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T11:52:45.143211+00:00"
+    },
+    {
+      "key": "k19",
+      "cost": 2000,
+      "name": "Desa Timur 3",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:08:00.505904+00:00"
+    },
+    {
+      "key": "k20",
+      "cost": 2000,
+      "name": "Desa Barat Daya",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:58:35.235462+00:00"
+    },
+    {
+      "key": "k21",
+      "cost": 2000,
+      "name": "Desa Selatan 1",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:58:24.843266+00:00"
+    },
+    {
+      "key": "k22",
+      "cost": 2000,
+      "name": "Desa Selatan 2",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:58:39.291509+00:00"
+    },
+    {
+      "key": "k23",
+      "cost": 2000,
+      "name": "Desa Selatan 3",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T13:07:57.551066+00:00"
+    },
+    {
+      "key": "k24",
+      "cost": 2000,
+      "name": "Desa Tenggara",
+      "open": true,
+      "ring": 2,
+      "fill_pct": 0,
+      "opened_at": "2026-11-10T12:27:09.997244+00:00"
+    }
+  ],
+  "donations": [],
+  "proposals": [],
+  "vote_hours": 24,
+  "saweria_url": "",
+  "grid_version": 3,
+  "announcements": [],
+  "donation_goal": 100000,
+  "donation_total": 0,
+  "district_proposals": []
+}

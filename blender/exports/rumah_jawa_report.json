@@ -1,0 +1,113 @@
+{
+ "rumah_joglo": {
+  "tris": 2518,
+  "primitives": 1,
+  "materials": 1,
+  "attributes": [
+   "COLOR_0",
+   "NORMAL",
+   "POSITION"
+  ],
+  "min": [
+   -7.562675476074219,
+   0,
+   -6.562675476074219
+  ],
+  "max": [
+   7.5626749992370605,
+   9.149999618530273,
+   7.100000381469727
+  ],
+  "bytes": 173340,
+  "min_z": 0.0
+ },
+ "rumah_limasan": {
+  "tris": 1450,
+  "primitives": 1,
+  "materials": 1,
+  "attributes": [
+   "COLOR_0",
+   "NORMAL",
+   "POSITION"
+  ],
+  "min": [
+   -3.9539999961853027,
+   0,
+   -3.8382039070129395
+  ],
+  "max": [
+   3.954000234603882,
+   5.900000095367432,
+   3.8382039070129395
+  ],
+  "bytes": 101976,
+  "min_z": 0.0
+ },
+ "rumah_kampung": {
+  "tris": 1118,
+  "primitives": 1,
+  "materials": 1,
+  "attributes": [
+   "COLOR_0",
+   "NORMAL",
+   "POSITION"
+  ],
+  "min": [
+   -3.5999999046325684,
+   0,
+   -3.3685789108276367
+  ],
+  "max": [
+   3.5999999046325684,
+   5.330999851226807,
+   3.9000000953674316
+  ],
+  "bytes": 78672,
+  "min_z": 0.0
+ },
+ "rumah_panggangpe": {
+  "tris": 1108,
+  "primitives": 1,
+  "materials": 1,
+  "attributes": [
+   "COLOR_0",
+   "NORMAL",
+   "POSITION"
+  ],
+  "min": [
+   -3.6500003337860107,
+   0,
+   -3.0264835357666016
+  ],
+  "max": [
+   3.6500003337860107,
+   4.237040996551514,
+   3.87648344039917
+  ],
+  "bytes": 77912,
+  "min_z": 0.0
+ },
+ "rumah_tajug": {
+  "tris": 1472,
+  "primitives": 1,
+  "materials": 1,
+  "attributes": [
+   "COLOR_0",
+   "NORMAL",
+   "POSITION"
+  ],
+  "min": [
+   -3.917168617248535,
+   0,
+   -3.917168617248535
+  ],
+  "max": [
+   3.917168378829956,
+   7.150000095367432,
+   3.950000047683716
+  ],
+  "bytes": 103188,
+  "min_z": 0.0
+ },
+ "render_engine": "BLENDER_EEVEE"
+}
